@@ -20,21 +20,28 @@ class Main extends Component {
             activeIndex: 0,
             carouselData: [],
             cityServiceData: [],
-            dataBucketData: []
+            dataBucketData: [],
         };
         this.next = this.next.bind(this);
         this.previous = this.previous.bind(this);
         this.goToIndex = this.goToIndex.bind(this);
         this.onExiting = this.onExiting.bind(this);
         this.onExited = this.onExited.bind(this);
+    }
+
+    componentDidMount() {
         this.fetchData();
     }
 
     async fetchData() {
+        const carouselData = await fetch('http://ip.jsontest.com/', { method: 'GET' }).then((res) => res.json());
+        const cityServiceData = await fetch(api.cityService, { method: 'GET' }).then((res) => res.json());
+        const dataBucketData = await fetch(api.dataBucket, { method: 'GET' }).then((res) => res.json())
+
         this.setState({
-            carouselData: await fetch('http://date.jsontest.com/', { method: 'GET' }).then((res) => res.json()),
-            cityServiceData: await fetch('http://date.jsontest.com/', { method: 'GET' }).then((res) => res.json()),
-            dataBucketData: await fetch('http://date.jsontest.com/', { method: 'GET' }).then((res) => res.json()),
+            carouselData: carouselData.data,
+            dataBucketData: dataBucketData.data,
+            cityServiceData: cityServiceData.data,
         });
     }
 
@@ -64,7 +71,7 @@ class Main extends Component {
     }
 
     render() {
-        const { activeIndex } = this.state;
+        const { activeIndex, cityServiceData, dataBucketData, carouselData } = this.state;
 
         const slides = items.map((item, i) => {
             return (
@@ -90,8 +97,8 @@ class Main extends Component {
                 >
                     <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
                     {slides}
-                    <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
-                    <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
+                    <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} className='carousel-background-left' />
+                    <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} className='carousel-background-right' />
                 </Carousel>
 
                 <Container fluid>
@@ -99,18 +106,18 @@ class Main extends Component {
                     <hr style={{ width: '100%'}} />
 
                     <Row>
-                        <Col md='2'>
-                            <img src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'} className='img-thumbnail data-img' alt='img alt' />
-                            <p>เซนเซอร์ระดับสุดยอด</p>
-                        </Col>
-                        <Col md='2'>
-                            <img src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'} className='img-thumbnail data-img' alt='img alt' />
-                            <p>เซนเซอร์ระดับสุดยอด</p>
-                        </Col>
-                        <Col md='2'>
-                            <img src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'} className='img-thumbnail data-img' alt='img alt' />
-                            <p>เซนเซอร์ระดับสุดยอด</p>
-                        </Col>
+                        {cityServiceData.map((item, i) => {
+                            return (
+                                <Col md={6} xl={3} lg={4} sm={12} key={i}>
+                                    <img
+                                        src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'}
+                                        className={`img-thumbnail data-img + ${item.type=='a'? 'border-warning': 'border-danger'}`}
+                                        alt={item.serviceName}
+                                    />
+                                    <p>{item.serviceName}</p>
+                                </Col>
+                            );
+                        })}
                     </Row>
                 </Container>
 
@@ -119,18 +126,22 @@ class Main extends Component {
                     <hr style={{ width: '100%'}} />
 
                     <Row>
-                        <Col md='2'>
-                            <img src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'} className='img-thumbnail data-img' alt='img alt' />
-                            <p>เซนเซอร์ระดับสุดยอด</p>
-                        </Col>
-                        <Col md='2'>
-                            <img src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'} className='img-thumbnail data-img' alt='img alt' />
-                            <p>เซนเซอร์ระดับสุดยอด</p>
-                        </Col>
-                        <Col md='2'>
-                            <img src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'} className='img-thumbnail data-img' alt='img alt' />
-                            <p>เซนเซอร์ระดับสุดยอด</p>
-                        </Col>
+                        {dataBucketData.map((item, i) => {
+                            let borderColor = '';
+                            if (item.type == 'a') borderColor = 'border-warning';
+                            if (item.type == 'b') borderColor = 'border-danger';
+                            if (item.type == 'c') borderColor = 'border-info';
+                            return (
+                                <Col md={6} xl={3} lg={4} sm={12} key={i}>
+                                    <img
+                                        src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'}
+                                        className={`img-thumbnail data-img ${borderColor}`}
+                                        alt={item.collectionName}
+                                    />
+                                    <p>{item.collectionName}</p>
+                                </Col>
+                            )
+                        })}
                     </Row>
                 </Container>
             </div>

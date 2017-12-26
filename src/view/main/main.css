@@ -1,5 +1,26 @@
 .data-img {
   max-width: 300px;
+  background-color: #ffffff !important;
+}
+
+.border-warning {
+  border: 2.5px solid #e0da27 !important;
+}
+
+.border-success {
+  border: 2.5px solid #1fbf83 !important;
+}
+
+.border-danger {
+  border: 2.5px solid #d02626 !important;
+}
+
+.border-info {
+  border: 2.5px solid #2260a0 !important;
+}
+
+.border-primary {
+  border: 2.5px solid #7522a0 !important;
 }
 
 .carousel-img {
@@ -8,6 +29,14 @@
 
 .carousel {
   margin-top: 30px;
-  background-color: #80808078;
+  /*background-color: #80808078;*/
   margin-bottom: 80px;
+}
+
+.carousel-background-left {
+  background-image: linear-gradient(to right,rgba(88, 201, 234, 1) 0,rgba(0,0,0,0.0001) 100%);
+}
+
+.carousel-background-right {
+  background-image: linear-gradient(to left,rgba(88, 201, 234, 1) 0,rgba(0,0,0,0.0001) 100%);
 }
