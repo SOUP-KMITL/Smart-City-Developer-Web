@@ -10,17 +10,32 @@ import {
     Row
 } from 'reactstrap';
 import './main.css';
+import api from '../../constance/api';
 
 class Main extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { activeIndex: 0 };
+        this.state = {
+            activeIndex: 0,
+            carouselData: [],
+            cityServiceData: [],
+            dataBucketData: []
+        };
         this.next = this.next.bind(this);
         this.previous = this.previous.bind(this);
         this.goToIndex = this.goToIndex.bind(this);
         this.onExiting = this.onExiting.bind(this);
         this.onExited = this.onExited.bind(this);
+        this.fetchData();
+    }
+
+    async fetchData() {
+        this.setState({
+            carouselData: await fetch('http://date.jsontest.com/', { method: 'GET' }).then((res) => res.json()),
+            cityServiceData: await fetch('http://date.jsontest.com/', { method: 'GET' }).then((res) => res.json()),
+            dataBucketData: await fetch('http://date.jsontest.com/', { method: 'GET' }).then((res) => res.json()),
+        });
     }
 
     onExiting() {
