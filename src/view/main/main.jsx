@@ -4,7 +4,6 @@ import {
     CarouselItem,
     CarouselControl,
     CarouselIndicators,
-    CarouselCaption,
     Container,
     Col,
     Row
@@ -81,7 +80,6 @@ class Main extends Component {
                     key={i}
                 >
                     <img src={item.src} className='d-block mx-auto carousel-img' alt={item.altText} />
-                    <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
                 </CarouselItem>
             );
         });
@@ -153,17 +151,14 @@ const items = [
     {
         src: 'https://www.applicadthai.com/wp-content/uploads/2016/11/12144667_1059438674100775_4006019126604714959_n.png',
         altText: 'Slide 1',
-        caption: 'Slide 1'
     },
     {
         src: 'https://www.applicadthai.com/wp-content/uploads/2016/11/12144667_1059438674100775_4006019126604714959_n.png',
         altText: 'Slide 2',
-        caption: 'Slide 2'
     },
     {
         src: 'https://www.applicadthai.com/wp-content/uploads/2016/11/12144667_1059438674100775_4006019126604714959_n.png',
         altText: 'Slide 3',
-        caption: 'Slide 3'
     }
 ];
 
