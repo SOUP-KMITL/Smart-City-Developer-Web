@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {
-    Collapse,
     Navbar,
-    NavbarToggler,
-    NavbarBrand,
     Nav,
     NavItem,
     NavLink,
@@ -17,9 +14,9 @@ class MyNavbar extends Component {
         return (
             <div>
                 <div className='header'>
-                    <div>
-                        <img src={logo} className='logo' />
-                    </div>
+                    <Link to='/' >
+                        <img src={logo} className='logo' alt='Smart City' />
+                    </Link>
                     <div>
                         <Link to='/'><strong>Sign Up</strong></Link>
                         <span>  or  </span>
@@ -29,13 +26,13 @@ class MyNavbar extends Component {
                 <Navbar color="faded" light expand="md" className='menubar'>
                     <Nav navbar>
                         <NavItem>
-                            <NavLink href="" className='text-default'>About</NavLink>
+                            <Link to='about'><NavLink className='text-default'>About</NavLink></Link>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="" className='text-default'>Contact Us</NavLink>
+                            <Link to='contact'><NavLink href='contact' className='text-default'>Contact Us</NavLink></Link>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="" className='text-default'>Market Place</NavLink>
+                            <Link to='market-place'><NavLink href='market-place' className='text-default'>Market Place</NavLink></Link>
                         </NavItem>
                     </Nav>
                 </Navbar>
