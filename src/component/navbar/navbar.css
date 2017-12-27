@@ -14,7 +14,10 @@
 }
 
 .menu {
-  margin-left: 25px;
+  margin-right: 25px !important;
+  align-items: center;
+  margin-bottom: 10px !important;
+  margin-top: 10px !important;
 }
 
 .text-default {

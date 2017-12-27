@@ -1,4 +1,4 @@
-const domain = 'http://203.154.59.55:8080';
+const domain = 'http://203.154.59.55:80';
 
 const api = {
   cityService: domain + '/web/cityServices/',

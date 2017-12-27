@@ -21,7 +21,6 @@
 }
 
 .media-content {
-  flex-direction: column;
 }
 
 .media-img {
@@ -41,4 +40,45 @@
   width: 240px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.mymenu {
+  display: flex;
+  margin-bottom: 40px;
+  margin-left: 0px;
+}
+
+.mymenu-header {
+  width: 200px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.mymenu-content {
+}
+
+.mymenu-img{
+  width: 200px;
+}
+
+.mymenu-icon {
+ color: #56b8db;
+ margin-right: 5px;
+ vertical-align: baseline !important;
+}
+
+.mymenu-header-footer {
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.mymenu-description {
+  display: block;
+  max-width: 500px;
+  height: 70px;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #6B6B6B;
+
 }

@@ -4,9 +4,6 @@ import {
     CarouselItem,
     CarouselControl,
     CarouselIndicators,
-    Container,
-    Col,
-    Row,
     Button,
     ButtonGroup,
 } from 'reactstrap';
@@ -21,8 +18,6 @@ class Main extends Component {
         this.state = {
             activeIndex: 0,
             carouselData: [],
-            cityServiceData: [],
-            dataBucketData: [],
         };
         this.next = this.next.bind(this);
         this.previous = this.previous.bind(this);
@@ -37,13 +32,9 @@ class Main extends Component {
 
     async fetchData() {
         const carouselData = await fetch(api.cityService, { method: 'GET' }).then((res) => res.json());
-        const cityServiceData = await fetch(api.cityService, { method: 'GET' }).then((res) => res.json());
-        const dataBucketData = await fetch(api.dataBucket, { method: 'GET' }).then((res) => res.json())
 
         this.setState({
             carouselData: carouselData.data,
-            dataBucketData: dataBucketData.data,
-            cityServiceData: cityServiceData.data,
         });
     }
 
@@ -73,7 +64,7 @@ class Main extends Component {
     }
 
     render() {
-        const { activeIndex, cityServiceData, dataBucketData, carouselData } = this.state;
+        const { activeIndex, carouselData } = this.state;
 
         const slides = items.map((item, i) => {
             return (
