@@ -45,7 +45,7 @@ class Content extends Component {
                 <Row>
                     <Col md={{ size: 4, offset: 8 }}>
                         <InputGroup className='searchbar'>
-                            <Input placeholder="username" />
+                            <Input placeholder="Search..." />
                             <InputGroupAddon><MdSearch /></InputGroupAddon>
                         </InputGroup>
                     </Col>
@@ -55,13 +55,13 @@ class Content extends Component {
                         <h1>Hello</h1>
                     </Col>
                     <Col md={4}>
-                        <Nav tabs>
+                        <Nav tabs className='nav-tab'>
                             <NavItem>
                                 <NavLink
                                     className={({ active: this.state.activeTab === '1' })}
                                     onClick={() => { this.toggle('1'); }}
                                 >
-                                    Tab1
+                                    {'popular'.toUpperCase()}
                                 </NavLink>
                             </NavItem>
                             <NavItem>
@@ -69,15 +69,43 @@ class Content extends Component {
                                     className={({ active: this.state.activeTab === '2' })}
                                     onClick={() => { this.toggle('2'); }}
                                 >
-                                    Moar Tabs
+                                    { 'recent'.toUpperCase() }
                                 </NavLink>
                             </NavItem>
                         </Nav>
-                        <TabContent activeTab={this.state.activeTab}>
+                        <TabContent activeTab={this.state.activeTab} className='tab-content'>
                             <TabPane tabId="1">
                                 <Row>
                                     <Col sm="12">
-                                        <h4>Tab 1 Contents</h4>
+                                        <div className='media media-border'>
+                                            <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' />
+                                            <div className='mdia-content'>
+                                                <strong>header</strong>
+                                                <p className='ellipsis'>ccontentcontentcontentcontentcontentontent</p>
+                                            </div>
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm="12">
+                                        <div className='media media-border media-bordertop'>
+                                            <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' />
+                                            <div className='mdia-content'>
+                                                <strong>header</strong>
+                                                <p className='ellipsis'>ccontentcontentcontentcontentcontentontent</p>
+                                            </div>
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm="12">
+                                        <div className='media media-bordertop'>
+                                            <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' />
+                                            <div className='mdia-content'>
+                                                <strong>header</strong>
+                                                <p className='ellipsis'>ccontentcontentcontentcontentcontentontent</p>
+                                            </div>
+                                        </div>
                                     </Col>
                                 </Row>
                             </TabPane>
