@@ -6,7 +6,9 @@ import {
     CarouselIndicators,
     Container,
     Col,
-    Row
+    Row,
+    Button,
+    ButtonGroup,
 } from 'reactstrap';
 import './main.css';
 import api from '../../constance/api';
@@ -100,6 +102,14 @@ class Main extends Component {
                 </Carousel>
 
 
+                <div className='carousel-footer'>
+                    <h4>Join us and share your idea</h4>
+                    <ButtonGroup>
+                        <Button color='warning' className='btn-white' size='lg' outline>Sign In</Button>{' '}
+                        <Button color='success' className='btn-white' size='lg' outline>Sign Up</Button>
+                    </ButtonGroup>
+                </div>
+
                 {
                     /*                <Container fluid>*/
                     //<h4 style={{ marginTop: '40px' }}>City Services</h4>
@@ -152,15 +162,15 @@ class Main extends Component {
 
 const items = [
     {
-        src: 'https://qtxasset.com/2016-08/smart-city.jpg?xHPJRu1zuXOsOkMjy888UmCZGM5nNme_',
+        src: 'http://sustainder.com/_imager/uploads/1646/Infographic-Smart-Outdoor_fight_EN_7aad86e649bd05ec9da5de6611605f7a.png',
         altText: 'Slide 1',
     },
     {
-        src: 'https://www.memoori.com/wp-content/uploads/2016/11/Verizon.jpg',
+        src: 'https://www.matichonweekly.com/wp-content/uploads/2017/06/05-SE-Smart-City.jpg',
         altText: 'Slide 2',
     },
     {
-        src: 'http://www.bosch-presse.de/pressportal/de/media/dam_images/pi9519/20161216_en_infografik_vorab_1024x512_de_engl_05_bosch_vorabkom_e_smart_home.jpg',
+        src: 'http://www.bosch-presse.de/pressportal/de/media/dam_images/pi9519/20161216_en_infografik_vorab_1024x512_de_engl_03_bosch_vorabkom_e_sprachassistent.jpg',
         altText: 'Slide 3',
     }
 ];

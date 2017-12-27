@@ -35,3 +35,23 @@
   display:block !important;
   object-fit: cover;
 }
+
+.carousel-footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+  background-color: #4bb4dc;
+  color: #fff;
+}
+
+.btn-white {
+  color: white;
+  border: solid 1px white;
+}
+
+.btn-white:hover {
+  cursor: pointer;
+}
+
