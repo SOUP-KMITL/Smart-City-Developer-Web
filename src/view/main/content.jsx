@@ -36,15 +36,16 @@ class Content extends Component {
     }
 
     componentWillMount() {
-        this.fetchData();
+        this.requestData();
     }
 
-    fetchData() {
+    requestData() {
         fetch(api.cityService, { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
-                    console.log(res.data);
+                    this.setState({ cityServices: res.data });
+                    console.log(this.state.cityServices);
                 });
     }
 
@@ -56,7 +57,14 @@ class Content extends Component {
         }
     }
 
+    dateFormat(value) {
+        const date = new Date(value);
+        const format = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
+        return format;
+    }
+
     render() {
+        const { cityServices, dataBuckets } = this.state;
         return (
             <Container>
                 <Row>
@@ -73,45 +81,31 @@ class Content extends Component {
                         <h3>City Service</h3>
                         <hr />
 
-                        <Container>
-                            <Row className='mymenu'>
-                                <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
-                                    <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
-                                </Col>
+                        { cityServices.map((item, i) => {
+                            return (
+                                <Container key={i}>
+                                    <Row className='mymenu'>
+                                        <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
+                                            <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
+                                        </Col>
 
-                                <Col lg={8} md={12} sm={12} xs={12} className='mymenu-content'>
-                                    <h4>Header Content</h4>
-                                    <div className='mymenu-header-footer'>
-                                        <FaCalendarO className='mymenu-icon'/>
-                                        <span style={{ marginRight: '16px' }}> 01/01/2018 </span>
-                                        <FaUser className='mymenu-icon'/>
-                                        <span> Admin</span>
-                                    </div>
-                                    <hr />
-                                    <p className='mymenu-description'> This is a sticky post. There are a few things to verify: The sticky post should be distinctly recognizable in some way in comparison to normal posts. You can style the .sticky class if you are using the post_class() function to generate your post classes, which is a best practice. They should show at the very top […]</p>
-                                </Col>
-                            </Row>
-                        </Container>
-
-                        <Container>
-                            <Row className='mymenu'>
-                                <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
-                                    <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
-                                </Col>
-
-                                <Col lg={8} md={12} sm={12} xs={12} className='mymenu-content'>
-                                    <h4>Header Content</h4>
-                                    <div className='mymenu-header-footer'>
-                                        <FaCalendarO className='mymenu-icon'/>
-                                        <span style={{ marginRight: '16px' }}> 01/01/2018 </span>
-                                        <FaUser className='mymenu-icon'/>
-                                        <span> Admin</span>
-                                    </div>
-                                    <hr />
-                                    <p className='mymenu-description'> This is a sticky post. There are a few things to verify: The sticky post should be distinctly recognizable in some way in comparison to normal posts. You can style the .sticky class if you are using the post_class() function to generate your post classes, which is a best practice. They should show at the very top […]</p>
-                                </Col>
-                            </Row>
-                        </Container>
+                                        <Col lg={8} md={12} sm={12} xs={12} className='mymenu-content'>
+                                            <h4>{ item.serviceName }</h4>
+                                            <div className='mymenu-header-footer'>
+                                                <FaCalendarO className='mymenu-icon'/>
+                                                <span style={{ marginRight: '16px' }}>{ this.dateFormat(item.timestamp) }</span>
+                                                <FaUser className='mymenu-icon'/>
+                                                <span>{ item.owner }</span>
+                                            </div>
+                                            <hr />
+                                            <p className='mymenu-description'>
+                                                A smart city is an urban area that uses different types of electronic data collection sensors to supply information used to manage assets and resources efficiently. This includes data collected from citizens, devices, and assets that is processed and analyzed to monitor and manage traffic and transportation systems, power plants, water supply networks, waste management, law enforcement, information systems, schools, libraries, hospitals, and other community services. The smart city concept integrates information and communication technology (ICT), and various physical devices connected to the network (the Internet of things or IoT) to optimize the efficiency of city operations and services and connect to citizens. Smart city technology allows city officials to interact directly with both community and city infrastructure and to monitor what is happening in the city and how the city is evolving.
+                                            </p>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            );
+                        })}
                     </Col>
 
                     <Col md={4} xs={12}>
@@ -143,10 +137,10 @@ class Content extends Component {
                                             <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' />
                                             <div className='media-content'>
                                                 <strong>header</strong>
-                                                <p className='menu-header-footer'>
-                                                    <FaCalendarO className='menu-icon'/>
+                                                <p className='mymenu-header-footer'>
+                                                    <FaCalendarO className='mymenu-icon'/>
                                                     <span style={{ marginRight: '16px' }}> 01/01/2018</span>
-                                                    <FaUser className='menu-icon'/>
+                                                    <FaUser className='mymenu-icon'/>
                                                     <span> Admin</span>
                                                 </p>
                                             </div>
@@ -159,10 +153,10 @@ class Content extends Component {
                                             <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' />
                                             <div className='media-content'>
                                                 <strong>header</strong>
-                                                <p className='menu-header-footer'>
-                                                    <FaCalendarO className='menu-icon'/>
+                                                <p className='mymenu-header-footer'>
+                                                    <FaCalendarO className='mymenu-icon'/>
                                                     <span style={{ marginRight: '16px' }}> 01/01/2018</span>
-                                                    <FaUser className='menu-icon'/>
+                                                    <FaUser className='mymenu-icon'/>
                                                     <span> Admin</span>
                                                 </p>
                                             </div>
@@ -175,10 +169,10 @@ class Content extends Component {
                                             <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' />
                                             <div className='media-content'>
                                                 <strong>header</strong>
-                                                <p className='menu-header-footer'>
-                                                    <FaCalendarO className='menu-icon'/>
+                                                <p className='mymenu-header-footer'>
+                                                    <FaCalendarO className='mymenu-icon'/>
                                                     <span style={{ marginRight: '16px' }}> 01/01/2018</span>
-                                                    <FaUser className='menu-icon'/>
+                                                    <FaUser className='mymenu-icon'/>
                                                     <span> Admin</span>
                                                 </p>
                                             </div>
