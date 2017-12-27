@@ -24,20 +24,14 @@
   border: 2.5px solid #7522a0 !important;
 }
 
+/* -------------- carousel -------------- */
+
+.carousel .item {
+    width: 100%; /*slider width*/
+    height: 600px; /*slider height*/
+}
+
 .carousel-img {
-  max-height: 300px;
-}
-
-.carousel {
-  margin-top: 30px;
-  /*background-color: #80808078;*/
-  margin-bottom: 80px;
-}
-
-.carousel-background-left {
-  background-image: linear-gradient(to right,rgba(88, 201, 234, 1) 0,rgba(0,0,0,0.0001) 100%);
-}
-
-.carousel-background-right {
-  background-image: linear-gradient(to left,rgba(88, 201, 234, 1) 0,rgba(0,0,0,0.0001) 100%);
+  display:block !important;
+  object-fit: cover;
 }

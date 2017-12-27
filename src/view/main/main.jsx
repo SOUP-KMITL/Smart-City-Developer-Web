@@ -33,7 +33,7 @@ class Main extends Component {
     }
 
     async fetchData() {
-        const carouselData = await fetch('http://ip.jsontest.com/', { method: 'GET' }).then((res) => res.json());
+        const carouselData = await fetch(api.cityService, { method: 'GET' }).then((res) => res.json());
         const cityServiceData = await fetch(api.cityService, { method: 'GET' }).then((res) => res.json());
         const dataBucketData = await fetch(api.dataBucket, { method: 'GET' }).then((res) => res.json())
 
@@ -79,19 +79,19 @@ class Main extends Component {
                     onExited={this.onExited}
                     key={i}
                 >
-                    <img src={item.src} className='d-block mx-auto carousel-img' alt={item.altText} />
+                    <div className='item' style={{ backgroundImage: `url(${item.src})`, backgroundSize: 'cover' }}></div>
                 </CarouselItem>
             );
         });
 
         return (
             <div>
+
                 <Carousel
                     activeIndex={activeIndex}
                     next={this.next}
                     previous={this.previous}
                     cssModule={{ margin: '10px' }}
-                    className='carousel'
                 >
                     <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
                     {slides}
@@ -99,49 +99,52 @@ class Main extends Component {
                     <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} className='carousel-background-right' />
                 </Carousel>
 
-                <Container fluid>
-                    <h4 style={{ marginTop: '40px' }}>City Services</h4>
-                    <hr style={{ width: '100%'}} />
 
-                    <Row>
-                        {cityServiceData.map((item, i) => {
-                            return (
-                                <Col md={6} xl={3} lg={4} sm={12} key={i}>
-                                    <img
-                                        src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'}
-                                        className={`img-thumbnail data-img + ${item.type=='a'? 'border-warning': 'border-danger'}`}
-                                        alt={item.serviceName}
-                                    />
-                                    <p>{item.serviceName}</p>
-                                </Col>
-                            );
-                        })}
-                    </Row>
-                </Container>
+                {
+                    /*                <Container fluid>*/
+                    //<h4 style={{ marginTop: '40px' }}>City Services</h4>
+                    //<hr style={{ width: '100%'}} />
 
-                <Container fluid>
-                    <h4 style={{ marginTop: '40px' }}>Data Buckets</h4>
-                    <hr style={{ width: '100%'}} />
+                    //<Row>
+                    //{cityServiceData.map((item, i) => {
+                    //return (
+                    //<Col md={6} xl={3} lg={4} sm={12} key={i}>
+                    //<img
+                    //src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'}
+                    //className={`img-thumbnail data-img + ${item.type=='a'? 'border-warning': 'border-danger'}`}
+                    //alt={item.serviceName}
+                    ///>
+                    //<p>{item.serviceName}</p>
+                    //</Col>
+                    //);
+                    //})}
+                    //</Row>
+                    //</Container>
 
-                    <Row>
-                        {dataBucketData.map((item, i) => {
-                            let borderColor = '';
-                            if (item.type == 'a') borderColor = 'border-warning';
-                            if (item.type == 'b') borderColor = 'border-danger';
-                            if (item.type == 'c') borderColor = 'border-info';
-                            return (
-                                <Col md={6} xl={3} lg={4} sm={12} key={i}>
-                                    <img
-                                        src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'}
-                                        className={`img-thumbnail data-img ${borderColor}`}
-                                        alt={item.collectionName}
-                                    />
-                                    <p>{item.collectionName}</p>
-                                </Col>
-                            )
-                        })}
-                    </Row>
-                </Container>
+                    //<Container fluid>
+                    //<h4 style={{ marginTop: '40px' }}>Data Buckets</h4>
+                    //<hr style={{ width: '100%'}} />
+
+                    //<Row>
+                    //{dataBucketData.map((item, i) => {
+                    //let borderColor = '';
+                    //if (item.type == 'a') borderColor = 'border-warning';
+                    //if (item.type == 'b') borderColor = 'border-danger';
+                    //if (item.type == 'c') borderColor = 'border-info';
+                    //return (
+                    //<Col md={6} xl={3} lg={4} sm={12} key={i}>
+                    //<img
+                    //src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'}
+                    //className={`img-thumbnail data-img ${borderColor}`}
+                    //alt={item.collectionName}
+                    ///>
+                    //<p>{item.collectionName}</p>
+                    //</Col>
+                    //)
+                    //})}
+                    //</Row>
+                    //</Container>
+                }
             </div>
         );
     }
@@ -149,15 +152,15 @@ class Main extends Component {
 
 const items = [
     {
-        src: 'https://www.applicadthai.com/wp-content/uploads/2016/11/12144667_1059438674100775_4006019126604714959_n.png',
+        src: 'https://qtxasset.com/2016-08/smart-city.jpg?xHPJRu1zuXOsOkMjy888UmCZGM5nNme_',
         altText: 'Slide 1',
     },
     {
-        src: 'https://www.applicadthai.com/wp-content/uploads/2016/11/12144667_1059438674100775_4006019126604714959_n.png',
+        src: 'https://www.memoori.com/wp-content/uploads/2016/11/Verizon.jpg',
         altText: 'Slide 2',
     },
     {
-        src: 'https://www.applicadthai.com/wp-content/uploads/2016/11/12144667_1059438674100775_4006019126604714959_n.png',
+        src: 'http://www.bosch-presse.de/pressportal/de/media/dam_images/pi9519/20161216_en_infografik_vorab_1024x512_de_engl_05_bosch_vorabkom_e_smart_home.jpg',
         altText: 'Slide 3',
     }
 ];

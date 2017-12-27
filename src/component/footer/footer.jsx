@@ -19,7 +19,7 @@ class Footer extends Component {
                 <Navbar color="faded" light expand="md" className='menubar'>
                     <Nav navbar>
                         <NavItem>
-                            <NavLink className='text-default'>© { this.getCurrentYear() } Smart City, all rights reserved. </NavLink>
+                            <NavLink className='text-default'>© { this.getCurrentYear() } Smart City Innohub, all rights reserved. </NavLink>
                         </NavItem>
                     </Nav>
                 </Navbar>
