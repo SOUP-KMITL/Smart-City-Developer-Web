@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 import './main.css';
 import api from '../../constance/api';
+import Content from './content';
 
 class Main extends Component {
 
@@ -105,56 +106,15 @@ class Main extends Component {
                 <div className='carousel-footer'>
                     <h4>Join us and share your idea</h4>
                     <ButtonGroup>
-                        <Button color='warning' className='btn-white' size='lg' outline>Sign In</Button>{' '}
+                        <Button color='warning' className='btn-white' size='lg' outline>Sign In</Button>
                         <Button color='success' className='btn-white' size='lg' outline>Sign Up</Button>
                     </ButtonGroup>
                 </div>
 
-                {
-                    /*                <Container fluid>*/
-                    //<h4 style={{ marginTop: '40px' }}>City Services</h4>
-                    //<hr style={{ width: '100%'}} />
+                <div className='content'>
+                    <Content />
+                </div>
 
-                    //<Row>
-                    //{cityServiceData.map((item, i) => {
-                    //return (
-                    //<Col md={6} xl={3} lg={4} sm={12} key={i}>
-                    //<img
-                    //src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'}
-                    //className={`img-thumbnail data-img + ${item.type=='a'? 'border-warning': 'border-danger'}`}
-                    //alt={item.serviceName}
-                    ///>
-                    //<p>{item.serviceName}</p>
-                    //</Col>
-                    //);
-                    //})}
-                    //</Row>
-                    //</Container>
-
-                    //<Container fluid>
-                    //<h4 style={{ marginTop: '40px' }}>Data Buckets</h4>
-                    //<hr style={{ width: '100%'}} />
-
-                    //<Row>
-                    //{dataBucketData.map((item, i) => {
-                    //let borderColor = '';
-                    //if (item.type == 'a') borderColor = 'border-warning';
-                    //if (item.type == 'b') borderColor = 'border-danger';
-                    //if (item.type == 'c') borderColor = 'border-info';
-                    //return (
-                    //<Col md={6} xl={3} lg={4} sm={12} key={i}>
-                    //<img
-                    //src={'https://i0.wp.com/www.applicadthai.com/wp-content/uploads/2016/11/smartcity.jpg'}
-                    //className={`img-thumbnail data-img ${borderColor}`}
-                    //alt={item.collectionName}
-                    ///>
-                    //<p>{item.collectionName}</p>
-                    //</Col>
-                    //)
-                    //})}
-                    //</Row>
-                    //</Container>
-                }
             </div>
         );
     }
