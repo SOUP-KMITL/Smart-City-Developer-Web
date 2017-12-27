@@ -18,6 +18,7 @@ import {
 } from 'reactstrap';
 import MdSearch from 'react-icons/lib/md/search';
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
+import { Link } from 'react-router-dom';
 import FaUser from 'react-icons/lib/fa/user';
 import './content.css';
 import api from '../../constance/api';
@@ -36,16 +37,25 @@ class Content extends Component {
     }
 
     componentWillMount() {
-        this.requestData();
+        this.requestCityService();
+        this.requestDataBucket();
     }
 
-    requestData() {
+    requestCityService() {
         fetch(api.cityService, { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
                     this.setState({ cityServices: res.data });
-                    console.log(this.state.cityServices);
+                });
+    }
+
+    requestDataBucket() {
+        fetch(api.dataBucket, { method: 'GET' })
+            .then((response) => response.json())
+            .then(
+                (res) => {
+                    this.setState({ dataBuckets: res.data });
                 });
     }
 
@@ -75,37 +85,38 @@ class Content extends Component {
                         </InputGroup>
                     </Col>
                 </Row>
-                <Row>
 
+                <Row>
                     <Col md={8} xs={12}>
                         <h3>City Service</h3>
                         <hr />
 
-                        { cityServices.map((item, i) => {
-                            return (
-                                <Container key={i}>
-                                    <Row className='mymenu'>
-                                        <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
-                                            <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
-                                        </Col>
+                        {
+                            cityServices.map((item, i) => {
+                                return (
+                                    <Container key={i}>
+                                        <Row className='mymenu'>
+                                            <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
+                                                <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
+                                            </Col>
 
-                                        <Col lg={8} md={12} sm={12} xs={12} className='mymenu-content'>
-                                            <h4>{ item.serviceName }</h4>
-                                            <div className='mymenu-header-footer'>
-                                                <FaCalendarO className='mymenu-icon'/>
-                                                <span style={{ marginRight: '16px' }}>{ this.dateFormat(item.timestamp) }</span>
-                                                <FaUser className='mymenu-icon'/>
-                                                <span>{ item.owner }</span>
-                                            </div>
-                                            <hr />
-                                            <p className='mymenu-description'>
-                                                A smart city is an urban area that uses different types of electronic data collection sensors to supply information used to manage assets and resources efficiently. This includes data collected from citizens, devices, and assets that is processed and analyzed to monitor and manage traffic and transportation systems, power plants, water supply networks, waste management, law enforcement, information systems, schools, libraries, hospitals, and other community services. The smart city concept integrates information and communication technology (ICT), and various physical devices connected to the network (the Internet of things or IoT) to optimize the efficiency of city operations and services and connect to citizens. Smart city technology allows city officials to interact directly with both community and city infrastructure and to monitor what is happening in the city and how the city is evolving.
-                                            </p>
-                                        </Col>
-                                    </Row>
-                                </Container>
-                            );
-                        })}
+                                            <Col lg={8} md={12} sm={12} xs={12} className='mymenu-content'>
+                                                <h4>{ item.serviceName }</h4>
+                                                <div className='mymenu-header-footer'>
+                                                    <FaCalendarO className='mymenu-icon'/>
+                                                    <span style={{ marginRight: '16px' }}>{ this.dateFormat(item.timestamp) }</span>
+                                                    <FaUser className='mymenu-icon'/>
+                                                    <span>{ item.owner }</span>
+                                                </div>
+                                                <hr />
+                                                <p className='mymenu-description'> Information and communication technology (ICT) is used to enhance quality, performance and interactivity of urban services, to reduce costs and resource consumption and to increase contact between citizens and government. Smart city applications are developed to manage urban flows and allow for real-time responses. A smart city may therefore be more prepared to respond to challenges than one with a simple "transactional" relationship with its citizens. Yet, the term itself remains unclear to its specifics and therefore, open to many interpretations.  </p>
+                                                <Link to='/' className='link'><Button color='info' size='sm' outline className='readmore'>Continue reading...</Button></Link>
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                );
+                            })
+                        }
                     </Col>
 
                     <Col md={4} xs={12}>
@@ -200,7 +211,44 @@ class Content extends Component {
                                 </Row>
                             </TabPane>
                         </TabContent>
+                    </Col>
+                </Row>
 
+                <Row>
+                    <Col md={8} xs={12}>
+                        <h3>Data Bucket</h3>
+                        <hr />
+
+                        {
+                            dataBuckets.map((item, i) => {
+                                return (
+                                    <Container key={i}>
+                                        <Row className='mymenu'>
+                                            <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
+                                                <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
+                                            </Col>
+
+                                            <Col lg={8} md={12} sm={12} xs={12} className='mymenu-content'>
+                                                <h4>{ item.collectionName }</h4>
+                                                <div className='mymenu-header-footer'>
+                                                    <FaCalendarO className='mymenu-icon'/>
+                                                    <span style={{ marginRight: '16px' }}>{ this.dateFormat(item.timestamp) }</span>
+                                                    <FaUser className='mymenu-icon'/>
+                                                    <span>{ item.owner }</span>
+                                                </div>
+                                                <hr />
+                                                <p className='mymenu-description'> test description </p>
+                                                <Link to='/' className='link'><Button color='info' outline size='sm' className='readmore'>Continue reading...</Button></Link>
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                );
+                            })
+                        }
+                    </Col>
+
+                    <Col md={4} xs={12}>
+                        {/*Some content in right panel here*/}
                     </Col>
                 </Row>
             </Container>

@@ -75,10 +75,19 @@
 .mymenu-description {
   display: block;
   max-width: 500px;
-  height: 70px;
+  height: 65px;
   line-height: 1.4;
   overflow: hidden;
   text-overflow: ellipsis;
   color: #6B6B6B;
 
+}
+
+.readmore {
+  float: right;
+  font-size: 12px;
+}
+
+.link {
+  text-decoration: none;
 }
