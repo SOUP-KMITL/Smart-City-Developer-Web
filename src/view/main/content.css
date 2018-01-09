@@ -46,10 +46,14 @@
   display: flex;
   margin-bottom: 40px;
   margin-left: 0px;
+  border-top: solid #56b8db 3px;
+  box-shadow: 0px 2px 1px #80808069;
+  padding-top: 20px;
+  padding-bottom: 15px;
 }
 
 .mymenu-header {
-  width: 200px;
+  max-width: 440px;
   text-align: center;
   margin-bottom: 10px;
 }
@@ -73,14 +77,13 @@
 }
 
 .mymenu-description {
-  display: block;
-  max-width: 500px;
-  height: 65px;
   line-height: 1.4;
+  max-height: 65px;
+  /*display: box;*/
+  /*box-orient: vertical;*/
+  /*line-clamp: 2;*/
   overflow: hidden;
-  text-overflow: ellipsis;
   color: #6B6B6B;
-
 }
 
 .readmore {
@@ -90,4 +93,43 @@
 
 .link {
   text-decoration: none;
+}
+
+.margin-content {
+  margin-top: 80px;
+}
+
+.nav-tabs .nav-link.active {
+  border-top: solid #56b8db 3px;
+}
+
+.right-menu {
+  margin-top: 65px;
+}
+
+.content-header {
+  background: #56b8db;
+  width: 170px;
+  text-align: center;
+  margin-bottom: -16px;
+  padding: 8px;
+  border: none;
+  color: white;
+  font-style: italic;
+}
+
+.content-hr {
+  border-top: solid 1.5px #56b8db;
+}
+
+.border-hr-type-a {
+  border-top: solid 3px #46ac86;
+}
+
+.border-hr-type-b {
+  border-top: solid 3px #f1d636;
+}
+
+.border-hr-type-c {
+  border-top: solid 3px #eb7c53;
 }

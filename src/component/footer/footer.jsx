@@ -5,6 +5,7 @@ import {
     NavItem,
     NavLink,
 } from 'reactstrap';
+import './footer.css';
 
 class Footer extends Component {
 

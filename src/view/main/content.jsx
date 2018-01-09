@@ -11,10 +11,7 @@ import {
     Nav,
     NavItem,
     NavLink,
-    Card,
     Button,
-    CardTitle,
-    CardText,
 } from 'reactstrap';
 import MdSearch from 'react-icons/lib/md/search';
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
@@ -73,6 +70,15 @@ class Content extends Component {
         return format;
     }
 
+    getCssType(value) {
+        if (value === 'a')
+            return 'border-hr-type-a';
+        else if (value === 'b')
+            return 'border-hr-type-b';
+        else
+            return 'border-hr-type-c';
+    }
+
     render() {
         const { cityServices, dataBuckets } = this.state;
         return (
@@ -88,14 +94,13 @@ class Content extends Component {
 
                 <Row>
                     <Col md={8} xs={12}>
-                        <h3>City Service</h3>
-                        <hr />
-
+                        <h3 className='content-header'>City Service</h3>
+                        <hr className='content-hr' />
                         {
                             cityServices.map((item, i) => {
                                 return (
-                                    <Container key={i}>
-                                        <Row className='mymenu'>
+                                    <Container className={`mymenu ${this.getCssType(item.type)}`} key={i}>
+                                        <Row style={{ width: '880px' }}>
                                             <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
                                                 <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
                                             </Col>
@@ -119,7 +124,7 @@ class Content extends Component {
                         }
                     </Col>
 
-                    <Col md={4} xs={12}>
+                    <Col md={4} xs={12} className='right-menu'>
 
                         <Nav tabs className='nav-tab'>
                             <NavItem>
@@ -145,7 +150,8 @@ class Content extends Component {
                                 <Row>
                                     <Col sm="12">
                                         <div className='media media-border'>
-                                            <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' />
+                                            <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' alt='' />
+
                                             <div className='media-content'>
                                                 <strong>header</strong>
                                                 <p className='mymenu-header-footer'>
@@ -161,7 +167,7 @@ class Content extends Component {
                                 <Row>
                                     <Col sm="12">
                                         <div className='media media-border media-bordertop'>
-                                            <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' />
+                                            <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' alt='' />
                                             <div className='media-content'>
                                                 <strong>header</strong>
                                                 <p className='mymenu-header-footer'>
@@ -177,7 +183,7 @@ class Content extends Component {
                                 <Row>
                                     <Col sm="12">
                                         <div className='media media-border media-bordertop'>
-                                            <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' />
+                                            <img src='https://pbs.twimg.com/profile_images/646245258397806592/dHn0c-Jc.png' class='img-thumbnail media-img' alt='' />
                                             <div className='media-content'>
                                                 <strong>header</strong>
                                                 <p className='mymenu-header-footer'>
@@ -194,19 +200,51 @@ class Content extends Component {
 
                             <TabPane tabId="2">
                                 <Row>
-                                    <Col sm="6">
-                                        <Card body>
-                                            <CardTitle>Special Title Treatment</CardTitle>
-                                            <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                                            <Button>Go somewhere</Button>
-                                        </Card>
+                                    <Col sm="12">
+                                        <div className='media media-border'>
+                                            <img src='https://pbs.twimg.com/profile_images/646245258397806592/dHn0c-Jc.png' class='img-thumbnail media-img' alt='' />
+                                            <div className='media-content'>
+                                                <strong>header content 2</strong>
+                                                <p className='mymenu-header-footer'>
+                                                    <FaCalendarO className='mymenu-icon'/>
+                                                    <span style={{ marginRight: '16px' }}> 01/01/2018</span>
+                                                    <FaUser className='mymenu-icon'/>
+                                                    <span> Admin</span>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </Col>
-                                    <Col sm="6">
-                                        <Card body>
-                                            <CardTitle>Special Title Treatment</CardTitle>
-                                            <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                                            <Button>Go somewhere</Button>
-                                        </Card>
+                                </Row>
+                                <Row>
+                                    <Col sm="12">
+                                        <div className='media media-border media-bordertop'>
+                                            <img src='https://pbs.twimg.com/profile_images/646245258397806592/dHn0c-Jc.png' class='img-thumbnail media-img' alt='' />
+                                            <div className='media-content'>
+                                                <strong>header content 2</strong>
+                                                <p className='mymenu-header-footer'>
+                                                    <FaCalendarO className='mymenu-icon'/>
+                                                    <span style={{ marginRight: '16px' }}> 01/01/2018</span>
+                                                    <FaUser className='mymenu-icon'/>
+                                                    <span> Admin</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm="12">
+                                        <div className='media media-border media-bordertop'>
+                                            <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' alt='' />
+                                            <div className='media-content'>
+                                                <strong>header content 2</strong>
+                                                <p className='mymenu-header-footer'>
+                                                    <FaCalendarO className='mymenu-icon'/>
+                                                    <span style={{ marginRight: '16px' }}> 01/01/2018</span>
+                                                    <FaUser className='mymenu-icon'/>
+                                                    <span> Admin</span>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </Col>
                                 </Row>
                             </TabPane>
@@ -215,15 +253,14 @@ class Content extends Component {
                 </Row>
 
                 <Row>
-                    <Col md={8} xs={12}>
-                        <h3>Data Bucket</h3>
-                        <hr />
-
+                    <Col md={8} xs={12} className='margin-content'>
+                        <h3 className='content-header'>Data Bucket</h3>
+                        <hr className='content-hr' />
                         {
                             dataBuckets.map((item, i) => {
                                 return (
-                                    <Container key={i}>
-                                        <Row className='mymenu'>
+                                    <Container className={`mymenu ${this.getCssType(item.type)}`} key={i}>
+                                        <Row style={{ width: '880px' }}>
                                             <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
                                                 <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
                                             </Col>
@@ -237,8 +274,8 @@ class Content extends Component {
                                                     <span>{ item.owner }</span>
                                                 </div>
                                                 <hr />
-                                                <p className='mymenu-description'> test description </p>
-                                                <Link to='/' className='link'><Button color='info' outline size='sm' className='readmore'>Continue reading...</Button></Link>
+                                                <p className='mymenu-description'> sl</p>
+                                                <Link to='/' className='link'><Button color='info' size='sm' outline className='readmore'>Continue reading...</Button></Link>
                                             </Col>
                                         </Row>
                                     </Container>

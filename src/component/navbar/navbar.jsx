@@ -15,7 +15,7 @@ class MyNavbar extends Component {
         return (
             <div>
                 <Navbar color='faded' light expand='md' className='navbar'>
-                    <NavbarBrand><img src={logo} width={150} /></NavbarBrand>
+                    <NavbarBrand><img src={logo} width={150} alt='smart-city' /></NavbarBrand>
                     <Nav className='ml-auto' navbar>
                         <NavItem className='menu'>
                             <Link to='/'><NavLink>Home</NavLink></Link>

@@ -1,4 +1,4 @@
-const domain = 'http://203.154.59.55:80';
+const domain = 'https://api.smartcity.kmitl.io';
 
 const api = {
   cityService: domain + '/web/cityServices/',
