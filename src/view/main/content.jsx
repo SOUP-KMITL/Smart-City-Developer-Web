@@ -20,7 +20,7 @@ import FaUser from 'react-icons/lib/fa/user';
 import './content.css';
 import api from '../../constance/api';
 
-class Content extends Component {
+export default class Content extends Component {
 
     constructor(props) {
         super(props);
@@ -64,72 +64,25 @@ class Content extends Component {
         }
     }
 
-    dateFormat(value) {
-        const date = new Date(value);
-        const format = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
-        return format;
-    }
-
-    getCssType(value) {
-        if (value === 'a')
-            return 'border-hr-type-a';
-        else if (value === 'b')
-            return 'border-hr-type-b';
-        else
-            return 'border-hr-type-c';
-    }
-
     render() {
         const { cityServices, dataBuckets } = this.state;
+
         return (
             <Container>
-                <Row>
-                    <Col md={{ size: 4, offset: 8 }}>
-                        <InputGroup className='searchbar'>
-                            <Input placeholder="Search..." />
-                            <InputGroupAddon><MdSearch /></InputGroupAddon>
-                        </InputGroup>
-                    </Col>
-                </Row>
+                <SearchBar />
 
                 <Row>
                     <Col md={8} xs={12}>
                         <h3 className='content-header'>City Service</h3>
                         <hr className='content-hr' />
-                        {
-                            cityServices.map((item, i) => {
-                                return (
-                                    <Container className={`mymenu ${this.getCssType(item.type)}`} key={i}>
-                                        <Row style={{ width: '880px' }}>
-                                            <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
-                                                <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
-                                            </Col>
-
-                                            <Col lg={8} md={12} sm={12} xs={12} className='mymenu-content'>
-                                                <h4>{ item.serviceName }</h4>
-                                                <div className='mymenu-header-footer'>
-                                                    <FaCalendarO className='mymenu-icon'/>
-                                                    <span style={{ marginRight: '16px' }}>{ this.dateFormat(item.timestamp) }</span>
-                                                    <FaUser className='mymenu-icon'/>
-                                                    <span>{ item.owner }</span>
-                                                </div>
-                                                <hr />
-                                                <p className='mymenu-description'> Information and communication technology (ICT) is used to enhance quality, performance and interactivity of urban services, to reduce costs and resource consumption and to increase contact between citizens and government. Smart city applications are developed to manage urban flows and allow for real-time responses. A smart city may therefore be more prepared to respond to challenges than one with a simple "transactional" relationship with its citizens. Yet, the term itself remains unclear to its specifics and therefore, open to many interpretations.  </p>
-                                                <Link to='/' className='link'><Button color='info' size='sm' outline className='readmore'>Continue reading...</Button></Link>
-                                            </Col>
-                                        </Row>
-                                    </Container>
-                                );
-                            })
-                        }
+                        <MenuCityService cityServices={cityServices} />
                     </Col>
 
                     <Col md={4} xs={12} className='right-menu'>
-
                         <Nav tabs className='nav-tab'>
                             <NavItem>
                                 <NavLink
-                                    className={({ active: this.state.activeTab === '1' })}
+                                    className={({ active: this.state.activeTab === '1'})}
                                     onClick={() => { this.toggle('1'); }}
                                 >
                                     {'popular'.toUpperCase()}
@@ -146,107 +99,11 @@ class Content extends Component {
                         </Nav>
 
                         <TabContent activeTab={this.state.activeTab} className='tab-content'>
-                            <TabPane tabId="1">
-                                <Row>
-                                    <Col sm="12">
-                                        <div className='media media-border'>
-                                            <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' alt='' />
-
-                                            <div className='media-content'>
-                                                <strong>header</strong>
-                                                <p className='mymenu-header-footer'>
-                                                    <FaCalendarO className='mymenu-icon'/>
-                                                    <span style={{ marginRight: '16px' }}> 01/01/2018</span>
-                                                    <FaUser className='mymenu-icon'/>
-                                                    <span> Admin</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col sm="12">
-                                        <div className='media media-border media-bordertop'>
-                                            <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' alt='' />
-                                            <div className='media-content'>
-                                                <strong>header</strong>
-                                                <p className='mymenu-header-footer'>
-                                                    <FaCalendarO className='mymenu-icon'/>
-                                                    <span style={{ marginRight: '16px' }}> 01/01/2018</span>
-                                                    <FaUser className='mymenu-icon'/>
-                                                    <span> Admin</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col sm="12">
-                                        <div className='media media-border media-bordertop'>
-                                            <img src='https://pbs.twimg.com/profile_images/646245258397806592/dHn0c-Jc.png' class='img-thumbnail media-img' alt='' />
-                                            <div className='media-content'>
-                                                <strong>header</strong>
-                                                <p className='mymenu-header-footer'>
-                                                    <FaCalendarO className='mymenu-icon'/>
-                                                    <span style={{ marginRight: '16px' }}> 01/01/2018</span>
-                                                    <FaUser className='mymenu-icon'/>
-                                                    <span> Admin</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </Col>
-                                </Row>
+                            <TabPane tabId='1'>
+                                <TabpaneMenu size={3} />
                             </TabPane>
-
-                            <TabPane tabId="2">
-                                <Row>
-                                    <Col sm="12">
-                                        <div className='media media-border'>
-                                            <img src='https://pbs.twimg.com/profile_images/646245258397806592/dHn0c-Jc.png' class='img-thumbnail media-img' alt='' />
-                                            <div className='media-content'>
-                                                <strong>header content 2</strong>
-                                                <p className='mymenu-header-footer'>
-                                                    <FaCalendarO className='mymenu-icon'/>
-                                                    <span style={{ marginRight: '16px' }}> 01/01/2018</span>
-                                                    <FaUser className='mymenu-icon'/>
-                                                    <span> Admin</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col sm="12">
-                                        <div className='media media-border media-bordertop'>
-                                            <img src='https://pbs.twimg.com/profile_images/646245258397806592/dHn0c-Jc.png' class='img-thumbnail media-img' alt='' />
-                                            <div className='media-content'>
-                                                <strong>header content 2</strong>
-                                                <p className='mymenu-header-footer'>
-                                                    <FaCalendarO className='mymenu-icon'/>
-                                                    <span style={{ marginRight: '16px' }}> 01/01/2018</span>
-                                                    <FaUser className='mymenu-icon'/>
-                                                    <span> Admin</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col sm="12">
-                                        <div className='media media-border media-bordertop'>
-                                            <img src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6' class='img-thumbnail media-img' alt='' />
-                                            <div className='media-content'>
-                                                <strong>header content 2</strong>
-                                                <p className='mymenu-header-footer'>
-                                                    <FaCalendarO className='mymenu-icon'/>
-                                                    <span style={{ marginRight: '16px' }}> 01/01/2018</span>
-                                                    <FaUser className='mymenu-icon'/>
-                                                    <span> Admin</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </Col>
-                                </Row>
+                            <TabPane tabId='2'>
+                                <TabpaneMenu size={2} />
                             </TabPane>
                         </TabContent>
                     </Col>
@@ -256,32 +113,7 @@ class Content extends Component {
                     <Col md={8} xs={12} className='margin-content'>
                         <h3 className='content-header'>Data Bucket</h3>
                         <hr className='content-hr' />
-                        {
-                            dataBuckets.map((item, i) => {
-                                return (
-                                    <Container className={`mymenu ${this.getCssType(item.type)}`} key={i}>
-                                        <Row style={{ width: '880px' }}>
-                                            <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
-                                                <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
-                                            </Col>
-
-                                            <Col lg={8} md={12} sm={12} xs={12} className='mymenu-content'>
-                                                <h4>{ item.collectionName }</h4>
-                                                <div className='mymenu-header-footer'>
-                                                    <FaCalendarO className='mymenu-icon'/>
-                                                    <span style={{ marginRight: '16px' }}>{ this.dateFormat(item.timestamp) }</span>
-                                                    <FaUser className='mymenu-icon'/>
-                                                    <span>{ item.owner }</span>
-                                                </div>
-                                                <hr />
-                                                <p className='mymenu-description'> sl</p>
-                                                <Link to='/' className='link'><Button color='info' size='sm' outline className='readmore'>Continue reading...</Button></Link>
-                                            </Col>
-                                        </Row>
-                                    </Container>
-                                );
-                            })
-                        }
+                        <MenuDataBucket dataBuckets={dataBuckets} />
                     </Col>
 
                     <Col md={4} xs={12}>
@@ -291,7 +123,119 @@ class Content extends Component {
             </Container>
         );
     }
-
 }
 
-export default Content;
+const SearchBar = () => (
+    <Row>
+        <Col md={{ size: 4, offset: 8 }}>
+            <InputGroup className='searchbar'>
+                <Input placeholder="Search..." />
+                <InputGroupAddon><MdSearch /></InputGroupAddon>
+            </InputGroup>
+        </Col>
+    </Row>
+)
+
+
+const dateFormat = (value) => {
+    const date = new Date(value);
+    const format = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
+    return format;
+}
+
+
+const getCssType = (value) => {
+    if (value === 'a')
+        return 'border-hr-type-a';
+    else if (value === 'b')
+        return 'border-hr-type-b';
+    else
+        return 'border-hr-type-c';
+}
+
+const MenuCityService = ({ cityServices }) => (
+    cityServices.map((item, i) => {
+        return (
+            <Container className={`mymenu ${getCssType(item.type)}`} key={i}>
+                <Row style={{ width: '880px' }}>
+                    <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
+                        <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
+                    </Col>
+
+                    <Col lg={8} md={12} sm={12} xs={12} className='mymenu-content'>
+                        <h4>{ item.serviceName }</h4>
+                        <div className='mymenu-header-footer'>
+                            <FaCalendarO className='mymenu-icon'/>
+                            <span style={{ marginRight: '16px' }}>{ dateFormat(item.timestamp) }</span>
+                            <FaUser className='mymenu-icon'/>
+                            <span>{ item.owner }</span>
+                        </div>
+                        <hr />
+                        <p className='mymenu-description'> Information and communication technology (ICT) is used to enhance quality, performance and interactivity of urban services, to reduce costs and resource consumption and to increase contact between citizens and government. Smart city applications are developed to manage urban flows and allow for real-time responses. A smart city may therefore be more prepared to respond to challenges than one with a simple "transactional" relationship with its citizens. Yet, the term itself remains unclear to its specifics and therefore, open to many interpretations.  </p>
+                        <Link to='/' className='link'><Button color='info' size='sm' outline className='readmore'>Continue reading...</Button></Link>
+                    </Col>
+                </Row>
+            </Container>
+        );
+    })
+)
+
+
+const MenuDataBucket = ({ dataBuckets }) => (
+    dataBuckets.map((item, i) => {
+        return (
+            <Container className={`mymenu ${getCssType(item.type)}`} key={i}>
+                <Row style={{ width: '880px' }}>
+                    <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
+                        <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
+                    </Col>
+
+                    <Col lg={8} md={12} sm={12} xs={12} className='mymenu-content'>
+                        <h4>{ item.collectionName }</h4>
+                        <div className='mymenu-header-footer'>
+                            <FaCalendarO className='mymenu-icon'/>
+                            <span style={{ marginRight: '16px' }}>{ dateFormat(item.timestamp) }</span>
+                            <FaUser className='mymenu-icon'/>
+                            <span>{ item.owner }</span>
+                        </div>
+                        <hr />
+                        <p className='mymenu-description'> sl</p>
+                        <Link to='/' className='link'><Button color='info' size='sm' outline className='readmore'>Continue reading...</Button></Link>
+                    </Col>
+                </Row>
+            </Container>
+        );
+    })
+)
+
+
+const TabpaneMenu = ({ size }) => (
+    [...Array(size)].map((item, i) => {
+        return (
+            <Row>
+                <Col sm="12">
+                    <div className={`media ${i!=size-1? 'media-border': ''} media-bordertop`}>
+                        <img
+                            src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6'
+                            className='img-thumbnail media-img'
+                            alt=''
+                        />
+
+                        <div className='media-content'>
+                            <strong>header</strong>
+                            <p className='mymenu-header-footer'>
+                                <FaCalendarO className='mymenu-icon'/>
+                                <span style={{ marginRight: '16px' }}> 01/01/2018</span>
+                                <FaUser className='mymenu-icon'/>
+                                <span> Admin</span>
+                            </p>
+                        </div>
+                    </div>
+                </Col>
+            </Row>
+        )
+    })
+)
+
+
+
