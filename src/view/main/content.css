@@ -118,6 +118,14 @@
 
 .right-menu {
   margin-top: 65px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 752px) {
+  .right-menu {
+    margin-top: 20px;
+    margin-bottom: 80px;
+  }
 }
 
 .content-header {

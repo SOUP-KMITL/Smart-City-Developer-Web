@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom';
 import FaUser from 'react-icons/lib/fa/user';
 import './content.css';
 import api from '../../constance/api';
+import classnames from 'classnames';
 
 export default class Content extends Component {
 
@@ -73,17 +74,7 @@ export default class Content extends Component {
                 <SearchBar />
 
                 <Row>
-                    <Col md={8} xs={12}>
-                        <h3 className='content-header'>City Service</h3>
-                        <hr className='content-hr' />
-                        {
-                            cityServices.length===0
-                                ? <Loading />
-                                : <MenuCityService cityServices={cityServices} />
-                        }
-                    </Col>
-
-                    <Col md={4} xs={12} className='right-menu'>
+                    <Col md={4} xs={12} className='right-menu order-md-8'>
                         <Nav tabs className='nav-tab'>
                             <NavItem>
                                 <NavLink
@@ -111,6 +102,16 @@ export default class Content extends Component {
                                 <TabpaneMenu size={2} />
                             </TabPane>
                         </TabContent>
+                    </Col>
+
+                    <Col md={8} xs={12} className='right-menu order-md-4'>
+                        <h3 className='content-header'>City Service</h3>
+                        <hr className='content-hr' />
+                        {
+                            cityServices.length===0
+                                ? <Loading />
+                                : <MenuCityService cityServices={cityServices} />
+                        }
                     </Col>
                 </Row>
 
@@ -146,32 +147,30 @@ const SearchBar = () => (
 )
 
 
-const dateFormat = (value) => {
-    const date = new Date(value);
-    const format = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
-    return format;
-}
-
-
-const getCssType = (value) => {
-    if (value === 'a')
-        return 'border-hr-type-a';
-    else if (value === 'b')
-        return 'border-hr-type-b';
-    else
-        return 'border-hr-type-c';
-}
-
 const Loading = () => (
     <div className='flex-middle'>
         <ReactLoading type='bars' color='#ced4da' height={100} width={100} />
     </div>
 )
 
+const dateFormat = (value) => {
+    const date = new Date(value);
+    const format = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
+    return format;
+}
+
+const getCssType = (value, index) => {
+    return classnames( 'mymenu', {
+        'border-hr-type-a': value=='a',
+        'border-hr-type-b': value=='b',
+        'border-hr-type-c': value=='c',
+    });
+}
+
 const MenuCityService = ({ cityServices }) => (
     cityServices.map((item, i) => {
         return (
-            <Container className={`mymenu ${getCssType(item.type)}`} key={i}>
+            <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
                     <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
                         <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
@@ -199,7 +198,7 @@ const MenuCityService = ({ cityServices }) => (
 const MenuDataBucket = ({ dataBuckets }) => (
     dataBuckets.map((item, i) => {
         return (
-            <Container className={`mymenu ${getCssType(item.type)}`} key={i}>
+            <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
                     <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
                         <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
