@@ -13,6 +13,7 @@ import {
     NavLink,
     Button,
 } from 'reactstrap';
+import ReactLoading from 'react-loading';
 import MdSearch from 'react-icons/lib/md/search';
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
 import { Link } from 'react-router-dom';
@@ -75,7 +76,11 @@ export default class Content extends Component {
                     <Col md={8} xs={12}>
                         <h3 className='content-header'>City Service</h3>
                         <hr className='content-hr' />
-                        <MenuCityService cityServices={cityServices} />
+                        {
+                            cityServices.length===0
+                                ? <Loading />
+                                : <MenuCityService cityServices={cityServices} />
+                        }
                     </Col>
 
                     <Col md={4} xs={12} className='right-menu'>
@@ -113,7 +118,11 @@ export default class Content extends Component {
                     <Col md={8} xs={12} className='margin-content'>
                         <h3 className='content-header'>Data Bucket</h3>
                         <hr className='content-hr' />
-                        <MenuDataBucket dataBuckets={dataBuckets} />
+                        {
+                            cityServices.length===0
+                                ? <Loading />
+                                : <MenuDataBucket dataBuckets={dataBuckets} />
+                        }
                     </Col>
 
                     <Col md={4} xs={12}>
@@ -152,6 +161,12 @@ const getCssType = (value) => {
     else
         return 'border-hr-type-c';
 }
+
+const Loading = () => (
+    <div className='flex-middle'>
+        <ReactLoading type='bars' color='#ced4da' height={100} width={100} />
+    </div>
+)
 
 const MenuCityService = ({ cityServices }) => (
     cityServices.map((item, i) => {
@@ -214,25 +229,25 @@ const TabpaneMenu = ({ size }) => (
         return (
             <Row>
                 <Col sm="12">
-                    <div className={`media ${i!=size-1? 'media-border': ''} media-bordertop`}>
+                    <div className={`media ${i!==size-1? 'media-border': ''} media-bordertop`}>
                         <img
                             src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6'
                             className='img-thumbnail media-img'
                             alt=''
                         />
 
-                        <div className='media-content'>
-                            <strong>header</strong>
-                            <p className='mymenu-header-footer'>
-                                <FaCalendarO className='mymenu-icon'/>
-                                <span style={{ marginRight: '16px' }}> 01/01/2018</span>
-                                <FaUser className='mymenu-icon'/>
-                                <span> Admin</span>
-                            </p>
-                        </div>
+                    <div className='media-content'>
+                        <strong>header</strong>
+                        <p className='mymenu-header-footer'>
+                            <FaCalendarO className='mymenu-icon'/>
+                            <span style={{ marginRight: '16px' }}> 01/01/2018</span>
+                            <FaUser className='mymenu-icon'/>
+                            <span> Admin</span>
+                        </p>
                     </div>
-                </Col>
-            </Row>
+                </div>
+            </Col>
+        </Row>
         )
     })
 )
