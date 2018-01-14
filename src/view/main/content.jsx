@@ -15,6 +15,7 @@ import {
 } from 'reactstrap';
 import ReactLoading from 'react-loading';
 import MdSearch from 'react-icons/lib/md/search';
+import FaChevronCircleDown from 'react-icons/lib/fa/chevron-circle-down';
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
 import { Link } from 'react-router-dom';
 import FaUser from 'react-icons/lib/fa/user';
@@ -112,6 +113,7 @@ export default class Content extends Component {
                                 ? <Loading />
                                 : <MenuCityService cityServices={cityServices} />
                         }
+                        <FaChevronCircleDown size={55} color='#6B6B6B' className='more-detail' />
                     </Col>
                 </Row>
 
@@ -172,11 +174,11 @@ const MenuCityService = ({ cityServices }) => (
         return (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
-                    <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
-                        <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
+                    <Col lg={4} md={4} sm={4} xs={12} className='mymenu-header'>
+                        <img className='img-fluid mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
                     </Col>
 
-                    <Col lg={8} md={12} sm={12} xs={12} className='mymenu-content'>
+                    <Col lg={8} md={8} sm={8} xs={12} className='mymenu-content'>
                         <h4>{ item.serviceName }</h4>
                         <div className='mymenu-header-footer'>
                             <FaCalendarO className='mymenu-icon'/>
@@ -202,11 +204,11 @@ const MenuDataBucket = ({ dataBuckets }) => (
         return (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
-                    <Col lg={4} md={12} sm={12} xs={12} className='mymenu-header'>
-                        <img className='mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
+                    <Col lg={4} md={12} sm={4} xs={12} className='mymenu-header'>
+                        <img className='img-fluid mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
                     </Col>
 
-                    <Col lg={8} md={12} sm={12} xs={12} className='mymenu-content'>
+                    <Col lg={8} md={12} sm={8} xs={12} className='mymenu-content'>
                         <h4>{ item.collectionName }</h4>
                         <div className='mymenu-header-footer'>
                             <FaCalendarO className='mymenu-icon'/>

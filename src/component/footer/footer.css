@@ -1,5 +1,6 @@
 .menubar {
   background-color: #4ebee3;
+  justify-content: space-between;
 }
 
 .text-default {

@@ -99,6 +99,11 @@
   color: #6B6B6B;
 }
 
+.more-detail {
+  width: 100%;
+  margin-top: -50px;
+}
+
 .readmore {
   float: right;
   font-size: 12px;

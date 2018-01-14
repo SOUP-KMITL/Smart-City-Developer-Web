@@ -23,6 +23,17 @@ class Footer extends Component {
                             <NavLink className='text-default'>© { this.getCurrentYear() } Smart City Innohub, all rights reserved. </NavLink>
                         </NavItem>
                     </Nav>
+                    <Nav navbar>
+                        <NavItem>
+                            <NavLink className='text-default'>Contact Us</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink className='text-default'>Help</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink className='text-default'>FAQ</NavLink>
+                        </NavItem>
+                    </Nav>
                 </Navbar>
             </div>
         );
