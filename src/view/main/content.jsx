@@ -141,6 +141,17 @@ export default class Content extends Component {
                                 ? <Loading />
                                 : <MenuDataBucket dataBuckets={dataBuckets} />
                         }
+                        <Link to=''>
+                            <div className='more-detail'>
+                                <div class='more-detail-left'></div>
+                                <FaChevronCircleDown
+                                    size={45}
+                                    color='#6B6B6B'
+                                    className='more-detail-icon'
+                                />
+                                <div class='more-detail-right'></div>
+                            </div>
+                        </Link>
                     </Col>
 
                     <Col md={4} xs={12}>
@@ -178,9 +189,9 @@ const dateFormat = (value) => {
 
 const getCssType = (value, index) => {
     return classnames( 'mymenu', {
-        'border-hr-type-a': value=='a',
-        'border-hr-type-b': value=='b',
-        'border-hr-type-c': value=='c',
+        'border-hr-type-a': value==='a',
+        'border-hr-type-b': value==='b',
+        'border-hr-type-c': value==='c',
     });
 }
 

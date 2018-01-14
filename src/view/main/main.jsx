@@ -81,26 +81,31 @@ class Main extends Component {
         return (
             <div>
 
-                <Carousel
-                    activeIndex={activeIndex}
-                    next={this.next}
-                    previous={this.previous}
-                    cssModule={{ margin: '10px' }}
-                >
-                    <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
-                    {slides}
-                    <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} className='carousel-background-left' />
-                    <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} className='carousel-background-right' />
-                </Carousel>
+                {
+                    this.props.location.pathname==='/' &&
+                        <div>
+                            <Carousel
+                                activeIndex={activeIndex}
+                                next={this.next}
+                                previous={this.previous}
+                                cssModule={{ margin: '10px' }}
+                            >
+                                <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+                                {slides}
+                                <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} className='carousel-background-left' />
+                                <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} className='carousel-background-right' />
+                            </Carousel>
 
 
-                <div className='carousel-footer'>
-                    <h4>Join us and share your idea</h4>
-                    <ButtonGroup>
-                        <Button color='warning' className='btn-white' size='lg' outline>Sign In</Button>
-                        <Button color='success' className='btn-white' size='lg' outline>Sign Up</Button>
-                    </ButtonGroup>
-                </div>
+                            <div className='carousel-footer'>
+                                <h4>Join us and share your idea</h4>
+                                <ButtonGroup>
+                                    <Button color='warning' className='btn-white' size='lg' outline>Sign In</Button>
+                                    <Button color='success' className='btn-white' size='lg' outline>Sign Up</Button>
+                                </ButtonGroup>
+                            </div>
+                        </div>
+                }
 
                 <div className='content'>
                     <Content />
