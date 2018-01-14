@@ -13,15 +13,18 @@ import {
     NavLink,
     Button,
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
+import classnames from 'classnames';
+
+// Icons
 import MdSearch from 'react-icons/lib/md/search';
 import FaChevronCircleDown from 'react-icons/lib/fa/chevron-circle-down';
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
-import { Link } from 'react-router-dom';
 import FaUser from 'react-icons/lib/fa/user';
+
 import './content.css';
 import api from '../../constance/api';
-import classnames from 'classnames';
 
 export default class Content extends Component {
 
@@ -105,7 +108,7 @@ export default class Content extends Component {
                         </TabContent>
                     </Col>
 
-                    <Col md={8} xs={12} className='right-menu order-md-4'>
+                    <Col md={8} xs={12} className='order-md-4'>
                         <h3 className='content-header'>City Service</h3>
                         <hr className='content-hr' />
                         {
@@ -113,7 +116,19 @@ export default class Content extends Component {
                                 ? <Loading />
                                 : <MenuCityService cityServices={cityServices} />
                         }
-                        <FaChevronCircleDown size={55} color='#6B6B6B' className='more-detail' />
+                        {
+                            <Link to=''>
+                                <div className='more-detail'>
+                                    <div class='more-detail-left'></div>
+                                    <FaChevronCircleDown
+                                        size={45}
+                                        color='#6B6B6B'
+                                        className='more-detail-icon'
+                                    />
+                                    <div class='more-detail-right'></div>
+                                </div>
+                            </Link>
+                        }
                     </Col>
                 </Row>
 
