@@ -186,7 +186,9 @@ const MenuCityService = ({ cityServices }) => (
                         </div>
                         <hr />
                         <p className='mymenu-description'> Information and communication technology (ICT) is used to enhance quality, performance and interactivity of urban services, to reduce costs and resource consumption and to increase contact between citizens and government. Smart city applications are developed to manage urban flows and allow for real-time responses. A smart city may therefore be more prepared to respond to challenges than one with a simple "transactional" relationship with its citizens. Yet, the term itself remains unclear to its specifics and therefore, open to many interpretations.  </p>
-                        <Link to='/' className='link'><Button color='info' size='sm' outline className='readmore'>Continue reading...</Button></Link>
+                        <Link to='/' className='link'>
+                            <Button color='info' size='sm' outline className='readmore'>Continue reading...</Button>
+                        </Link>
                     </Col>
                 </Row>
             </Container>
