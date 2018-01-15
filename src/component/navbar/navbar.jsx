@@ -47,9 +47,6 @@ class MyNavbar extends Component {
                                 <Link to='market-place'><NavLink>Market Place</NavLink></Link>
                             </NavItem>
                             <NavItem className='menu'>
-                                <Link to='about'><NavLink>About Us</NavLink></Link>
-                            </NavItem>
-                            <NavItem className='menu'>
                                 <Link to='signin'><NavLink>Sign In</NavLink></Link>
                             </NavItem>
                             <NavItem className='menu'>

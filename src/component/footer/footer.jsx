@@ -25,6 +25,9 @@ class Footer extends Component {
                     </Nav>
                     <Nav navbar>
                         <NavItem>
+                            <NavLink className='text-default'>About Us</NavLink>
+                        </NavItem>
+                        <NavItem>
                             <NavLink className='text-default'>Contact Us</NavLink>
                         </NavItem>
                         <NavItem>
