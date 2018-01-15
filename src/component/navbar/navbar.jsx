@@ -33,7 +33,11 @@ class MyNavbar extends Component {
         return (
             <div>
                 <Navbar color='faded' light expand='md' className='navbar'>
-                    <NavbarBrand><img src={logo} width={150} alt='smart-city' /></NavbarBrand>
+                    <Link to='/'>
+                        <NavbarBrand>
+                            <img src={logo} width={150} alt='smart-city' />
+                        </NavbarBrand>
+                    </Link>
                     <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
                     <Collapse isOpen={!this.state.collapsed} navbar>
                         <Nav className='ml-auto text-center' navbar>

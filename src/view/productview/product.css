@@ -1,0 +1,50 @@
+.img-product {
+  text-align: center;
+}
+
+.img-product img {
+  max-height: 300px;
+}
+
+.product-header {
+
+}
+
+.product-header-description {
+  display: flex;
+  flex-direction: row;
+
+}
+
+.product-header-description p {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.product-header-description svg {
+  vertical-align: baseline !important;
+}
+
+.btn-facebook {
+  background: #3A5694;
+}
+
+.btn-github {
+  background: #2B2B2B;
+}
+
+.btn-google {
+  background: #C73E2E;
+}
+
+.share-button div{
+  margin-right: 10px;
+}
+
+.tag {
+  padding-top: 10px;
+}
+
+.tag i {
+  margin-right: 10px;
+}

@@ -10,9 +10,11 @@ class App extends Component {
       <div>
         <MyNavbar />
         <Switch>
-          { appRoute.map((route, i) => {
-            return <Route exact path={route.path} component={route.component} key={i}/>;
-          })}
+          {
+            appRoute.map((route, i) => {
+              return <Route exact path={route.path} component={route.component} key={i}/>;
+            })
+          }
         </Switch>
         <Footer />
       </div>

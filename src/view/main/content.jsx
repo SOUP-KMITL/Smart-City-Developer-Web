@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
 import {
-    Input,
-    InputGroup,
-    InputGroupAddon,
     Container,
     Col,
     Row,
-    TabContent,
-    TabPane,
-    Nav,
-    NavItem,
-    NavLink,
     Button,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -18,20 +10,21 @@ import ReactLoading from 'react-loading';
 import classnames from 'classnames';
 
 // Icons
-import MdSearch from 'react-icons/lib/md/search';
 import FaChevronCircleDown from 'react-icons/lib/fa/chevron-circle-down';
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
 import FaUser from 'react-icons/lib/fa/user';
 
 import './content.css';
+import '../share/style.css';
 import api from '../../constance/api';
+import MainRightPanel from '../share/right-panel.jsx';
+import MainSearchBar from '../share/search.jsx';
 
 export default class Content extends Component {
 
     constructor(props) {
         super(props);
 
-        this.toggle = this.toggle.bind(this);
         this.state = {
             activeTab: '1',
             cityServices: [],
@@ -62,50 +55,21 @@ export default class Content extends Component {
                 });
     }
 
-    toggle(tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({
-                activeTab: tab
-            });
-        }
-    }
 
     render() {
         const { cityServices, dataBuckets } = this.state;
 
         return (
             <Container>
-                <SearchBar />
+                <Row>
+                    <Col md={{ size: 4, offset: 8 }}>
+                        <MainSearchBar />
+                    </Col>
+                </Row>
 
                 <Row>
                     <Col md={4} xs={12} className='right-menu order-md-8'>
-                        <Nav tabs className='nav-tab'>
-                            <NavItem>
-                                <NavLink
-                                    className={({ active: this.state.activeTab === '1'})}
-                                    onClick={() => { this.toggle('1'); }}
-                                >
-                                    {'popular'.toUpperCase()}
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink
-                                    className={({ active: this.state.activeTab === '2' })}
-                                    onClick={() => { this.toggle('2'); }}
-                                >
-                                    { 'recent'.toUpperCase() }
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
-
-                        <TabContent activeTab={this.state.activeTab} className='tab-content'>
-                            <TabPane tabId='1'>
-                                <TabpaneMenu size={3} />
-                            </TabPane>
-                            <TabPane tabId='2'>
-                                <TabpaneMenu size={2} />
-                            </TabPane>
-                        </TabContent>
+                        <MainRightPanel />
                     </Col>
 
                     <Col md={8} xs={12} className='order-md-4'>
@@ -163,16 +127,6 @@ export default class Content extends Component {
     }
 }
 
-const SearchBar = () => (
-    <Row>
-        <Col md={{ size: 4, offset: 8 }}>
-            <InputGroup className='searchbar'>
-                <Input placeholder="Search..." />
-                <InputGroupAddon><MdSearch /></InputGroupAddon>
-            </InputGroup>
-        </Col>
-    </Row>
-)
 
 
 const Loading = () => (
@@ -251,35 +205,3 @@ const MenuDataBucket = ({ dataBuckets }) => (
         );
     })
 )
-
-
-const TabpaneMenu = ({ size }) => (
-    [...Array(size)].map((item, i) => {
-        return (
-            <Row>
-                <Col sm="12">
-                    <div className={`media ${i!==size-1? 'media-border': ''} media-bordertop`}>
-                        <img
-                            src='https://us.123rf.com/450wm/bagotaj/bagotaj1606/bagotaj160600068/58298491-smart-city-design-concept-with-icons.jpg?ver=6'
-                            className='img-thumbnail media-img'
-                            alt=''
-                        />
-
-                    <div className='media-content'>
-                        <strong>header</strong>
-                        <p className='mymenu-header-footer'>
-                            <FaCalendarO className='mymenu-icon'/>
-                            <span style={{ marginRight: '16px' }}> 01/01/2018</span>
-                            <FaUser className='mymenu-icon'/>
-                            <span> Admin</span>
-                        </p>
-                    </div>
-                </div>
-            </Col>
-        </Row>
-        )
-    })
-)
-
-
-
