@@ -31,6 +31,28 @@
     height: 400px; /*slider height*/
 }
 
+.carousel .overlay {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+  text-align: center;
+}
+
+.carousel .overlay h2 {
+  color: white;
+  margin-top: 80px;
+}
+
+.carousel .overlay h5 {
+  color: white;
+}
+
+.carousel .overlay button {
+  margin-top: 80px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 1.5em;
+}
+
 .carousel-img {
   display:block !important;
   object-fit: cover;

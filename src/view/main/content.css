@@ -128,13 +128,14 @@
 
 .content-header {
   background: #56b8db;
-  width: 180px;
-  text-align: center;
-  margin-bottom: -16px;
+  width: 200px;
+  text-align: left;
+  margin-bottom: -17px;
   padding: 8px;
   border: none;
   color: white;
   font-style: italic;
+  clip-path: polygon(0 0, 85% 0, 100% 100%, 0% 100%);
 }
 
 .content-header-right {
@@ -143,7 +144,7 @@
 }
 
 .content-hr {
-  border-top: solid 1.5px #56b8db;
+  border-top: solid 3.5px #56b8db;
 }
 
 .border-hr-type-a {

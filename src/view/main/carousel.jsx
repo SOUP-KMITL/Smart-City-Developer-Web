@@ -4,6 +4,7 @@ import {
     CarouselItem,
     CarouselControl,
     CarouselIndicators,
+    Button,
 } from 'reactstrap';
 import './main.css';
 
@@ -59,6 +60,15 @@ export default class MainCarousel extends React.Component {
                     onExited={this.onExited}
                     key={i}
                 >
+                    <div className='item overlay'>
+                        <h2>Smart City</h2>
+                        <h5>
+                            Using the Hello World guide, you’ll create a repository, start a branch,
+                            <br />
+                            write comments, and open a pull request.
+                        </h5>
+                        <Button color='warning' className='btn-white' outline size='lg'>Sign Up</Button>
+                    </div>
                     <div className='item' style={{ backgroundImage: `url(${item.src})`, backgroundSize: 'cover' }}></div>
                 </CarouselItem>
             );
