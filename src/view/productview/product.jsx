@@ -50,6 +50,7 @@ export default class Product extends React.Component {
                             <img
                                 src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg'
                                 className='img-fluid img-thumbnail'
+                                alt='smartcity_product_name'
                             />
                         </div>
                         <h3 className='product-header'>Template: Sticky</h3>

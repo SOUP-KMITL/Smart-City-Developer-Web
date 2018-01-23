@@ -4,3 +4,7 @@ body {
   font-family: sans-serif;
 }
 
+p:hover {
+  cursor: default;
+}
+

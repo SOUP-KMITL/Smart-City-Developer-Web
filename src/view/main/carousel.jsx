@@ -4,8 +4,6 @@ import {
     CarouselItem,
     CarouselControl,
     CarouselIndicators,
-    Button,
-    ButtonGroup,
 } from 'reactstrap';
 import './main.css';
 

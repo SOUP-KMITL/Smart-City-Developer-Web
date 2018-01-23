@@ -144,23 +144,22 @@ const MenuCityService = ({ cityServices }) => (
         return (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
-                    <Col lg={4} md={4} sm={4} xs={12} className='mymenu-header'>
-                        <img className='img-fluid mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
-                    </Col>
-
-                    <Col lg={8} md={8} sm={8} xs={12} className='mymenu-content'>
-                        <h4>{ item.serviceName }</h4>
+                    <Col md={4} className='mymenu-header'>
+                        <img
+                            className='img-fluid'
+                            src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg'
+                            alt='test'
+                        />
                         <div className='mymenu-header-footer'>
-                            <FaCalendarO className='mymenu-icon'/>
-                            <span style={{ marginRight: '16px' }}>{ dateFormat(item.timestamp) }</span>
-                            <FaUser className='mymenu-icon'/>
                             <span>{ item.owner }</span>
                         </div>
-                        <hr />
-                        <p className='mymenu-description'> Information and communication technology (ICT) is used to enhance quality, performance and interactivity of urban services, to reduce costs and resource consumption and to increase contact between citizens and government. Smart city applications are developed to manage urban flows and allow for real-time responses. A smart city may therefore be more prepared to respond to challenges than one with a simple "transactional" relationship with its citizens. Yet, the term itself remains unclear to its specifics and therefore, open to many interpretations.  </p>
-                        <Link to='/product/{{ item.serviceName }}' className='link'>
-                            <Button color='info' size='sm' outline className='readmore'>Continue reading...</Button>
+                    </Col>
+
+                    <Col md={10} className='mymenu-content'>
+                        <Link to='/product/{{ item.serviceName }}' className='black'>
+                            <strong>{ item.serviceName }</strong>
                         </Link>
+                        <p className='mymenu-description'> Information and communication technology (ICT) is used to enhance quality, performance and interactivity of urban services, to reduce costs and resource consumption and to increase contact between citizens and government. Smart city applications are developed to manage urban flows and allow for real-time responses. A smart city may therefore be more prepared to respond to challenges than one with a simple "transactional" relationship with its citizens. Yet, the term itself remains unclear to its specifics and therefore, open to many interpretations.  </p>
                     </Col>
                 </Row>
             </Container>
@@ -174,23 +173,22 @@ const MenuDataBucket = ({ dataBuckets }) => (
         return (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
-                    <Col lg={4} md={12} sm={4} xs={12} className='mymenu-header'>
-                        <img className='img-fluid mymenu-img' src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg' alt='test' />
-                    </Col>
-
-                    <Col lg={8} md={12} sm={8} xs={12} className='mymenu-content'>
-                        <h4>{ item.collectionName }</h4>
+                    <Col md={4} className='mymenu-header'>
+                        <img
+                            className='img-fluid'
+                            src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg'
+                            alt='test'
+                        />
                         <div className='mymenu-header-footer'>
-                            <FaCalendarO className='mymenu-icon'/>
-                            <span style={{ marginRight: '16px' }}>{ dateFormat(item.timestamp) }</span>
-                            <FaUser className='mymenu-icon'/>
                             <span>{ item.owner }</span>
                         </div>
-                        <hr />
-                        <p className='mymenu-description'> sl</p>
-                        <Link to='/product/{{ item.serviceName }}' className='link'>
-                            <Button color='info' size='sm' outline className='readmore'>Continue reading...</Button>
+                    </Col>
+
+                    <Col md={10} className='mymenu-content'>
+                        <Link to='/product/{{ item.serviceName }}' className='black'>
+                            <strong>{ item.collectionName }</strong>
                         </Link>
+                        <p className='mymenu-description'> A neural network that transforms a screenshot into a static website</p>
                     </Col>
                 </Row>
             </Container>

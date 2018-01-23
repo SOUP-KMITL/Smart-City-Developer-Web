@@ -62,16 +62,20 @@
 }
 
 .mymenu-header {
-  max-width: 440px;
+  max-width: 120px;
   text-align: center;
   margin-bottom: 10px;
+}
+
+.mymenu-header img {
+  width: 120px;
 }
 
 .mymenu-content {
 }
 
-.mymenu-img{
-  width: 200px;
+.mymenu-content strong {
+  font-size: 1.3em;
 }
 
 .mymenu-icon {
@@ -85,6 +89,10 @@
   margin-top: 10px;
 }
 
+.mymenu-header-footer span {
+  font-size: 1em;
+}
+
 .mymenu-description {
   line-height: 1.4;
   max-height: 65px;
@@ -93,6 +101,7 @@
   /*line-clamp: 2;*/
   overflow: hidden;
   color: #6B6B6B;
+  font-size: 1em;
 }
 
 .more-detail {

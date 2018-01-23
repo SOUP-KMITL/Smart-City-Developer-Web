@@ -19,7 +19,7 @@
 .btn-raised-success {
   border: none;
   background: rgba(22,160,133,0.8);
-  box-shadow: 0 3px 0 0 rgba(2,140,113,0.9)
+  box-shadow: 0 3px 0 0 rgba(2,140,113,0.9);
 }
 
 .btn-raised-success:hover {
@@ -31,6 +31,7 @@
   border: none;
   background: rgba(211,84,0,0.8);
   box-shadow: 0 3px 0 0 rgba(191,64,0,0.9);
+  color: white;
 }
 
 .btn-raised-orange:hover {
@@ -59,4 +60,20 @@
 
 .link > a {
   cursor: pointer;
+}
+
+.link, .black:hover {
+  color: #4b4b4b;
+}
+
+.link, .white:hover {
+  color: white;
+}
+
+.black {
+  color: #4b4b4b;
+}
+
+.white {
+  color: white;
 }
