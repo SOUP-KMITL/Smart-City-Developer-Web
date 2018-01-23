@@ -31,22 +31,34 @@
     height: 400px; /*slider height*/
 }
 
-.carousel .overlay {
+.carousel-background-right, .carousel-background-left {
+  z-index: 1;
+}
+
+.carousel-background-right, .carousel-background-left:hover {
+  cursor: pointer;
+}
+
+.overlay {
+  width: 100%; /*slider width*/
+  height: 400px; /*slider height*/
+  margin-top: -400px;
   position: absolute;
   background: rgba(0, 0, 0, 0.7);
   text-align: center;
+  z-index: 0;
 }
 
-.carousel .overlay h2 {
+.overlay h2 {
   color: white;
   margin-top: 80px;
 }
 
-.carousel .overlay h5 {
+.overlay h5 {
   color: white;
 }
 
-.carousel .overlay button {
+.overlay button {
   margin-top: 80px;
   padding-left: 30px;
   padding-right: 30px;

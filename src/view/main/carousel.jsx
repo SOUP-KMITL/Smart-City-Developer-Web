@@ -60,15 +60,6 @@ export default class MainCarousel extends React.Component {
                     onExited={this.onExited}
                     key={i}
                 >
-                    <div className='item overlay'>
-                        <h2>Smart City</h2>
-                        <h5>
-                            Using the Hello World guide, you’ll create a repository, start a branch,
-                            <br />
-                            write comments, and open a pull request.
-                        </h5>
-                        <Button color='warning' className='btn-white' outline size='lg'>Sign Up</Button>
-                    </div>
                     <div className='item' style={{ backgroundImage: `url(${item.src})`, backgroundSize: 'cover' }}></div>
                 </CarouselItem>
             );
@@ -80,13 +71,18 @@ export default class MainCarousel extends React.Component {
                     activeIndex={activeIndex}
                     next={this.next}
                     previous={this.previous}
-                    cssModule={{ margin: '10px' }}
+                    cssModule={{ margin: '10px', zIndex: -1 }}
                 >
                     <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
                     {slides}
                     <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} className='carousel-background-left' />
                     <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} className='carousel-background-right' />
                 </Carousel>
+                <div className=' overlay'>
+                    <h2>Smart City</h2>
+                    <h5> Using the Hello World guide, you’ll create a repository, start a branch, <br /> write comments, and open a pull request.  </h5>
+                    <Button color='warning' className='btn-white' outline size='lg'>Sign Up</Button>
+                </div>
 
 
                 {
