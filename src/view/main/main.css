@@ -28,7 +28,7 @@
 
 .carousel .item {
     width: 100%; /*slider width*/
-    height: 600px; /*slider height*/
+    height: 400px; /*slider height*/
 }
 
 .carousel-img {
@@ -40,7 +40,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 80px;
+  height: 70px;
   width: 100%;
   background-color: #4bb4dc;
   color: #fff;

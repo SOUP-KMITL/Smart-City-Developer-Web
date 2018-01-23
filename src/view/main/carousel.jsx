@@ -81,13 +81,14 @@ export default class MainCarousel extends React.Component {
                 </Carousel>
 
 
-                <div className='carousel-footer'>
-                    <h4>Join us and share your idea</h4>
-                    <ButtonGroup>
-                        <Button color='warning' className='btn-white' size='lg' outline>Sign In</Button>
-                        <Button color='success' className='btn-white' size='lg' outline>Sign Up</Button>
-                    </ButtonGroup>
-                </div>
+                {
+                    /*
+                     *<div className='carousel-footer'>
+                     *    <h4>Join us and share your idea</h4>
+                     *    <Button color='success' className='btn-white' size='md' outline>Sign Up</Button>
+                     *</div>
+                     */
+                }
             </div>
         );
     }
@@ -96,15 +97,15 @@ export default class MainCarousel extends React.Component {
 
 const items = [
     {
-        src: 'http://sustainder.com/_imager/uploads/1646/Infographic-Smart-Outdoor_fight_EN_7aad86e649bd05ec9da5de6611605f7a.png',
+        src: 'https://static.pexels.com/photos/356830/pexels-photo-356830.jpeg',
         altText: 'Slide 1',
     },
     {
-        src: 'https://www.matichonweekly.com/wp-content/uploads/2017/06/05-SE-Smart-City.jpg',
+        src: 'https://static.pexels.com/photos/358488/pexels-photo-358488.jpeg',
         altText: 'Slide 2',
     },
     {
-        src: 'http://www.bosch-presse.de/pressportal/de/media/dam_images/pi9519/20161216_en_infografik_vorab_1024x512_de_engl_03_bosch_vorabkom_e_sprachassistent.jpg',
+        src: 'https://static.pexels.com/photos/546819/pexels-photo-546819.jpeg',
         altText: 'Slide 3',
     }
 ];

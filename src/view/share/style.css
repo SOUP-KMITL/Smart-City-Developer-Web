@@ -15,3 +15,48 @@
     margin-bottom: 80px;
   }
 }
+
+.btn-raised-success {
+  border: none;
+  background: rgba(22,160,133,0.8);
+  box-shadow: 0 3px 0 0 rgba(2,140,113,0.9)
+}
+
+.btn-raised-success:hover {
+  background: rgba(22,160,133,1);
+  box-shadow: 0 3px 0 0 rgba(2,140,113,1);
+}
+
+.btn-raised-orange {
+  border: none;
+  background: rgba(211,84,0,0.8);
+  box-shadow: 0 3px 0 0 rgba(191,64,0,0.9);
+}
+
+.btn-raised-orange:hover {
+  background: rgba(211,84,0,1);
+  box-shadow: 0 3px 0 0 rgba(191,64,0,1);
+}
+
+.btn-raised-yellow {
+  border: none;
+  background: rgba(241, 197, 14, 0.8);
+  box-shadow: 0 3px 0 0 rgba(243, 156, 17, 0.9);
+}
+
+.btn-raised-yellow:hover {
+  background: rgba(241, 197, 14, 1);
+  box-shadow: 0 3px 0 0 rgba(243, 156, 17, 1);
+}
+
+.link:hover {
+  text-decoration: none;
+}
+
+.link > button {
+  cursor: pointer;
+}
+
+.link > a {
+  cursor: pointer;
+}

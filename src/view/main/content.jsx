@@ -10,7 +10,7 @@ import ReactLoading from 'react-loading';
 import classnames from 'classnames';
 
 // Icons
-import FaChevronCircleDown from 'react-icons/lib/fa/chevron-circle-down';
+import FaPlus from 'react-icons/lib/fa/plus';
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
 import FaUser from 'react-icons/lib/fa/user';
 
@@ -81,17 +81,11 @@ export default class Content extends Component {
                                 : <MenuCityService cityServices={cityServices} />
                         }
                         {
-                            <Link to=''>
-                                <div className='more-detail'>
-                                    <div class='more-detail-left'></div>
-                                    <FaChevronCircleDown
-                                        size={45}
-                                        color='#6B6B6B'
-                                        className='more-detail-icon'
-                                    />
-                                    <div class='more-detail-right'></div>
-                                </div>
-                            </Link>
+                            <div className='more-detail'>
+                                <Link to='' className='link'>
+                                    <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>
+                                </Link>
+                            </div>
                         }
                     </Col>
                 </Row>
@@ -105,17 +99,13 @@ export default class Content extends Component {
                                 ? <Loading />
                                 : <MenuDataBucket dataBuckets={dataBuckets} />
                         }
-                        <Link to=''>
+                        {
                             <div className='more-detail'>
-                                <div class='more-detail-left'></div>
-                                <FaChevronCircleDown
-                                    size={45}
-                                    color='#6B6B6B'
-                                    className='more-detail-icon'
-                                />
-                                <div class='more-detail-right'></div>
+                                <Link to='' className='link'>
+                                    <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>
+                                </Link>
                             </div>
-                        </Link>
+                        }
                     </Col>
 
                     <Col md={4} xs={12}>
@@ -168,7 +158,7 @@ const MenuCityService = ({ cityServices }) => (
                         </div>
                         <hr />
                         <p className='mymenu-description'> Information and communication technology (ICT) is used to enhance quality, performance and interactivity of urban services, to reduce costs and resource consumption and to increase contact between citizens and government. Smart city applications are developed to manage urban flows and allow for real-time responses. A smart city may therefore be more prepared to respond to challenges than one with a simple "transactional" relationship with its citizens. Yet, the term itself remains unclear to its specifics and therefore, open to many interpretations.  </p>
-                        <Link to='/' className='link'>
+                        <Link to='/product/{{ item.serviceName }}' className='link'>
                             <Button color='info' size='sm' outline className='readmore'>Continue reading...</Button>
                         </Link>
                     </Col>
@@ -198,7 +188,9 @@ const MenuDataBucket = ({ dataBuckets }) => (
                         </div>
                         <hr />
                         <p className='mymenu-description'> sl</p>
-                        <Link to='/' className='link'><Button color='info' size='sm' outline className='readmore'>Continue reading...</Button></Link>
+                        <Link to='/product/{{ item.serviceName }}' className='link'>
+                            <Button color='info' size='sm' outline className='readmore'>Continue reading...</Button>
+                        </Link>
                     </Col>
                 </Row>
             </Container>
