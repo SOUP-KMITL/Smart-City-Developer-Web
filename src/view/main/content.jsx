@@ -11,8 +11,6 @@ import classnames from 'classnames';
 
 // Icons
 import FaPlus from 'react-icons/lib/fa/plus';
-import FaCalendarO from 'react-icons/lib/fa/calendar-o';
-import FaUser from 'react-icons/lib/fa/user';
 
 import './content.css';
 import '../share/style.css';
@@ -124,12 +122,6 @@ const Loading = () => (
         <ReactLoading type='bars' color='#ced4da' height={100} width={100} />
     </div>
 )
-
-const dateFormat = (value) => {
-    const date = new Date(value);
-    const format = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
-    return format;
-}
 
 const getCssType = (value, index) => {
     return classnames( 'mymenu', {
