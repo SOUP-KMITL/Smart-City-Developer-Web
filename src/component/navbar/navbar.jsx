@@ -54,8 +54,8 @@ class MyNavbar extends Component {
                                 <Link to='signin'><NavLink>Sign In</NavLink></Link>
                             </NavItem>
                             <NavItem className='menu'>
-                                <Link to='signin'>
-                                        <Button color='warning'>Sign Up</Button>
+                                <Link to='signin' className='link'>
+                                        <Button color='warning' className='btn-raised-yellow'>Sign Up</Button>
                                 </Link>
                             </NavItem>
                         </Nav>
