@@ -2,7 +2,7 @@ const domain = 'https://api.smartcity.kmitl.io';
 
 const api = {
   cityService: domain + '/web/cityServices/',
-  dataBucket: domain + '/web/dataBuckets/',
+  dataCollection: domain + '/web/dataCollections/',
 }
 
 export default api;

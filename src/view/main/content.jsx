@@ -26,13 +26,13 @@ export default class Content extends Component {
         this.state = {
             activeTab: '1',
             cityServices: [],
-            dataBuckets: []
+            dataCollections: []
         };
     }
 
     componentWillMount() {
         this.requestCityService();
-        this.requestDataBucket();
+        this.requestDataCollection();
     }
 
     requestCityService() {
@@ -40,22 +40,28 @@ export default class Content extends Component {
             .then((response) => response.json())
             .then(
                 (res) => {
-                    this.setState({ cityServices: res.data });
+                    this.setState({ cityServices: res });
+                },
+                (err) => {
+                    console.log('NOT FOUND 404 CityServices');
                 });
     }
 
-    requestDataBucket() {
-        fetch(api.dataBucket, { method: 'GET' })
+    requestDataCollection() {
+        fetch(api.dataCollection, { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
-                    this.setState({ dataBuckets: res.data });
-                });
+                    this.setState({ dataCollections: res });
+                },
+                (err) => {
+                    console.log('NOT FOUND 404 dataCollections');
+                })
     }
 
 
     render() {
-        const { cityServices, dataBuckets } = this.state;
+        const { cityServices, dataCollections } = this.state;
 
         return (
             <Container>
@@ -74,11 +80,12 @@ export default class Content extends Component {
                         <h3 className='content-header'>City Service</h3>
                         <hr className='content-hr' />
                         {
-                            cityServices.length===0
+                            cityServices.length==0
                                 ? <Loading />
-                                : <MenuCityService cityServices={cityServices} />
+                                : <MenuDataCollection dataCollections={dataCollections} />
                         }
                         {
+                            cityServices.length!=0 &&
                             <div className='more-detail'>
                                 <Link to='' className='link'>
                                     <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>
@@ -93,11 +100,12 @@ export default class Content extends Component {
                         <h3 className='content-header'>Data Bucket</h3>
                         <hr className='content-hr' />
                         {
-                            cityServices.length===0
+                            dataCollections.length==0
                                 ? <Loading />
-                                : <MenuDataBucket dataBuckets={dataBuckets} />
+                                : <MenuDataCollection dataCollections={dataCollections} />
                         }
                         {
+                            dataCollections.length!=0 &&
                             <div className='more-detail'>
                                 <Link to='' className='link'>
                                     <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>
@@ -160,8 +168,8 @@ const MenuCityService = ({ cityServices }) => (
 )
 
 
-const MenuDataBucket = ({ dataBuckets }) => (
-    dataBuckets.map((item, i) => {
+const MenuDataCollection = ({ dataCollections }) => (
+    dataCollections.map((item, i) => {
         return (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
