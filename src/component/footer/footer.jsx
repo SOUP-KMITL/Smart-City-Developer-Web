@@ -16,7 +16,7 @@ class Footer extends Component {
 
     render() {
         return (
-            <div style={{ marginTop: 100 }}>
+            <div>
                 <Navbar color="faded" light expand="md" className='menubar'>
                     <Nav navbar>
                         <NavItem>

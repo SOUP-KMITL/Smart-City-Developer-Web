@@ -50,6 +50,20 @@
   box-shadow: 0 3px 0 0 rgba(243, 156, 17, 1);
 }
 
+.btn-smooth {
+  border-radius: 0px;
+}
+
+.btn-smooth-success {
+  border: none;
+  background: rgba(22,160,133,1);
+}
+
+.btn-smooth-orange {
+  border: none;
+  background: #e67e22;
+}
+
 .link:hover {
   text-decoration: none;
 }
@@ -76,4 +90,17 @@
 
 .white {
   color: white;
+}
+
+
+/*-------------------------- FORM ------------------------*/
+
+
+.text-input {
+  padding: 4px 12px 4px !important;
+  border: solid 1px #e3e3e3;
+  width: 100%;
+  color: #777;
+  background-color: rgba(0,0,0,0.05);
+  outline: none;
 }
