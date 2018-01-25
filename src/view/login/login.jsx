@@ -7,6 +7,7 @@ import {
     Row,
     Button
 } from 'reactstrap';
+import ReactLoading from 'react-loading';
 
 import api from '../../constance/api.js';
 import './login.css';
@@ -16,27 +17,39 @@ export default class Login extends React.Component {
 
     constructor( props ) {
         super( props );
-        this.state = {};
+        this.state = {
+            loading: false,
+            loginResult: undefined,
+        }
     }
 
     requestLogin(value) {
+        this.setState({ loading: true })
+
         fetch(api.signin, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(value)
         }).then((response) => response.json()).then(
-            (res) => {
-                Storage.saveUserData(res);
+            res => {
+                this.setState({ loginResult: false })
+                if (res.success != false)
+                    Storage.saveUserData(res);
+                // Redirect
             },
-            (err) => {
-                console.log(err);
-            }
-        )
+            err => {
+                this.setState({ loginResult: false })
+                console.log('CANNOT SIGN IN');
+            },
+        ).finally(() => {
+            setTimeout(() => {
+                this.setState({ loading: false })
+            }, 1000);
+        })
     }
 
     render() {
+    const { loading, loginResult } = this.state;
         return (
             <div>
                 <div className='login-background'>
@@ -61,7 +74,15 @@ export default class Login extends React.Component {
                                                         size='lg'
                                                         className='login-btn btn-smooth btn-raised-success pointer'
                                                         outline
-                                                    >Sign In</Button>
+                                                        disabled={loading}
+                                                    >
+                                                        <ReactLoading
+                                                            type='bars'
+                                                            height='30px'
+                                                            width='30px'
+                                                            className={(loading!==true? 'hidden': 'margin-auto ')} />
+                                                        { loading!=true ? 'Sign In': '' }
+                                                    </Button>
                                                     <span>Not have an account? <Link to='signup'>Sign Up</Link> </span>
                                                 </div>
                                             </form>
@@ -77,3 +98,4 @@ export default class Login extends React.Component {
     }
 
 }
+

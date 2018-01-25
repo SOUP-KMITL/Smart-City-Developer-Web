@@ -11,9 +11,11 @@
     "react-icons": "^2.2.7",
     "react-json-view": "^1.16.0",
     "react-loading": "^1.0.3",
+    "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^1.0.17",
     "reactstrap": "^5.0.0-alpha.4",
+    "redux": "^3.7.2",
     "swagger-ui": "^3.9.2"
   },
   "scripts": {

@@ -10,6 +10,8 @@ import {
     NavbarToggler,
     Button,
 } from 'reactstrap';
+import { connect } from 'react-redux';
+
 import './navbar.css';
 import logo from '../../assets/logo.png';
 
@@ -66,4 +68,4 @@ class MyNavbar extends Component {
     }
 }
 
-export default MyNavbar;
+export default connect(state => state)(MyNavbar);
