@@ -33,8 +33,10 @@ export default class Login extends React.Component {
         }).then((response) => response.json()).then(
             res => {
                 this.setState({ loginResult: false })
-                if (res.success != false)
+                if (res.success != false) {
                     Storage.saveUserData(res);
+                    getUserData(value)
+                }
                 // Redirect
             },
             err => {
@@ -99,3 +101,22 @@ export default class Login extends React.Component {
 
 }
 
+
+const getUserData = (value) => {
+    const { username, password } = value;
+    const auth = 'Basic ' + new Buffer(username + ':' + password).toString('base64');
+
+    fetch(api.getSignin, {
+        method: 'GET',
+        headers: {
+            'Authorization': auth
+        },
+    }).then(response => response.json()).then(
+        res => {
+            Storage.saveAccessData(res);
+        },
+        err => {
+            console.log('CANNOT GET USER DATA');
+        }
+    )
+}
