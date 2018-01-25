@@ -15,8 +15,8 @@ import FaPlus from 'react-icons/lib/fa/plus';
 import './content.css';
 import '../share/style.css';
 import api from '../../constance/api';
-import MainRightPanel from '../share/right-panel.jsx';
-import MainSearchBar from '../share/search.jsx';
+import MainRightPanel from '../share/component/right-panel.jsx';
+import MainSearchBar from '../share/component/search.jsx';
 
 export default class Content extends Component {
 

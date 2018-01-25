@@ -45,16 +45,16 @@ class MyNavbar extends Component {
                                 <Link to='/'><NavLink>Home</NavLink></Link>
                             </NavItem>
                             <NavItem className='menu'>
-                                <Link to='tutorial'><NavLink>Tutorial</NavLink></Link>
+                                <Link to='/tutorial'><NavLink>Tutorial</NavLink></Link>
                             </NavItem>
                             <NavItem className='menu'>
-                                <Link to='market-place'><NavLink>Market Place</NavLink></Link>
+                                <Link to='/market-place'><NavLink>Market Place</NavLink></Link>
                             </NavItem>
                             <NavItem className='menu'>
-                                <Link to='signin'><NavLink>Sign In</NavLink></Link>
+                                <Link to='/signin'><NavLink>Sign In</NavLink></Link>
                             </NavItem>
                             <NavItem className='menu'>
-                                <Link to='signup' className='link'>
+                                <Link to='/signup' className='link'>
                                     <Button color='warning' className='btn-raised-yellow'>Sign Up</Button>
                                 </Link>
                             </NavItem>

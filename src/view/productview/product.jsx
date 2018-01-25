@@ -7,7 +7,7 @@ import {
     ButtonGroup
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import SwaggerUi, {presets} from 'swagger-ui';
+import SwaggerUi from 'swagger-ui';
 import 'swagger-ui/dist/swagger-ui.css';
 import ReactJson from 'react-json-view';
 
@@ -18,8 +18,8 @@ import FaFacebook from 'react-icons/lib/fa/facebook';
 import FaGithub from 'react-icons/lib/fa/github';
 import FaGooglePlus from 'react-icons/lib/fa/google-plus';
 
-import MainRightPanel from '../share/right-panel.jsx';
-import MainSearchBar from '../share/search.jsx';
+import MainRightPanel from '../share/component/right-panel.jsx';
+import MainSearchBar from '../share/component/search.jsx';
 import './product.css';
 
 

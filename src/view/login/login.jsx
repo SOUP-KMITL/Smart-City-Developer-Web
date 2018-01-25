@@ -10,6 +10,7 @@ import {
 
 import api from '../../constance/api.js';
 import './login.css';
+import Storage from '../share/authorization/storage.jsx';
 
 export default class Login extends React.Component {
 
@@ -22,13 +23,12 @@ export default class Login extends React.Component {
         fetch(api.signin, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: value
+            body: JSON.stringify(value)
         }).then((response) => response.json()).then(
             (res) => {
-                alert( JSON.stringify(res))
-                console.log(res);
+                Storage.saveUserData(res);
             },
             (err) => {
                 console.log(err);
@@ -56,7 +56,12 @@ export default class Login extends React.Component {
                                                 <StyledText type='password' field='password' id='lastName'  className='text-input login-input' />
 
                                                 <div className='login-submit'>
-                                                    <Button type='submit' size='lg' className='login-btn btn-smooth btn-raised-success' outline>Sign In</Button>
+                                                    <Button
+                                                        type='submit'
+                                                        size='lg'
+                                                        className='login-btn btn-smooth btn-raised-success pointer'
+                                                        outline
+                                                    >Sign In</Button>
                                                     <span>Not have an account? <Link to='signup'>Sign Up</Link> </span>
                                                 </div>
                                             </form>
