@@ -8,6 +8,7 @@ import {
     Button
 } from 'reactstrap';
 
+import api from '../../constance/api.js';
 import './login.css';
 
 export default class Login extends React.Component {
@@ -15,6 +16,24 @@ export default class Login extends React.Component {
     constructor( props ) {
         super( props );
         this.state = {};
+    }
+
+    requestLogin(value) {
+        fetch(api.signin, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: value
+        }).then((response) => response.json()).then(
+            (res) => {
+                alert( JSON.stringify(res))
+                console.log(res);
+            },
+            (err) => {
+                console.log(err);
+            }
+        )
     }
 
     render() {
@@ -28,7 +47,7 @@ export default class Login extends React.Component {
                             <h1>You already have account?</h1>
                         </Col>
                         <Col md={5} xs={12} className='form-area'>
-                            <Form onSubmit={submittedValues => this.setState( { submittedValues } )}>
+                            <Form onSubmit={submittedValues => this.requestLogin(submittedValues)}>
                                 { formApi => (
                                     <form onSubmit={formApi.submitForm} id='form2' className='form-login'>
 
@@ -53,19 +72,3 @@ export default class Login extends React.Component {
     }
 
 }
-
-
-const statusOptions = [
-    {
-        label: 'Single',
-        value: 'single'
-    },
-    {
-        label: 'In a Relationship',
-        value: 'relationship'
-    },
-    {
-        label: "It's Complicated",
-        value: 'complicated'
-    }
-];
