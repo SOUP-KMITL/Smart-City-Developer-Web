@@ -39,34 +39,34 @@ export default class Login extends React.Component {
     render() {
         return (
             <div>
-                <div className='login-background'></div>
-                <div className='login-overlay'></div>
-                <Container style={{ height: window.innerHeight-140 }}>
-                    <Row>
-                        <Col md={7} xs={12}>
-                            <h1>You already have account?</h1>
-                        </Col>
-                        <Col md={5} xs={12} className='form-area'>
-                            <Form onSubmit={submittedValues => this.requestLogin(submittedValues)}>
-                                { formApi => (
-                                    <form onSubmit={formApi.submitForm} id='form2' className='form-login'>
+                <div className='login-background'>
+                    <div className='login-overlay'>
+                        <Container style={{ height: window.innerHeight-140 }}>
+                            <Row>
+                                <Col md={7} xs={12}></Col>
+                                <Col md={5} xs={12} className='form-area'>
+                                    <Form onSubmit={submittedValues => this.requestLogin(submittedValues)}>
+                                        { formApi => (
+                                            <form onSubmit={formApi.submitForm} id='form2' className='form-login'>
 
-                                        <label htmlFor="username">Username</label>
-                                        <StyledText field='username' id='username' className='text-input login-input' />
+                                                <label htmlFor="username">Username</label>
+                                                <StyledText field='username' id='username' className='text-input login-input' />
 
-                                        <label htmlFor="password">Password</label>
-                                        <StyledText type='password' field='password' id='lastName'  className='text-input login-input' />
+                                                <label htmlFor="password">Password</label>
+                                                <StyledText type='password' field='password' id='lastName'  className='text-input login-input' />
 
-                                        <div className='login-submit'>
-                                            <Button type='submit' size='lg' className='login-btn btn-smooth btn-raised-success' outline>Sign In</Button>
-                                            <span>Not have an account? <Link to='signup'>Sign Up</Link> </span>
-                                        </div>
-                                    </form>
-                                )}
-                            </Form>
-                        </Col>
-                    </Row>
-                </Container>
+                                                <div className='login-submit'>
+                                                    <Button type='submit' size='lg' className='login-btn btn-smooth btn-raised-success' outline>Sign In</Button>
+                                                    <span>Not have an account? <Link to='signup'>Sign Up</Link> </span>
+                                                </div>
+                                            </form>
+                                        )}
+                                    </Form>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </div>
+                </div>
             </div>
         );
     }
