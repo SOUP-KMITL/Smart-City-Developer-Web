@@ -139,6 +139,8 @@ const getCssType = (value, index) => {
     });
 }
 
+const noImageAvialable = 'http://www.freeiconspng.com/uploads/no-image-icon-6.png';
+
 const MenuCityService = ({ cityServices }) => (
     cityServices.map((item, i) => {
         return (
@@ -147,7 +149,7 @@ const MenuCityService = ({ cityServices }) => (
                     <Col md={4} className='mymenu-header'>
                         <img
                             className='img-fluid'
-                            src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg'
+                            src={ item.icon!=''? item.icon: noImageAvialable }
                             alt='test'
                         />
                         <div className='mymenu-header-footer'>
@@ -159,7 +161,7 @@ const MenuCityService = ({ cityServices }) => (
                         <Link to='/product/{{ item.serviceName }}' className='black'>
                             <strong>{ item.serviceName }</strong>
                         </Link>
-                        <p className='mymenu-description'> Information and communication technology (ICT) is used to enhance quality, performance and interactivity of urban services, to reduce costs and resource consumption and to increase contact between citizens and government. Smart city applications are developed to manage urban flows and allow for real-time responses. A smart city may therefore be more prepared to respond to challenges than one with a simple "transactional" relationship with its citizens. Yet, the term itself remains unclear to its specifics and therefore, open to many interpretations.  </p>
+                        <p className='mymenu-description'>{ item.description }</p>
                     </Col>
                 </Row>
             </Container>
@@ -176,7 +178,7 @@ const MenuDataCollection = ({ dataCollections }) => (
                     <Col md={4} className='mymenu-header'>
                         <img
                             className='img-fluid'
-                            src='https://image.shutterstock.com/z/stock-vector-smart-city-concept-with-different-icon-and-elements-modern-city-design-with-future-technology-for-374763079.jpg'
+                            src={ item.icon!='' && item.icon!='icon'? item.icon: noImageAvialable }
                             alt='test'
                         />
                         <div className='mymenu-header-footer'>
@@ -188,7 +190,7 @@ const MenuDataCollection = ({ dataCollections }) => (
                         <Link to='/product/{{ item.serviceName }}' className='black'>
                             <strong>{ item.collectionName }</strong>
                         </Link>
-                        <p className='mymenu-description'> A neural network that transforms a screenshot into a static website</p>
+                        <p className='mymenu-description'>{item.description}</p>
                     </Col>
                 </Row>
             </Container>

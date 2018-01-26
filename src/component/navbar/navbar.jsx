@@ -54,6 +54,9 @@ class MyNavbar extends Component {
                             <NavItem className='menu'>
                                 <Link to='/market-place'><NavLink>Market Place</NavLink></Link>
                             </NavItem>
+                            <NavItem className='menu'>
+                                <Link to='/contact-us'><NavLink>Contact Us</NavLink></Link>
+                            </NavItem>
                             {
                                 userId===undefined
                                     ? <NavItem className='menu'>
