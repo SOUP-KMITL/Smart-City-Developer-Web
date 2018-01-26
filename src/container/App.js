@@ -19,13 +19,15 @@ class App extends Component {
     return (
       <div>
         <MyNavbar />
-        <Switch>
-          {
-            appRoute.map((route, i) => {
-              return <Route exact path={route.path} component={route.component} key={i}/>;
-            })
-          }
-        </Switch>
+        <div className='body'>
+          <Switch>
+            {
+              appRoute.map((route, i) => {
+                return <Route exact path={route.path} component={route.component} key={i}/>;
+              })
+            }
+          </Switch>
+        </div>
         <Footer />
       </div>
     );

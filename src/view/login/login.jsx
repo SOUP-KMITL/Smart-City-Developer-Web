@@ -75,13 +75,13 @@ class Login extends React.Component {
     render() {
         const { loading, loginResult } = this.state;
         return (
-            <div>
+            <div className='fullscreen'>
                 <div className='login-background'>
                     <div className='login-overlay'>
-                        <Container style={{ height: window.innerHeight-140 }}>
+                        <Container>
                             <Row>
                                 <Col md={7} xs={12}></Col>
-                                <Col md={5} xs={12} className='form-area'>
+                                <Col md={5} xs={12} className='fullscreen form-area'>
                                     <Form onSubmit={submittedValues => this.requestLogin(submittedValues)}>
                                         { formApi => (
                                             <form onSubmit={formApi.submitForm} id='form2' className='form-login'>

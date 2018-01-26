@@ -36,7 +36,7 @@ class MyNavbar extends Component {
 
         return (
             <div>
-                <Navbar color='faded' light expand='md' className='navbar'>
+                <Navbar fixed='top' color='faded' light expand='md' className='navbar'>
                     <Link to='/'>
                         <NavbarBrand>
                             <img src={logo} width={150} alt='smart-city' />
