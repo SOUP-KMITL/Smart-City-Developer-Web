@@ -82,7 +82,7 @@ export default class Content extends Component {
                         {
                             cityServices.length==0
                                 ? <Loading />
-                                : <MenuDataCollection dataCollections={dataCollections} />
+                                : <MenuCityService cityServices={cityServices} />
                         }
                         {
                             cityServices.length!=0 &&
@@ -97,7 +97,7 @@ export default class Content extends Component {
 
                 <Row>
                     <Col md={8} xs={12} className='margin-content'>
-                        <h3 className='content-header'>Data Bucket</h3>
+                        <h3 className='content-header'>Data Collections</h3>
                         <hr className='content-hr' />
                         {
                             dataCollections.length==0
