@@ -4,7 +4,8 @@ const saveUserData = (value) => {
 }
 
 const getUserData = async () => {
-    return await localStorage.getItem('userData');
+    const userData =  await localStorage.getItem('userData');
+    return JSON.parse(userData);
 }
 
 const saveAccessData = (value) => {
@@ -13,7 +14,8 @@ const saveAccessData = (value) => {
 }
 
 const getAccessData = async () => {
-    return await localStorage.getItem('accessData');
+    const accessData = await localStorage.getItem('accessData');
+    return JSON.parse(accessData);
 }
 
 const Storage = {

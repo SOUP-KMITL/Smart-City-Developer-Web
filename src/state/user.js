@@ -1,17 +1,10 @@
 const initialState = {
-  data: {
-    access_token: undefined,
-    userId: undefined
-  }
 }
 
 const reducer = (state=initialState, action) => {
   switch (action.type) {
     case 'UPDATE':
-      state = {
-        ...state,
-        test: 'gg'
-      }
+      state = action.payload
       break;
     default:
   }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { StyledText, Form } from 'react-form';
 import { Link } from 'react-router-dom';
 import {
@@ -13,7 +14,7 @@ import api from '../../constance/api.js';
 import './login.css';
 import Storage from '../share/authorization/storage.jsx';
 
-export default class Login extends React.Component {
+class Login extends React.Component {
 
     constructor( props ) {
         super( props );
@@ -34,8 +35,8 @@ export default class Login extends React.Component {
             res => {
                 this.setState({ loginResult: false })
                 if (res.success != false) {
-                    Storage.saveUserData(res);
-                    getUserData(value)
+                    Storage.saveAccessData(res);
+                    this.getUserData(value)
                 }
                 // Redirect
             },
@@ -50,8 +51,29 @@ export default class Login extends React.Component {
         })
     }
 
+    getUserData(value) {
+        const { username, password } = value;
+        const auth = 'Basic ' + new Buffer(username + ':' + password).toString('base64');
+
+        fetch(api.getSignin, {
+            method: 'GET',
+            headers: {
+                'Authorization': auth
+            },
+        }).then(response => response.json()).then(
+            res => {
+                Storage.saveUserData(res);
+                this.props.updateUserData(res);
+            },
+            err => {
+                console.log('CANNOT GET USER DATA');
+            }
+        )
+    }
+
+
     render() {
-    const { loading, loginResult } = this.state;
+        const { loading, loginResult } = this.state;
         return (
             <div>
                 <div className='login-background'>
@@ -101,22 +123,15 @@ export default class Login extends React.Component {
 
 }
 
-
-const getUserData = (value) => {
-    const { username, password } = value;
-    const auth = 'Basic ' + new Buffer(username + ':' + password).toString('base64');
-
-    fetch(api.getSignin, {
-        method: 'GET',
-        headers: {
-            'Authorization': auth
-        },
-    }).then(response => response.json()).then(
-        res => {
-            Storage.saveAccessData(res);
-        },
-        err => {
-            console.log('CANNOT GET USER DATA');
-        }
-    )
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateUserData: (data) => {
+      dispatch({
+        type: 'UPDATE',
+        payload: data
+      })
+    }
+  }
 }
+
+export default connect(state => state, mapDispatchToProps)(Login);

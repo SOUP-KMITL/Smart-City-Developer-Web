@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import appRoute from '../route/route';
 import MyNavbar from '../component/navbar/navbar';
 import Footer from '../component/footer/footer.jsx';
+import Storage from '../view/share/authorization/storage.jsx';
 
 class App extends Component {
+
+  async componentWillMount() {
+    const userData = await Storage.getUserData();
+    if (userData)
+      this.props.updateUserData(userData);
+  }
+
   render() {
     return (
       <div>
@@ -22,4 +32,15 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateUserData: (data) => {
+      dispatch({
+        type: 'UPDATE',
+        payload: data
+      })
+    }
+  }
+}
+
+export default connect(state => state, mapDispatchToProps)(App);

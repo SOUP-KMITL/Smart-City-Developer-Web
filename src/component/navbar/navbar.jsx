@@ -32,6 +32,8 @@ class MyNavbar extends Component {
     }
 
     render() {
+        const { userId, firstName, lastName } = this.props.userData;
+
         return (
             <div>
                 <Navbar color='faded' light expand='md' className='navbar'>
@@ -52,9 +54,16 @@ class MyNavbar extends Component {
                             <NavItem className='menu'>
                                 <Link to='/market-place'><NavLink>Market Place</NavLink></Link>
                             </NavItem>
-                            <NavItem className='menu'>
-                                <Link to='/signin'><NavLink>Sign In</NavLink></Link>
-                            </NavItem>
+                            {
+                                userId===undefined
+                                    ? <NavItem className='menu'>
+                                        <Link to='/signin'><NavLink>Sign In</NavLink></Link>
+                                    </NavItem>
+                                    : <NavItem className='menu'>
+                                        <Link to='/profile'><NavLink>{ firstName }</NavLink></Link>
+                                    </NavItem>
+
+                            }
                             <NavItem className='menu'>
                                 <Link to='/signup' className='link'>
                                     <Button color='warning' className='btn-raised-yellow'>Sign Up</Button>
