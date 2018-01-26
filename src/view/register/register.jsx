@@ -19,13 +19,13 @@ export default class Register extends React.Component {
 
     render() {
         return (
-            <div className='fullscreen'>
+            <div className='fullscreen' style={{ height: 'calc(100vh + 100px)'}}>
                 <div className='login-background'>
                     <div className='login-overlay'>
                         <Container>
                             <Row>
                                 <Col md={7} xs={12}></Col>
-                                <Col md={5} xs={12} className='fullscreen form-area'>
+                                <Col md={5} xs={12} className='fullscreen form-area' style={{ height: 'calc(100vh + 100px)'}}>
                                     <Form onSubmit={submittedValues => this.setState( { submittedValues } )}>
                                         { formApi => (
                                             <form onSubmit={formApi.submitForm} id='form2' className='form-login'>
