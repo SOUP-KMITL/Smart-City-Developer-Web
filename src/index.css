@@ -10,7 +10,7 @@ p:hover {
 }
 
 .fullscreen {
-  height: calc(100vh - 60px - 80px);
+  min-height: calc(100vh - 60px - 80px);
 }
 
 .body {

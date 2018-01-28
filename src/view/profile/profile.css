@@ -1,0 +1,21 @@
+.profile-image {
+  text-align: center;
+  padding: 40px;
+  padding-top: 0px;
+}
+
+hr.vertical {
+  height: 90vh;
+  border: none;
+  border-left: 0.5px solid rgba(0, 0, 0, 0.1);
+  margin: 0px;
+  margin-left: 30px;
+  margin-top: -50px;
+}
+
+@media (max-width: 980px) {
+  hr.vertical {
+    display: none;
+  }
+}
+

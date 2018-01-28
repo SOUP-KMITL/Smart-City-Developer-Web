@@ -4,11 +4,13 @@ import Product from '../view/productview/product.jsx';
 import Login from '../view/login/login.jsx';
 import Register from '../view/register/register.jsx';
 import Contact from '../view/contact/contact.jsx';
+import Profile from '../view/profile/profile.jsx';
 
 const appRoute = [
   {path: '/', component: Main},
   {path: '/product/:productName', component: Product},
   {path: '/contact-us', component: Contact},
+  {path: '/profile', component: Profile},
   {path: '/signin', component: Login},
   {path: '/signup', component: Register},
   {redirect: true, component: Notfound},
