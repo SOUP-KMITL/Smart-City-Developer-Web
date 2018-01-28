@@ -12,11 +12,12 @@ import {
     CardTitle,
     Button,
 } from 'reactstrap';
+import { connect } from 'react-redux';
+
 import './profile.css';
 
 
-export default class Profile extends React.Component {
-
+class Profile extends React.Component {
 
 
     render() {
@@ -51,49 +52,12 @@ export default class Profile extends React.Component {
                                 <Button>Button</Button>
                             </CardBody>
                         </Card>
-                        <Card>
-                            <CardBody>
-                                <CardTitle>Card title</CardTitle>
-                                <CardSubtitle>Card subtitle</CardSubtitle>
-                                <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                                <Button>Button</Button>
-                            </CardBody>
-                        </Card>
-                        <Card>
-                            <CardBody>
-                                <CardTitle>Card title</CardTitle>
-                                <CardSubtitle>Card subtitle</CardSubtitle>
-                                <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                                <Button>Button</Button>
-                            </CardBody>
-                        </Card>
-                        <Card>
-                            <CardBody>
-                                <CardTitle>Card title</CardTitle>
-                                <CardSubtitle>Card subtitle</CardSubtitle>
-                                <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                                <Button>Button</Button>
-                            </CardBody>
-                        </Card>
-                        <Card>
-                            <CardBody>
-                                <CardTitle>Card title</CardTitle>
-                                <CardSubtitle>Card subtitle</CardSubtitle>
-                                <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                                <Button>Button</Button>
-                            </CardBody>
-                        </Card>
-                        <Card>
-                            <CardBody>
-                                <CardTitle>Card title</CardTitle>
-                                <CardSubtitle>Card subtitle</CardSubtitle>
-                                <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                                <Button>Button</Button>
-                            </CardBody>
-                        </Card>
                     </Col>
                 </Row>
             </Container>
         );
     }
 }
+
+
+export default connect(state => state)(Profile);

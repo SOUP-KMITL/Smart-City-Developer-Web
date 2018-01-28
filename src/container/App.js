@@ -6,6 +6,8 @@ import appRoute from '../route/route';
 import MyNavbar from '../component/navbar/navbar';
 import Footer from '../component/footer/footer.jsx';
 import Storage from '../view/share/authorization/storage.jsx';
+import AuthMiddleware from '../view/share/authorization/authMiddleware.jsx';
+import PublicMiddleware from '../view/share/authorization/publicMiddleware.jsx';
 
 class App extends Component {
 
@@ -23,7 +25,12 @@ class App extends Component {
           <Switch>
             {
               appRoute.map((route, i) => {
-                return <Route exact path={route.path} component={route.component} key={i}/>;
+                if (route.requireLogin===true)
+                  return  <Route path={route.path} render={ () => <AuthMiddleware component={route.component} path={route.path} /> } key={i} />
+                else if (route.requirePublic===true)
+                  return  <Route path={route.path} render={ () => <PublicMiddleware component={route.component} path={route.path} /> } key={i} />
+                else
+                  return <Route exact path={route.path} component={route.component} key={i}/>;
               })
             }
           </Switch>

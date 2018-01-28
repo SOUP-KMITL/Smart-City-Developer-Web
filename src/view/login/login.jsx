@@ -9,6 +9,7 @@ import {
     Button
 } from 'reactstrap';
 import ReactLoading from 'react-loading';
+import { Redirect } from 'react-router-dom';
 
 import api from '../../constance/api.js';
 import './login.css';
@@ -36,12 +37,11 @@ class Login extends React.Component {
             }
         }).then(response => response.json()).then(
             res => {
-                this.setState({ loginResult: false })
+                this.setState({ loginResult: true })
                 if (res.success != false) {
                     Storage.saveUserData(res);
                     this.props.updateUserData(res);
                 }
-                // Redirect
             },
             err => {
                 this.setState({ loginResult: false })
@@ -56,47 +56,52 @@ class Login extends React.Component {
 
 
     render() {
-        const { loading, loginResult } = this.state;
-        return (
-            <div className='fullscreen'>
-                <div className='login-background'>
-                    <div className='login-overlay'>
-                        <div className='form-area'>
-                            <Form onSubmit={submittedValues => this.requestLogin(submittedValues)}>
-                                { formApi => (
-                                    <form onSubmit={formApi.submitForm} id='form2' className='form-login'>
+        const { loading } = this.state;
+        const { userId } = this.props.userData;
 
-                                        <label htmlFor="username">Username</label>
-                                        <StyledText field='username' id='username' className='text-input login-input' />
+        if (userId!==undefined)
+            return <Redirect to='/profile' />;
+        else
+            return (
+                <div className='fullscreen'>
+                    <div className='login-background'>
+                        <div className='login-overlay'>
+                            <div className='form-area'>
+                                <Form onSubmit={submittedValues => this.requestLogin(submittedValues)}>
+                                    { formApi => (
+                                        <form onSubmit={formApi.submitForm} id='form2' className='form-login'>
 
-                                        <label htmlFor="password">Password</label>
-                                        <StyledText type='password' field='password' id='lastName'  className='text-input login-input' />
+                                            <label htmlFor="username">Username</label>
+                                            <StyledText field='username' id='username' className='text-input login-input' />
 
-                                        <div className='login-submit'>
-                                            <Button
-                                                type='submit'
-                                                size='lg'
-                                                className='login-btn btn-smooth btn-raised-success pointer'
-                                                outline
-                                                disabled={loading}
-                                            >
-                                                <ReactLoading
-                                                    type='bars'
-                                                    height='30px'
-                                                    width='30px'
-                                                    className={(loading!==true? 'hidden': 'margin-auto ')} />
-                                                { loading!=true ? 'Sign In': '' }
-                                            </Button>
-                                            <span>Not have an account? <Link to='signup'>Sign Up</Link> </span>
-                                        </div>
-                                    </form>
-                                )}
-                            </Form>
+                                            <label htmlFor="password">Password</label>
+                                            <StyledText type='password' field='password' id='lastName'  className='text-input login-input' />
+
+                                            <div className='login-submit'>
+                                                <Button
+                                                    type='submit'
+                                                    size='lg'
+                                                    className='login-btn btn-smooth btn-raised-success pointer'
+                                                    outline
+                                                    disabled={loading}
+                                                >
+                                                    <ReactLoading
+                                                        type='bars'
+                                                        height='30px'
+                                                        width='30px'
+                                                        className={(loading!==true? 'hidden': 'margin-auto ')} />
+                                                    { loading!=true ? 'Sign In': '' }
+                                                </Button>
+                                                <span>Not have an account? <Link to='signup'>Sign Up</Link> </span>
+                                            </div>
+                                        </form>
+                                    )}
+                                </Form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
     }
 
 }
