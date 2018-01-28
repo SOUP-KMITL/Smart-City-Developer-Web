@@ -44,7 +44,11 @@ export default class Content extends Component {
                 },
                 (err) => {
                     console.log('NOT FOUND 404 CityServices');
-                });
+                })
+            .catch((err) => {
+                console.log(this.state.cityServices);
+                this.setState({ cityServices: [] })
+            })
     }
 
     requestDataCollection() {
@@ -57,6 +61,10 @@ export default class Content extends Component {
                 (err) => {
                     console.log('NOT FOUND 404 dataCollections');
                 })
+            .catch((err) => {
+                console.log(this.state.dataCollections);
+                this.setState({ dataCollections: [] })
+            })
     }
 
 
@@ -85,12 +93,12 @@ export default class Content extends Component {
                                 : <MenuCityService cityServices={cityServices} />
                         }
                         {
-                            cityServices.length!=0 &&
-                            <div className='more-detail'>
-                                <Link to='' className='link'>
-                                    <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>
-                                </Link>
-                            </div>
+                            cityServices.length==[] &&
+                                <div className='more-detail'>
+                                    <Link to='' className='link'>
+                                        <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>
+                                    </Link>
+                                </div>
                         }
                     </Col>
                 </Row>
@@ -105,12 +113,12 @@ export default class Content extends Component {
                                 : <MenuDataCollection dataCollections={dataCollections} />
                         }
                         {
-                            dataCollections.length!=0 &&
-                            <div className='more-detail'>
-                                <Link to='' className='link'>
-                                    <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>
-                                </Link>
-                            </div>
+                            dataCollections.length==[] &&
+                                <div className='more-detail'>
+                                    <Link to='' className='link'>
+                                        <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>
+                                    </Link>
+                                </div>
                         }
                     </Col>
 
@@ -142,7 +150,7 @@ const getCssType = (value, index) => {
 const noImageAvialable = 'http://www.freeiconspng.com/uploads/no-image-icon-6.png';
 
 const MenuCityService = ({ cityServices }) => (
-    cityServices.map((item, i) => {
+    cityServices==[] && cityServices.map((item, i) => {
         return (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
@@ -171,7 +179,7 @@ const MenuCityService = ({ cityServices }) => (
 
 
 const MenuDataCollection = ({ dataCollections }) => (
-    dataCollections.map((item, i) => {
+    dataCollections==[] && dataCollections.map((item, i) => {
         return (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
