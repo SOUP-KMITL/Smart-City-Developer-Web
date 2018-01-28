@@ -21,6 +21,8 @@ class Profile extends React.Component {
 
 
     render() {
+        const { userId, firstName, lastName, email, userName } = this.props.userData;
+
         return (
             <Container className='fullscreen' style={{ paddingTop: 50 }}>
                 <Row>
@@ -32,6 +34,10 @@ class Profile extends React.Component {
                                 className='img-fluid'
                                 alt=''
                             />
+                        </div>
+                        <div className='profile-info'>
+                            <strong>@{userName}</strong>
+                            <p>{firstName} {lastName}</p>
                         </div>
                         <ListGroup>
                             <ListGroupItem>Edit Profile</ListGroupItem>
@@ -46,10 +52,10 @@ class Profile extends React.Component {
                     <Col md={{ size: 7 }} sm={12}>
                         <Card>
                             <CardBody>
-                                <CardTitle>Card title</CardTitle>
+                                <CardTitle>Name: { firstName } { lastName }</CardTitle>
                                 <CardSubtitle>Card subtitle</CardSubtitle>
                                 <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                                <Button>Button</Button>
+                                <Button size='sm' className='btn-smooth' style={{ float: 'right' }}>Edit</Button>
                             </CardBody>
                         </Card>
                     </Col>

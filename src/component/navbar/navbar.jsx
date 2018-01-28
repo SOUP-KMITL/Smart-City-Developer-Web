@@ -32,7 +32,7 @@ class MyNavbar extends Component {
     }
 
     render() {
-        const { userId, firstName, lastName } = this.props.userData;
+        const { userId, userName } = this.props.userData;
 
         return (
             <div>
@@ -63,7 +63,7 @@ class MyNavbar extends Component {
                                         <Link to='/signin'><NavLink>Sign In</NavLink></Link>
                                     </NavItem>
                                     : <NavItem className='menu'>
-                                        <Link to='/profile'><NavLink>{ firstName }</NavLink></Link>
+                                        <Link to='/profile'><NavLink>{ userName }</NavLink></Link>
                                     </NavItem>
 
                             }

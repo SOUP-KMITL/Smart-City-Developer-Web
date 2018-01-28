@@ -19,3 +19,11 @@ hr.vertical {
   }
 }
 
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: -15px;
+  margin-bottom: 25px;
+}

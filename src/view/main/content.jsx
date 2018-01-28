@@ -150,7 +150,7 @@ const getCssType = (value, index) => {
 const noImageAvialable = 'http://www.freeiconspng.com/uploads/no-image-icon-6.png';
 
 const MenuCityService = ({ cityServices }) => (
-    cityServices==[] && cityServices.map((item, i) => {
+    cityServices!=[] && cityServices.map((item, i) => {
         return (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
@@ -179,7 +179,7 @@ const MenuCityService = ({ cityServices }) => (
 
 
 const MenuDataCollection = ({ dataCollections }) => (
-    dataCollections==[] && dataCollections.map((item, i) => {
+    dataCollections!=[] && dataCollections.map((item, i) => {
         return (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
