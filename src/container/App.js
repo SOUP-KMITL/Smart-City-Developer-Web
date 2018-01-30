@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import appRoute from '../route/route';
@@ -28,7 +28,9 @@ class App extends Component {
                 if (route.requireLogin===true)
                   return  <Route path={route.path} render={ (props) => <AuthMiddleware component={route.component} path={route.path} params={props.match} /> } key={i} />
                 else if (route.requirePublic===true)
-                  return  <Route path={route.path} render={ () => <PublicMiddleware component={route.component} path={route.path} /> } key={i} />
+                  return  <Route path={route.path} render={ () => <PublicMiddleware component={route.component} path={route.path} /> } key={i} />;
+                else if (route.redirect===true)
+                  return <Route render={() => <Redirect to={route.to} />} key={i}/>;
                 else
                   return <Route exact path={route.path} component={route.component} key={i}/>;
               })

@@ -14,7 +14,7 @@ const appRoute = [
   {path: '/signin', component: Login, requirePublic: true},
   {path: '/signup', component: Register, requirePublic: true},
   {path: '/notfound', component: Notfound},
-  {redirect: true, component: Notfound},
+  {redirect: true, to: '/notfound'},
 ];
 
 export default appRoute;

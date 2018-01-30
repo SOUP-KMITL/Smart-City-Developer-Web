@@ -6,6 +6,7 @@ const profileRoute = [
   {path: '', component: EditProfile},
   {path: '/', component: EditProfile},
   {path: '/my-datacollections', component: MyDataCollections},
+  {redirect: true, to: '/notfound'},
 ];
 
 export default profileRoute;

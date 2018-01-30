@@ -57,8 +57,8 @@ class Profile extends React.Component {
                                 profileRoute.map((route, i) => {
                                     if (this.props.match.url=='/profile'+route.path)
                                         return <Route path={this.props.match.url} component={route.component} key={i} />;
-                                    else
-                                        return <Redirect to='/notfound' />
+                                    else if (route.redirect===true)
+                                        return <Route render={() => <Redirect to={route.to} />} key={i} />;
                                 })
                             }
                         </Switch>
