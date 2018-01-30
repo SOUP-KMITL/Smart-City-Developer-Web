@@ -13,7 +13,9 @@ import {
     Button,
 } from 'reactstrap';
 import { connect } from 'react-redux';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
+import profileRoute from '../../route/profile.route.js';
 import './profile.css';
 
 
@@ -50,14 +52,16 @@ class Profile extends React.Component {
                         <hr className='vertical' />
                     </Col>
                     <Col md={{ size: 7 }} sm={12}>
-                        <Card>
-                            <CardBody>
-                                <CardTitle>Name: { firstName } { lastName }</CardTitle>
-                                <CardSubtitle>Card subtitle</CardSubtitle>
-                                <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-                                <Button size='sm' className='btn-smooth' style={{ float: 'right' }}>Edit</Button>
-                            </CardBody>
-                        </Card>
+                        <Switch>
+                            {
+                                profileRoute.map((route, i) => {
+                                    if (this.props.match.url=='/profile'+route.path)
+                                        return <Route path={this.props.match.url} component={route.component} key={i} />;
+                                    else
+                                        return <Redirect to='/notfound' />
+                                })
+                            }
+                        </Switch>
                     </Col>
                 </Row>
             </Container>

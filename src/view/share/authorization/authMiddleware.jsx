@@ -14,7 +14,7 @@ class AuthMiddleware extends React.Component {
         if (userId===undefined)
             return <Redirect to='/signin' />;
         else
-            return <Route exact path={path} component={component} />;
+            return <Route path={path} component={component} />;
     }
 
 }

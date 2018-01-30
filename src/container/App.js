@@ -26,7 +26,7 @@ class App extends Component {
             {
               appRoute.map((route, i) => {
                 if (route.requireLogin===true)
-                  return  <Route path={route.path} render={ () => <AuthMiddleware component={route.component} path={route.path} /> } key={i} />
+                  return  <Route path={route.path} render={ (props) => <AuthMiddleware component={route.component} path={route.path} params={props.match} /> } key={i} />
                 else if (route.requirePublic===true)
                   return  <Route path={route.path} render={ () => <PublicMiddleware component={route.component} path={route.path} /> } key={i} />
                 else

@@ -10,9 +10,10 @@ const appRoute = [
   {path: '/', component: Main},
   {path: '/product/:productName', component: Product},
   {path: '/contact-us', component: Contact},
-  {path: '/profile', component: Profile, requireLogin: true},
+  {path: '/profile/:profileParams?', component: Profile, requireLogin: true},
   {path: '/signin', component: Login, requirePublic: true},
   {path: '/signup', component: Register, requirePublic: true},
+  {path: '/notfound', component: Notfound},
   {redirect: true, component: Notfound},
 ];
 
