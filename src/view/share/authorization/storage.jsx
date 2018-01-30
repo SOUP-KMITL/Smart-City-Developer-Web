@@ -8,21 +8,16 @@ const getUserData = async () => {
     return JSON.parse(userData);
 }
 
-const saveAccessData = (value) => {
-    const dataObj = JSON.stringify(value);
-    localStorage.setItem('accessData', dataObj);
+const removeUserData = async () => {
+    await localStorage.removeItem('userData');
 }
 
-const getAccessData = async () => {
-    const accessData = await localStorage.getItem('accessData');
-    return JSON.parse(accessData);
-}
+// -------------------------------------------- //
 
 const Storage = {
     saveUserData: saveUserData,
     getUserData: getUserData,
-    saveAccessData: saveAccessData,
-    getAccessData: getAccessData
+    removeUserData: removeUserData,
 }
 
 export default Storage;

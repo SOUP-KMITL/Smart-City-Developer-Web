@@ -5,15 +5,9 @@ import {
     Row,
     ListGroup,
     ListGroupItem,
-    Card,
-    CardBody,
-    CardSubtitle,
-    CardText,
-    CardTitle,
-    Button,
 } from 'reactstrap';
+import { Switch, Route, Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
 import profileRoute from '../../route/profile.route.js';
 import './profile.css';
@@ -74,10 +68,24 @@ const LeftProfileMenu = ({userData}) => (
             <p>{userData.firstName} {userData.lastName}</p>
         </div>
         <ListGroup className='profile-menu'>
-            <ListGroupItem>Edit Profile</ListGroupItem>
-            <ListGroupItem>My DataCollections</ListGroupItem>
-            <ListGroupItem>My CityServices</ListGroupItem>
-            <ListGroupItem>Setting</ListGroupItem>
-        </ListGroup>
-    </div>
+            <ListGroupItem>
+                <Link to='/profile'>Edit Profile</Link>
+            </ListGroupItem>
+            <ListGroupItem>
+                <Link to='/profile/my-datacollections'>
+                    My DataCollections
+                </Link>
+            </ListGroupItem>
+            <ListGroupItem>
+                <Link to='/profile/my-cityservices'>
+                    My CityServices
+                </Link>
+            </ListGroupItem>
+            <ListGroupItem>
+                <Link to='/signout'>
+                    Sign Out
+                </Link>
+            </ListGroupItem>
+    </ListGroup>
+</div>
 )

@@ -9,7 +9,7 @@ import {
     Button
 } from 'reactstrap';
 import ReactLoading from 'react-loading';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 import api from '../../constance/api.js';
 import './login.css';
@@ -69,13 +69,13 @@ class Login extends React.Component {
                             <div className='form-area'>
                                 <Form onSubmit={submittedValues => this.requestLogin(submittedValues)}>
                                     { formApi => (
-                                        <form onSubmit={formApi.submitForm} id='form2' className='form-login'>
+                                        <form onSubmit={formApi.submitForm} className='form-login'>
 
                                             <label htmlFor="username">Username</label>
-                                            <StyledText field='username' id='username' className='text-input login-input' />
+                                            <StyledText field='username' className='text-input login-input' />
 
                                             <label htmlFor="password">Password</label>
-                                            <StyledText type='password' field='password' id='lastName'  className='text-input login-input' />
+                                            <StyledText type='password' field='password' className='text-input login-input' />
 
                                             <div className='login-submit'>
                                                 <Button

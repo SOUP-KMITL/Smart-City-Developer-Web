@@ -6,6 +6,8 @@ const reducer = (state=initialState, action) => {
     case 'UPDATE':
       state = action.payload
       break;
+    case 'REMOVE':
+      state = initialState
     default:
   }
   return state;

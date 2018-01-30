@@ -31,3 +31,10 @@ hr.vertical {
 .profile-menu {
   margin-bottom: 40px;
 }
+
+.no-data {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  margin-top: 50px;
+}

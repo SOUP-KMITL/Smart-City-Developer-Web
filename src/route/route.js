@@ -5,6 +5,7 @@ import Login from '../view/login/login.jsx';
 import Register from '../view/register/register.jsx';
 import Contact from '../view/contact/contact.jsx';
 import Profile from '../view/profile/profile.jsx';
+import Signout from '../view/signout/signout.jsx';
 
 const appRoute = [
   {path: '/', component: Main},
@@ -13,6 +14,7 @@ const appRoute = [
   {path: '/profile/:profileParams?', component: Profile, requireLogin: true},
   {path: '/signin', component: Login, requirePublic: true},
   {path: '/signup', component: Register, requirePublic: true},
+  {path: '/signout', component: Signout},
   {path: '/notfound', component: Notfound},
   {redirect: true, to: '/notfound'},
 ];

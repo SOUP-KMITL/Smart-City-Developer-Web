@@ -13,36 +13,36 @@ import ReactLoading from 'react-loading';
 import api from '../../../constance/api.js';
 
 
-class MyDataCollections extends React.Component {
+class MyCityServices extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            dataCollections: [],
-            loading: false
+            loading: false,
+            cityServices: []
         }
     }
 
     componentWillMount() {
-        this.requestDataCollection();
+        this.requestCityService();
     }
 
-    requestDataCollection() {
+    requestCityService() {
         const { userName } = this.props.userData;
         this.setState({ loading: true });
 
-        fetch(api.dataCollection + '?owner=' + userName, { method: 'GET' })
+        fetch(api.cityService + '?owner=' + userName, { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
-                    this.setState({ dataCollections: res });
+                    this.setState({ cityServices: res });
                 },
                 (err) => {
-                    console.log('NOT FOUND 404 dataCollections');
+                    console.log('NOT FOUND 404 CityServices');
                 })
             .catch((err) => {
-                console.log(this.state.dataCollections);
-                this.setState({ dataCollections: [] })
+                console.log(this.state.cityServices);
+                this.setState({ cityServices: [] })
             })
             .finally(() => {
                 this.setState({ loading: false });
@@ -51,30 +51,26 @@ class MyDataCollections extends React.Component {
 
 
     render() {
-        const { dataCollections, loading } = this.state;
-        console.log(dataCollections);
+        const { cityServices, loading } = this.state;
         return (
             <div>
-                <h3 className='content-header'>Data Collections</h3>
+                <h3 className='content-header'>City Service</h3>
                 <hr className='content-hr' />
                 {
                     loading===true
                         ? <Loading />
-                        : dataCollections.length===0
-                        ? <Link to='/add-datacollections' className='link'>
-                            <Button size='lg' className='btn-smooth btn-raised-success no-data'>+ ADD DATA COLLECTION</Button>
+                        : cityServices.length===0
+                        ? <Link to='/add-cityServices' className='link'>
+                            <Button size='lg' className='btn-smooth btn-raised-success no-data'>+ ADD CITY SERVICE</Button>
                         </Link>
-                        : <MenuDataCollection dataCollections={dataCollections} />
+                        : <MenuCityService cityServices={cityServices} />
                 }
             </div>
         );
     }
 }
 
-
-export default connect(state => state)(MyDataCollections);
-
-
+export default connect(state => state)(MyCityServices);
 
 const getCssType = (value, index) => {
     return classnames( 'mymenu', {
@@ -86,15 +82,15 @@ const getCssType = (value, index) => {
 
 const noImageAvialable = 'http://www.freeiconspng.com/uploads/no-image-icon-6.png';
 
-const MenuDataCollection = ({ dataCollections }) => (
-    dataCollections!=[] && dataCollections.map((item, i) => {
+const MenuCityService = ({ cityServices }) => (
+    cityServices!=[] && cityServices.map((item, i) => {
         return (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
-                    <Col md={3} className='mymenu-header'>
+                    <Col md={4} className='mymenu-header'>
                         <img
                             className='img-fluid'
-                            src={ item.icon!='' && item.icon!='icon'? item.icon: noImageAvialable }
+                            src={ item.icon!=''? item.icon: noImageAvialable }
                             alt='test'
                         />
                         <div className='mymenu-header-footer'>
@@ -102,11 +98,11 @@ const MenuDataCollection = ({ dataCollections }) => (
                         </div>
                     </Col>
 
-                    <Col md={9} className='mymenu-content'>
+                    <Col md={10} className='mymenu-content'>
                         <Link to='/product/{{ item.serviceName }}' className='black'>
-                            <strong>{ item.collectionName }</strong>
+                            <strong>{ item.serviceName }</strong>
                         </Link>
-                        <p className='mymenu-description'>{item.description}</p>
+                        <p className='mymenu-description'>{ item.description }</p>
                     </Col>
                 </Row>
             </Container>
