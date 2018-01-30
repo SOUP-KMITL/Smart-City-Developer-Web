@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
     Container,
     Col,
@@ -13,7 +14,7 @@ import FaPlus from 'react-icons/lib/fa/plus';
 import api from '../../../constance/api.js';
 
 
-export default class MainProfile extends React.Component {
+class MainProfile extends React.Component {
 
     constructor(props) {
         super(props);
@@ -21,7 +22,11 @@ export default class MainProfile extends React.Component {
         this.state = {
             activeTab: '1',
             cityServices: [],
-            dataCollections: []
+            dataCollections: [],
+            loading: {
+                dataCollection: false,
+                cityService: false
+            }
         };
     }
 
@@ -31,7 +36,13 @@ export default class MainProfile extends React.Component {
     }
 
     requestCityService() {
-        fetch(api.cityService, { method: 'GET' })
+        const { userName } = this.props.userData;
+        // Update object state
+        const loading = Object.assign({}, this.state.loading);
+        loading.cityService = true;
+        this.setState({ loading });
+
+        fetch(api.cityService + '?owner=' + userName, { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
@@ -44,10 +55,21 @@ export default class MainProfile extends React.Component {
                 console.log(this.state.cityServices);
                 this.setState({ cityServices: [] })
             })
+            .finally(() => {
+                const loading = Object.assign({}, this.state.loading);    //creating copy of object
+                loading.cityService = false;
+                this.setState({ loading });
+            });
     }
 
     requestDataCollection() {
-        fetch(api.dataCollection, { method: 'GET' })
+        const { userName } = this.props.userData;
+        // Update object state
+        const loading = Object.assign({}, this.state.loading);
+        loading.dataCollection = true;
+        this.setState({ loading });
+
+        fetch(api.dataCollection + '?owner=' + userName, { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
@@ -60,28 +82,29 @@ export default class MainProfile extends React.Component {
                 console.log(this.state.dataCollections);
                 this.setState({ dataCollections: [] })
             })
+            .finally(() => {
+                const loading = Object.assign({}, this.state.loading);    //creating copy of object
+                loading.dataCollection = false;
+                this.setState({ loading });
+            });
     }
 
 
     render() {
-        const { cityServices, dataCollections } = this.state;
+        const { cityServices, dataCollections, loading } = this.state;
         return (
             <div>
                 <div>
                     <h3 className='content-header'>City Service</h3>
                     <hr className='content-hr' />
                     {
-                        cityServices.length==0
+                        loading.cityService===true
                             ? <Loading />
+                            : cityServices.length==0
+                            ? <Link to='/add-cityservice' className='link'>
+                                <Button size='lg' className='btn-smooth btn-raised-success no-data'>+ ADD CITY SERVICE</Button>
+                            </Link>
                             : <MenuCityService cityServices={cityServices} />
-                    }
-                    {
-                        cityServices.length==[] &&
-                            <div className='more-detail'>
-                                <Link to='' className='link'>
-                                    <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>
-                                </Link>
-                            </div>
                     }
                 </div>
 
@@ -89,17 +112,13 @@ export default class MainProfile extends React.Component {
                     <h3 className='content-header'>Data Collections</h3>
                     <hr className='content-hr' />
                     {
-                        dataCollections.length==0
+                        loading.dataCollection===true
                             ? <Loading />
+                            : dataCollections.length==0
+                            ? <Link to='/add-datacollections' className='link'>
+                                <Button size='lg' className='btn-smooth btn-raised-success no-data'>+ ADD DATA COLLECTION</Button>
+                            </Link>
                             : <MenuDataCollection dataCollections={dataCollections} />
-                    }
-                    {
-                        dataCollections.length==[] &&
-                            <div className='more-detail'>
-                                <Link to='' className='link'>
-                                    <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>
-                                </Link>
-                            </div>
                     }
 
                 </div>
@@ -107,6 +126,8 @@ export default class MainProfile extends React.Component {
         );
     }
 }
+
+export default connect(state => state)(MainProfile);
 
 
 const getCssType = (value, index) => {
