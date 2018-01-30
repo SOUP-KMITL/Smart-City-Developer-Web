@@ -87,7 +87,7 @@ const MenuCityService = ({ cityServices }) => (
         return (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
-                    <Col md={4} className='mymenu-header'>
+                    <Col md={3} className='mymenu-header'>
                         <img
                             className='img-fluid'
                             src={ item.icon!=''? item.icon: noImageAvialable }
@@ -98,7 +98,7 @@ const MenuCityService = ({ cityServices }) => (
                         </div>
                     </Col>
 
-                    <Col md={10} className='mymenu-content'>
+                    <Col md={9} className='mymenu-content'>
                         <Link to='/product/{{ item.serviceName }}' className='black'>
                             <strong>{ item.serviceName }</strong>
                         </Link>
