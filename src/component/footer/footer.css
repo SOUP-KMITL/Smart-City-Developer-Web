@@ -6,3 +6,10 @@
 .text-default {
   color: #FFF !important;
 }
+
+@media (max-width: 768px) {
+  .menubar {
+    margin-top: 150px;
+  }
+}
+
