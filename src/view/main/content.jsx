@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
     Container,
     Col,
     Row,
     Button,
+    ListGroup,
+    ListGroupItem,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
@@ -15,16 +18,15 @@ import FaPlus from 'react-icons/lib/fa/plus';
 import './content.css';
 import '../share/style.css';
 import api from '../../constance/api';
-import MainRightPanel from '../share/component/right-panel.jsx';
+import ProfileMenu from '../profile/profileMenu/profileMenu.jsx';
 import MainSearchBar from '../share/component/search.jsx';
 
-export default class Content extends Component {
+class Content extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            activeTab: '1',
             cityServices: [],
             dataCollections: []
         };
@@ -81,7 +83,13 @@ export default class Content extends Component {
 
                 <Row>
                     <Col md={4} xs={12} className='right-menu order-md-8'>
-                        <MainRightPanel />
+                        {
+                            this.props.userData.userId==undefined
+                                ? <Link to='/signin' className='link'>
+                                    <Button size='lg' block className='btn-smooth btn-raised-success'>Sign In</Button>
+                                </Link>
+                                :<ProfileMenu userData={ this.props.userData }/>
+                        }
                     </Col>
 
                     <Col md={8} xs={12} className='order-md-4'>
@@ -131,6 +139,7 @@ export default class Content extends Component {
     }
 }
 
+export default connect(state => state)(Content);
 
 
 const Loading = () => (

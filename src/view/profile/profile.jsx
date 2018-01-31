@@ -9,6 +9,7 @@ import {
 import { Switch, Route, Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import ProfileMenu from './profileMenu/profileMenu.jsx';
 import profileRoute from '../../route/profile.route.js';
 import './profile.css';
 
@@ -22,7 +23,7 @@ class Profile extends React.Component {
                 <Row>
 
                     <Col md={3} xs={12} sm={12}>
-                        <LeftProfileMenu userData={ this.props.userData }/>
+                        <ProfileMenu userData={ this.props.userData }/>
                     </Col>
 
                     <Col md={1} xs={12} sm={12}>
@@ -50,42 +51,3 @@ class Profile extends React.Component {
 
 
 export default connect(state => state)(Profile);
-
-
-
-const LeftProfileMenu = ({userData}) => (
-    <div>
-        <div className='profile-image'>
-            <img
-                src='https://pickaface.net/assets/images/slides/slide4.png'
-                width='200px'
-                className='img-fluid'
-                alt=''
-            />
-        </div>
-        <div className='profile-info'>
-            <strong>@{userData.userName}</strong>
-            <p>{userData.firstName} {userData.lastName}</p>
-        </div>
-        <ListGroup className='profile-menu'>
-            <ListGroupItem>
-                <Link to='/profile'>Edit Profile</Link>
-            </ListGroupItem>
-            <ListGroupItem>
-                <Link to='/profile/my-datacollections'>
-                    My DataCollections
-                </Link>
-            </ListGroupItem>
-            <ListGroupItem>
-                <Link to='/profile/my-cityservices'>
-                    My CityServices
-                </Link>
-            </ListGroupItem>
-            <ListGroupItem>
-                <Link to='/signout'>
-                    Sign Out
-                </Link>
-            </ListGroupItem>
-    </ListGroup>
-</div>
-)

@@ -68,7 +68,7 @@ export default class AddDataCollection extends React.Component {
                                         </div>
                                     ))
                                 }
-                                <Button onClick={this.addInput}>click</Button>
+                                <Button onClick={this.addInput}>Add header</Button>
 
                                 <RadioGroup field="isOpen">
                                     { group => (
