@@ -16,11 +16,17 @@ export default class AddDataCollection extends React.Component {
         this.state = {
             loading: false,
             submitResult: undefined,
+            queryString: [],
         }
+        this.addInput = this.addInput.bind(this);
     }
 
     requestUpload(value) {
         console.log(value);
+    }
+
+    addInput() {
+        this.setState({ queryString: this.state.queryString.concat(['']) })
     }
 
 
@@ -48,7 +54,21 @@ export default class AddDataCollection extends React.Component {
                                 <label htmlFor='example'>Example</label>
                                 <StyledText type='text' field='example' className='text-input login-input' />
 
-                                <Endpoint />
+                                <h3>endpoint</h3>
+                                <hr />
+                                <label htmlFor="type">Type</label>
+                                <StyledText type='text' field='header.type' className='text-input login-input' />
+                                <label htmlFor="url">URL</label>
+                                <StyledText type='text' field='header.url' className='text-input login-input' />
+                                {
+                                    this.state.queryString.map((item, i) => (
+                                        <div>
+                                            <StyledText type='text' field={['header.key',i]} className='text-input login-input' />
+                                            <StyledText type='text' field={['header.value',i]} className='text-input login-input' />
+                                        </div>
+                                    ))
+                                }
+                                <Button onClick={this.addInput}>click</Button>
 
                                 <RadioGroup field="isOpen">
                                     { group => (
@@ -101,21 +121,3 @@ const encryptionLevel = [
         value: 2
     },
 ]
-
-
-const Endpoint = () => (
-    <NestedForm field="endpoint">
-        <Form>
-            { formApi => (
-                <div>
-                    <h3>endpoint</h3>
-                    <hr />
-                    <label htmlFor="type">Type</label>
-                    <StyledText type='text' field='type' className='text-input login-input' />
-                    <label htmlFor="url">URL</label>
-                    <StyledText type='text' field='url' className='text-input login-input' />
-                </div>
-            )}
-        </Form>
-    </NestedForm>
-);
