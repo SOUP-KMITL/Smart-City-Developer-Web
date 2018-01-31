@@ -4,9 +4,11 @@ import {
     CardBody,
     CardTitle,
     Button,
+    Col,
 } from 'reactstrap';
 import { StyledText, Form, Radio, RadioGroup, StyledSelect, NestedForm } from 'react-form';
 import ReactLoading from 'react-loading';
+import FaPlus from 'react-icons/lib/fa/plus';
 
 
 export default class AddDataCollection extends React.Component {
@@ -16,17 +18,35 @@ export default class AddDataCollection extends React.Component {
         this.state = {
             loading: false,
             submitResult: undefined,
-            queryString: [],
+            queryStrings: [],
+            headers: []
         }
-        this.addInput = this.addInput.bind(this);
+        this.addHeaders = this.addHeaders.bind(this);
+        this.addQueryString = this.addQueryString.bind(this);
     }
 
     requestUpload(value) {
+        // Assign manual key, value in headers
+        const { headers, queryString } = value.endpoint;
+        headers.keys.map((key, i) => {
+            headers[key] = headers.values[i];
+        })
+        queryString.keys.map((key, i) => {
+            queryString[key] = queryString.values[i];
+        })
+        delete headers.keys;
+        delete queryString.keys;
+        delete headers.values;
+        delete queryString.values;
         console.log(value);
     }
 
-    addInput() {
-        this.setState({ queryString: this.state.queryString.concat(['']) })
+    addHeaders() {
+        this.setState({ headers: this.state.headers.concat(['']) })
+    }
+
+    addQueryString() {
+        this.setState({ queryStrings: this.state.queryStrings.concat(['']) })
     }
 
 
@@ -49,7 +69,7 @@ export default class AddDataCollection extends React.Component {
                                 <StyledText type='text' field='type' className='text-input login-input' />
 
                                 <label htmlFor='encryptionLevel'>Encryption level</label>
-                                <StyledSelect field="encryptionLevel" options={encryptionLevel} />
+                                <StyledSelect field="encryptionLevel" options={encryptionLevel} className='text-input-select' />
 
                                 <label htmlFor='example'>Example</label>
                                 <StyledText type='text' field='example' className='text-input login-input' />
@@ -57,18 +77,42 @@ export default class AddDataCollection extends React.Component {
                                 <h3>endpoint</h3>
                                 <hr />
                                 <label htmlFor="type">Type</label>
-                                <StyledText type='text' field='header.type' className='text-input login-input' />
+                                <StyledText type='text' field='endpoint.type' className='text-input login-input' />
+
                                 <label htmlFor="url">URL</label>
-                                <StyledText type='text' field='header.url' className='text-input login-input' />
+                                <StyledText type='text' field='endpoint.url' className='text-input login-input' />
+
+                                <label htmlFor="url">Headers</label>
+                                <Button size='sm' style={{ float: 'right' }} outline color='info' onClick={this.addHeaders}><FaPlus /></Button>
                                 {
-                                    this.state.queryString.map((item, i) => (
-                                        <div>
-                                            <StyledText type='text' field={['header.key',i]} className='text-input login-input' />
-                                            <StyledText type='text' field={['header.value',i]} className='text-input login-input' />
+                                    this.state.headers.map((item, i) => (
+                                        <div className='input-row' key={i}>
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <StyledText type='text' field={['endpoint.headers.keys',i]} className='text-input login-input' />
+                                            </Col>
+                                            <Col md={8} style={{ paddingRight: 0 }}>
+                                                <StyledText type='text' field={['endpoint.headers.values',i]} className='text-input login-input' />
+                                            </Col>
                                         </div>
                                     ))
                                 }
-                                <Button onClick={this.addInput}>Add header</Button>
+
+                                <br />
+
+                                <label htmlFor="url">Parameters</label>
+                                <Button size='sm' style={{ float: 'right' }} outline color='info' onClick={this.addQueryString}><FaPlus /></Button>
+                                {
+                                    this.state.queryStrings.map((item, i) => (
+                                        <div className='input-row' key={i}>
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <StyledText type='text' field={['endpoint.queryString.keys',i]} className='text-input login-input' />
+                                            </Col>
+                                            <Col md={8} style={{ paddingRight: 0 }}>
+                                                <StyledText type='text' field={['endpoint.queryString.values',i]} className='text-input login-input' />
+                                            </Col>
+                                        </div>
+                                    ))
+                                }
 
                                 <RadioGroup field="isOpen">
                                     { group => (
