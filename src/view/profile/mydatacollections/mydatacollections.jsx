@@ -18,12 +18,13 @@ import api from '../../../constance/api.js';
 
 class MyDataCollections extends React.Component {
 
-    constructor() {
+    constructor(props) {
         super();
         this.state = {
             dataCollections: [],
             loading: false,
         }
+        this.requestDataCollection(props.userData);
     }
 
     componentWillReceiveProps(props) {
