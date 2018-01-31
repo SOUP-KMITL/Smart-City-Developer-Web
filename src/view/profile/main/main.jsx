@@ -101,7 +101,7 @@ class MainProfile extends React.Component {
                         loading.cityService===true
                             ? <Loading />
                             : cityServices.length==0
-                            ? <Link to='/add-cityservice' className='link'>
+                            ? <Link to='/profile/add-cityservice' className='link'>
                                 <Button size='lg' className='btn-smooth btn-raised-success no-data'>+ ADD CITY SERVICE</Button>
                             </Link>
                             : <MenuCityService cityServices={cityServices} />
@@ -115,7 +115,7 @@ class MainProfile extends React.Component {
                         loading.dataCollection===true
                             ? <Loading />
                             : dataCollections.length==0
-                            ? <Link to='/add-datacollections' className='link'>
+                            ? <Link to='/profile/add-datacollection' className='link'>
                                 <Button size='lg' className='btn-smooth btn-raised-success no-data'>+ ADD DATA COLLECTION</Button>
                             </Link>
                             : <MenuDataCollection dataCollections={dataCollections} />

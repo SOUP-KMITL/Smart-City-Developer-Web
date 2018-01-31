@@ -61,7 +61,7 @@ class MyDataCollections extends React.Component {
                     loading===true
                         ? <Loading />
                         : dataCollections.length===0
-                        ? <Link to='/add-datacollections' className='link'>
+                        ? <Link to='/profile/add-datacollection' className='link'>
                             <Button size='lg' className='btn-smooth btn-raised-success no-data'>+ ADD DATA COLLECTION</Button>
                         </Link>
                         : <MenuDataCollection dataCollections={dataCollections} />
