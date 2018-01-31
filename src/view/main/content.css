@@ -143,6 +143,11 @@
   margin-top: -20px;
 }
 
+.content-header-btn {
+  margin-top: -20px !important;
+  float: right;
+}
+
 .content-hr {
   border-top: solid 3.5px #56b8db;
 }

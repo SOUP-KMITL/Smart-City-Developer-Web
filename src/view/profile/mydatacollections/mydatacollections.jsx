@@ -10,6 +10,9 @@ import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 
+// Icon
+import FaPlus from 'react-icons/lib/fa/plus';
+
 import api from '../../../constance/api.js';
 
 
@@ -19,16 +22,16 @@ class MyDataCollections extends React.Component {
         super();
         this.state = {
             dataCollections: [],
-            loading: false
+            loading: false,
         }
     }
 
-    componentWillMount() {
-        this.requestDataCollection();
+    componentWillReceiveProps(props) {
+        if (props.userData != undefined)
+            this.requestDataCollection(props.userData);
     }
 
-    requestDataCollection() {
-        const { userName } = this.props.userData;
+    requestDataCollection({userName}) {
         this.setState({ loading: true });
 
         fetch(api.dataCollection + '?owner=' + userName, { method: 'GET' })
@@ -52,17 +55,23 @@ class MyDataCollections extends React.Component {
 
     render() {
         const { dataCollections, loading } = this.state;
-        console.log(dataCollections);
+
         return (
             <div>
                 <h3 className='content-header'>Data Collections</h3>
+                {
+                    dataCollections.length!==0 &&
+                    <Link to='/profile/add-datacollection' className='link'>
+                        <Button size='sm' className='btn-smooth btn-raised-success content-header-btn no-data'><FaPlus style={{marginTop: '3px'}} />  DataCollection</Button>
+                    </Link>
+                }
                 <hr className='content-hr' />
                 {
                     loading===true
                         ? <Loading />
                         : dataCollections.length===0
                         ? <Link to='/profile/add-datacollection' className='link'>
-                            <Button size='lg' className='btn-smooth btn-raised-success no-data'>+ ADD DATA COLLECTION</Button>
+                            <Button size='lg' className='btn-smooth btn-raised-success no-data'><FaPlus style={{marginTop: '5px'}} />  Data Collection</Button>
                         </Link>
                         : <MenuDataCollection dataCollections={dataCollections} />
                 }
