@@ -9,7 +9,7 @@ import {
     Button
 } from 'reactstrap';
 import ReactLoading from 'react-loading';
-import { Redirect, withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import api from '../../constance/api.js';
 import './login.css';
