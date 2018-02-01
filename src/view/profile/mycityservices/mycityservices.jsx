@@ -10,6 +10,9 @@ import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 
+// Icon
+import FaPlus from 'react-icons/lib/fa/plus';
+
 import api from '../../../constance/api.js';
 
 
@@ -55,13 +58,19 @@ class MyCityServices extends React.Component {
         return (
             <div>
                 <h3 className='content-header'>City Service</h3>
+                {
+                    cityServices.length!==0 &&
+                        <Link to='/profile/add-cityservice' className='link'>
+                            <Button size='sm' className='btn-smooth btn-raised-success content-header-btn no-data'><FaPlus style={{marginTop: '3px'}} />  CitService</Button>
+                        </Link>
+                }
                 <hr className='content-hr' />
                 {
                     loading===true
                         ? <Loading />
                         : cityServices.length===0
                         ? <Link to='/add-cityServices' className='link'>
-                            <Button size='lg' className='btn-smooth btn-raised-success no-data'>+ ADD CITY SERVICE</Button>
+                            <Button size='lg' className='btn-smooth btn-raised-success no-data'><FaPlus style={{marginTop: '5px'}} />  CityService</Button>
                         </Link>
                         : <MenuCityService cityServices={cityServices} />
                 }

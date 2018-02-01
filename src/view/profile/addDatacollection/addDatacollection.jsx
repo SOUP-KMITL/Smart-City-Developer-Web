@@ -116,7 +116,9 @@ class AddDataCollection extends React.Component {
                                 <StyledText type='text' field='endPoint.url' className='text-input login-input' />
 
                                 <label htmlFor="url">Headers</label>
-                                <Button size='sm' style={{ float: 'right' }} outline color='info' onClick={this.addHeaders}><FaPlus /></Button>
+                                <Button size='sm' style={{ float: 'right' }} outline color='info' onClick={this.addHeaders}>
+                                    <FaPlus />
+                                </Button>
                                 {
                                     this.state.headers.map((item, i) => (
                                         <div className='input-row' key={i}>
