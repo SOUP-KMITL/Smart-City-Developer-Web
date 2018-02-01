@@ -8,10 +8,11 @@ import Profile from '../view/profile/profile.jsx';
 import Signout from '../view/signout/signout.jsx';
 
 const appRoute = [
-  {path: '/', component: Main},
+  {path: '/', component: Main, exact: true},
   {path: '/product/:productName', component: Product},
   {path: '/contact-us', component: Contact},
-  {path: '/profile/:profileParams?', component: Profile, requireLogin: true},
+  {path: '/profile', component: Profile},
+  {path: '/profile/my-datacollection', component: Profile},
   {path: '/signin', component: Login, requirePublic: true},
   {path: '/signup', component: Register, requirePublic: true},
   {path: '/signout', component: Signout},

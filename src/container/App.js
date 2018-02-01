@@ -40,7 +40,7 @@ class App extends Component {
                 else if (route.redirect===true)
                   return <Route render={() => <Redirect to={route.to} />} key={i}/>;
                 else
-                  return <Route exact path={route.path} component={route.component} key={i}/>;
+                  return <Route exact={route.exact} path={route.path} component={route.component} key={i}/>;
               })
             }
           </Switch>

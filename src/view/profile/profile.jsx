@@ -34,10 +34,10 @@ class Profile extends React.Component {
                         <Switch>
                             {
                                 profileRoute.map((route, i) => {
-                                    if (this.props.match.url=='/profile'+route.path)
-                                        return <Route exact path={this.props.match.url} component={route.component} key={i} />;
-                                    else if (route.redirect===true)
-                                        return <Route render={() => <Redirect to={route.to} />} key={i} />;
+                                    if (route.redirect!==true)
+                                        return <Route exact={route.exact} path={this.props.match.url+route.path} component={route.component} key={i} />;
+                                    else
+                                        return <Redirect to={route.to} />;
                                 })
                             }
                         </Switch>

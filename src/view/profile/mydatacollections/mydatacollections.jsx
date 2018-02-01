@@ -74,7 +74,7 @@ class MyDataCollections extends React.Component {
                         ? <Link to='/profile/add-datacollection' className='link'>
                             <Button size='lg' className='btn-smooth btn-raised-success no-data'><FaPlus style={{marginTop: '5px'}} />  Data Collection</Button>
                         </Link>
-                        : <MenuDataCollection dataCollections={dataCollections} />
+                        : <MenuDataCollection dataCollections={dataCollections} match={this.props.match}/>
                 }
             </div>
         );
@@ -96,7 +96,7 @@ const getCssType = (value, index) => {
 
 const noImageAvialable = 'http://www.freeiconspng.com/uploads/no-image-icon-6.png';
 
-const MenuDataCollection = ({ dataCollections }) => (
+const MenuDataCollection = ({ dataCollections, match }) => (
     dataCollections!=[] && dataCollections.map((item, i) => {
         return (
             <Container className={getCssType(item.type)} key={i}>
@@ -113,7 +113,7 @@ const MenuDataCollection = ({ dataCollections }) => (
                     </Col>
 
                     <Col md={9} className='mymenu-content'>
-                        <Link to='/product/{{ item.serviceName }}' className='black'>
+                        <Link to={`${match.url}/${item.collectionName}`} className='black'>
                             <strong>{ item.collectionName }</strong>
                         </Link>
                         <p className='mymenu-description'>{item.description}</p>
