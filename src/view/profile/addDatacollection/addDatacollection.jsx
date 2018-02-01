@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
     Card,
     CardBody,
@@ -10,8 +11,10 @@ import { StyledText, Form, Radio, RadioGroup, StyledSelect, NestedForm } from 'r
 import ReactLoading from 'react-loading';
 import FaPlus from 'react-icons/lib/fa/plus';
 
+import api from '../../../constance/api.js';
 
-export default class AddDataCollection extends React.Component {
+
+class AddDataCollection extends React.Component {
 
     constructor( props ) {
         super( props );
@@ -19,26 +22,56 @@ export default class AddDataCollection extends React.Component {
             loading: false,
             submitResult: undefined,
             queryStrings: [],
-            headers: []
+            headers: [],
         }
         this.addHeaders = this.addHeaders.bind(this);
         this.addQueryString = this.addQueryString.bind(this);
     }
 
-    requestUpload(value) {
+    resolveValue(value) {
         // Assign manual key, value in headers
-        const { headers, queryString } = value.endpoint;
-        headers.keys.map((key, i) => {
-            headers[key] = headers.values[i];
+        const { headers, queryString } = value.endPoint;
+        if (headers != undefined) {
+            headers.keys.map((key, i) => {
+                headers[key] = headers.values[i];
+            })
+            delete headers.keys;
+            delete headers.values;
+        }
+        if (queryString != undefined) {
+            queryString.keys.map((key, i) => {
+                queryString[key] = queryString.values[i];
+            })
+            delete queryString.keys;
+            delete queryString.values;
+        }
+        value.example = JSON.parse( value.example );
+        value.isOpen = JSON.parse( value.isOpen);
+
+        return value;
+    }
+
+    requestUpload(val) {
+        this.setState({ loading: true });
+        let value = this.resolveValue(val);
+
+        fetch(api.dataCollection, {
+            method: 'POST',
+            headers: {
+                'Authorization': this.props.userData.accessToken,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(value)
+        }).then(response => response.json()).then(
+            res => {
+                alert('CREATE SUCCESS');
+                this.setState({ submitResult: true });
+            },
+        ).finally(() => {
+            setTimeout(() => {
+                this.setState({ loading: false });
+            }, 1000)
         })
-        queryString.keys.map((key, i) => {
-            queryString[key] = queryString.values[i];
-        })
-        delete headers.keys;
-        delete queryString.keys;
-        delete headers.values;
-        delete queryString.values;
-        console.log(value);
     }
 
     addHeaders() {
@@ -51,7 +84,7 @@ export default class AddDataCollection extends React.Component {
 
 
     render() {
-        const { loading } = this.state;
+        const { loading, submitResult } = this.state;
 
         return (
             <Card>
@@ -74,13 +107,13 @@ export default class AddDataCollection extends React.Component {
                                 <label htmlFor='example'>Example</label>
                                 <StyledText type='text' field='example' className='text-input login-input' />
 
-                                <h3>endpoint</h3>
+                                <h3>endPoint</h3>
                                 <hr />
                                 <label htmlFor="type">Type</label>
-                                <StyledText type='text' field='endpoint.type' className='text-input login-input' />
+                                <StyledText type='text' field='endPoint.type' className='text-input login-input' />
 
                                 <label htmlFor="url">URL</label>
-                                <StyledText type='text' field='endpoint.url' className='text-input login-input' />
+                                <StyledText type='text' field='endPoint.url' className='text-input login-input' />
 
                                 <label htmlFor="url">Headers</label>
                                 <Button size='sm' style={{ float: 'right' }} outline color='info' onClick={this.addHeaders}><FaPlus /></Button>
@@ -88,10 +121,10 @@ export default class AddDataCollection extends React.Component {
                                     this.state.headers.map((item, i) => (
                                         <div className='input-row' key={i}>
                                             <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <StyledText type='text' field={['endpoint.headers.keys',i]} className='text-input login-input' />
+                                                <StyledText type='text' field={['endPoint.headers.keys',i]} className='text-input login-input' />
                                             </Col>
                                             <Col md={8} style={{ paddingRight: 0 }}>
-                                                <StyledText type='text' field={['endpoint.headers.values',i]} className='text-input login-input' />
+                                                <StyledText type='text' field={['endPoint.headers.values',i]} className='text-input login-input' />
                                             </Col>
                                         </div>
                                     ))
@@ -105,10 +138,10 @@ export default class AddDataCollection extends React.Component {
                                     this.state.queryStrings.map((item, i) => (
                                         <div className='input-row' key={i}>
                                             <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <StyledText type='text' field={['endpoint.queryString.keys',i]} className='text-input login-input' />
+                                                <StyledText type='text' field={['endPoint.queryString.keys',i]} className='text-input login-input' />
                                             </Col>
                                             <Col md={8} style={{ paddingRight: 0 }}>
-                                                <StyledText type='text' field={['endpoint.queryString.values',i]} className='text-input login-input' />
+                                                <StyledText type='text' field={['endPoint.queryString.values',i]} className='text-input login-input' />
                                             </Col>
                                         </div>
                                     ))
@@ -150,6 +183,7 @@ export default class AddDataCollection extends React.Component {
     }
 }
 
+export default connect(state => state)(AddDataCollection);
 
 const encryptionLevel = [
     {
@@ -165,3 +199,22 @@ const encryptionLevel = [
         value: 2
     },
 ]
+
+const test = {
+    "collectionName": "babjazz-testog",
+    "endPoint": {
+        "type": "local | remote",
+        "url": "http://url.com",
+        "headers": {
+            "content-type": "application/json",
+            "accept": "application/json"
+        },
+        "queryString": {
+            "param": "value"
+        }
+    },
+    "type": "string",
+    "encryptionLevel": 0,
+    "example": {},
+    "isOpen": true
+}
