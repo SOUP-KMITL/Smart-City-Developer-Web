@@ -155,7 +155,7 @@ const MenuDataCollection = ({ dataCollections }) => (
                     <Col md={3} className='mymenu-header'>
                         <img
                             className='img-fluid'
-                            src={ item.icon!='' && item.icon!='icon'? item.icon: noImageAvialable }
+                            src={ item.icon!=null ? item.icon: noImageAvialable }
                             alt='test'
                         />
                         <div className='mymenu-header-footer'>
@@ -183,7 +183,7 @@ const MenuCityService = ({ cityServices }) => (
                     <Col md={3} className='mymenu-header'>
                         <img
                             className='img-fluid'
-                            src={ item.icon!=''? item.icon: noImageAvialable }
+                            src={ item.icon!=null ? item.icon: noImageAvialable }
                             alt='test'
                         />
                         <div className='mymenu-header-footer'>

@@ -62,7 +62,7 @@ class AddDataCollection extends React.Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(value)
-        }).then(response => response.json()).then(
+        }).then(
             res => {
                 alert('CREATE SUCCESS');
                 this.setState({ submitResult: true });
