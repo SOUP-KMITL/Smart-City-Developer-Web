@@ -5,6 +5,7 @@ import {
     Row,
     ListGroup,
     ListGroupItem,
+    Button,
 } from 'reactstrap';
 import { Switch, Route, Redirect, Link } from 'react-router-dom';
 
@@ -21,10 +22,13 @@ export default ({userData}) => (
         <div className='profile-info'>
             <strong>@{userData.userName}</strong>
             <p>{userData.firstName} {userData.lastName}</p>
+            <div className='link'>
+                <Button size='sm' outline color='info' className='btn-smooth'>Gen Access Token</Button>
+            </div>
         </div>
         <ListGroup className='profile-menu'>
             <ListGroupItem>
-                <Link to='/profile'>Edit Profile</Link>
+                <Link to='/profile'>My Account</Link>
             </ListGroupItem>
             <ListGroupItem>
                 <Link to='/profile/my-datacollections/page/1'>
