@@ -10,9 +10,10 @@ const profileRoute = [
   {path: '/', component: MainProfile, exact: true},
   {path: '/edit-profile', component: EditProfile},
   {path: '/add-datacollection', component: AddDataCollection},
-  {path: '/my-datacollections/:collectionName', component: ShowDataCollection},
-  {path: '/my-datacollections', component: MyDataCollections},
+  {path: '/my-datacollections/page/:page', component: MyDataCollections},
+  {path: '/my-datacollections/datacollection/:collectionName', component: ShowDataCollection},
   {path: '/my-cityservices', component: MyCityServices},
+  {path: '/my-datacollections', redirect: true, to: '/profile/my-datacollections/page/1' },
   {redirect: true, to: '/notfound'},
 ];
 

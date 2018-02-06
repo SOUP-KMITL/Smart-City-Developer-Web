@@ -41,11 +41,6 @@ export default class ShowDataCollection extends React.Component {
         )
     }
 
-    createMarkup(text) {
-        return {
-            __html: text
-        };
-    };
 
     formatDate(date) {
         const value = new Date(date);
@@ -54,7 +49,6 @@ export default class ShowDataCollection extends React.Component {
 
     render() {
         const { dataCollection } = this.state;
-        const text = `<h4><a href=''>Support html <i>text</i> </a></h4> Information and communication technology (ICT) is used to enhance quality, performance and interactivity of urban services, to reduce costs and resource consumption and to increase contact between citizens and government. Smart city applications are developed to manage urban flows and allow for real-time responses. A smart city may therefore be more prepared to respond to challenges than one with a simple 'transactional' relationship with its citizens. Yet, the term itself remains unclear to its specifics and therefore, open to many interpretations.  `;
 
         return (
             <Container>
@@ -73,8 +67,8 @@ export default class ShowDataCollection extends React.Component {
                 </div>
                 <hr />
 
-                <div dangerouslySetInnerHTML={this.createMarkup(text)} />
-                <hr />
+                <p>{ dataCollection.description }</p>
+                { dataCollection.description!=null && <hr /> }
 
                 <h3>API</h3>
                 {

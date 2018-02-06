@@ -35,7 +35,7 @@ class MyDataCollections extends React.Component {
     requestDataCollection({userName}) {
         this.setState({ loading: true });
 
-        fetch(api.dataCollection + '?owner=' + userName, { method: 'GET' })
+        fetch(api.dataCollection + `?owner=${userName}&size=10&page=1`, { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
@@ -113,7 +113,7 @@ const MenuDataCollection = ({ dataCollections, match }) => (
                     </Col>
 
                     <Col md={9} className='mymenu-content'>
-                        <Link to={`${match.url}/${item.collectionName}`} className='black'>
+                        <Link to={`${match.url}/datacollection/${item.collectionName}`} className='black'>
                             <strong>{ item.collectionName }</strong>
                         </Link>
                         <p className='mymenu-description'>{item.description}</p>

@@ -101,7 +101,7 @@ class Content extends Component {
                                 : <MenuCityService cityServices={cityServices} />
                         }
                         {
-                            cityServices.length==[] &&
+                            cityServices.length!=0 &&
                                 <div className='more-detail'>
                                     <Link to='' className='link'>
                                         <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>
@@ -121,7 +121,7 @@ class Content extends Component {
                                 : <MenuDataCollection dataCollections={dataCollections} />
                         }
                         {
-                            dataCollections.length==[] &&
+                            dataCollections.length!=0 &&
                                 <div className='more-detail'>
                                     <Link to='' className='link'>
                                         <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>

@@ -27,7 +27,7 @@ export default ({userData}) => (
                 <Link to='/profile'>Edit Profile</Link>
             </ListGroupItem>
             <ListGroupItem>
-                <Link to='/profile/my-datacollections'>
+                <Link to='/profile/my-datacollections/page/1'>
                     My DataCollections
                 </Link>
             </ListGroupItem>
