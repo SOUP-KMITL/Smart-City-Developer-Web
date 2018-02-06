@@ -73,6 +73,17 @@
   box-shadow: 0 3px 0 0 rgba(243, 156, 17, 1);
 }
 
+.btn-raised-info {
+  border: none;
+  background:rgba(33, 149, 191, 0.8);
+  box-shadow: 0 3px 0 0 rgba(17, 118, 154, 0.8);
+}
+
+.btn-raised-info:hover {
+  background:rgba(33, 149, 191, 1);
+  box-shadow: 0 3px 0 0 rgba(17, 118, 154, 1);
+}
+
 .btn-smooth {
   border-radius: 0px;
 }
@@ -85,6 +96,19 @@
 .btn-smooth-orange {
   border: none;
   background: #e67e22;
+}
+
+.btn-invisible {
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  line-height: 1.5;
+  color: black !important;
+  cursor: pointer;
 }
 
 .link:hover {
@@ -141,4 +165,8 @@
 
 .input-row {
   display: flex;
+}
+
+.right {
+  float: right;
 }

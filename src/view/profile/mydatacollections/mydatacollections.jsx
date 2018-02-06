@@ -24,18 +24,19 @@ class MyDataCollections extends React.Component {
             dataCollections: [],
             loading: false,
         }
-        this.requestDataCollection(props.userData);
+        this.requestDataCollection(props);
     }
 
     componentWillReceiveProps(props) {
         if (props.userData != undefined)
-            this.requestDataCollection(props.userData);
+            this.requestDataCollection(props);
     }
 
-    requestDataCollection({userName}) {
+    requestDataCollection({userData, match}) {
+        const page = match.params.page;
         this.setState({ loading: true });
 
-        fetch(api.dataCollection + `?owner=${userName}&size=10&page=1`, { method: 'GET' })
+        fetch(api.dataCollection + `?owner=${userData.userName}&size=10&page=${page}`, { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
