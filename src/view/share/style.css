@@ -170,3 +170,9 @@
 .right {
   float: right;
 }
+
+.flex-inline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

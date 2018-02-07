@@ -14,6 +14,7 @@ import {
 } from 'reactstrap';
 import { Switch, Route, Redirect, Link } from 'react-router-dom';
 
+import Storage from '../../share/authorization/storage.jsx';
 import api from '../../../constance/api.js';
 
 
@@ -33,16 +34,34 @@ class ProfileMenu extends React.Component {
     }
 
     requestGenAcessToken() {
-        this.setState({ modalOpen: true });
+        const { userName } = this.props.userData;
+        const auth = 'Basic ' + new Buffer(userName + ':' + 'abc123').toString('base64');
+        fetch(api.users + userName + '/token', {
+            method: 'PUT',
+            headers: {
+                'Authorization': auth,
+            },
+        }).then(response => response.text()).then(
+            res => {
+                this.props.userData.accessToken = res;
+                this.props.updateUserData(this.props.userData);
+                Storage.saveUserData(this.props.userData);
+            },
+            err => {
+                console.log('CANNOT GENERATE NEW ACCESSTOKEN');
+            }
+        ).finally(
+            () => this.setState({ modalOpen: true })
+        )
     }
 
     render() {
-        const { firstName, lastName, userName } = this.props.userData;
+        const { firstName, lastName, userName, accessToken } = this.props.userData;
         const { modalOpen } = this.state;
 
         return (
             <div>
-                <ModalComponent isOpen={modalOpen} toggle={this.closeModal} />
+                <ModalComponent isOpen={modalOpen} toggle={this.closeModal} newToken={accessToken} />
                 <div className='profile-image'>
                     <img
                         src='https://avatars1.githubusercontent.com/u/17084428?s=460&v=4'
@@ -68,7 +87,7 @@ class ProfileMenu extends React.Component {
                         </Link>
                     </ListGroupItem>
                     <ListGroupItem>
-                        <Link to='/profile/my-cityservices'>
+                        <Link to='/profile/my-cityservices/cityservice'>
                             My CityServices
                         </Link>
                     </ListGroupItem>
@@ -83,15 +102,25 @@ class ProfileMenu extends React.Component {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateUserData: (data) => {
+            dispatch({
+                type: 'UPDATE',
+                payload: data
+            })
+        }
+    }
+}
 
-export default connect(state => state)(ProfileMenu);
+export default connect(state => state, mapDispatchToProps)(ProfileMenu);
 
 
-const ModalComponent = ({ isOpen, toggle }) => (
+const ModalComponent = ({ isOpen, toggle, newToken }) => (
     <Modal size='lg' isOpen={isOpen} fade={true} toggle={toggle}>
         <ModalHeader toggle={this.toggle}>Generate Access Token</ModalHeader>
         <ModalBody>
-            Your new token is 30819731b464935783e0d7469950f534dcaba528e77de0c99e74b71b484d3666
+            Your new token is { newToken }
         </ModalBody>
         <ModalFooter className='link'>
             <Button color="secondary" outline onClick={toggle} className='btn-smooth'>Close</Button>
