@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
     Container,
     Col,
@@ -22,13 +23,14 @@ import api from '../../../constance/api.js';
 import '../../product/product.css';
 
 
-export default class ShowDataCollection extends React.Component {
+class ShowDataCollection extends React.Component {
 
     constructor() {
         super()
         this.state = {
             dataCollection: {},
-            modalOpen: false
+            modalOpen: false,
+            ticket: ''
         }
         this.formatDate = this.formatDate.bind(this);
         this.genTicket = this.genTicket.bind(this);
@@ -53,8 +55,27 @@ export default class ShowDataCollection extends React.Component {
         this.setState({ modalOpen: false });
     }
 
-    genTicket() {
-        this.setState({ modalOpen: true });
+    genTicket(datacollectionId) {
+        const { accessToken } = this.props.userData;
+        const body = {
+            collectionId: datacollectionId,
+            expire: 0
+        }
+        fetch(api.getTicket, {
+            method: 'POST',
+            headers: {
+                'Authorization': accessToken,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body)
+        }).then(response => response.text()).then(
+            res => {
+                this.setState({ ticket: res });
+            },
+            err => {
+                console.log('CANNOT GET TICKET');
+            }
+        ).finally(() => this.setState({ modalOpen: true }));
     }
 
 
@@ -63,13 +84,14 @@ export default class ShowDataCollection extends React.Component {
         return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
     }
 
+
     render() {
-        const { dataCollection, modalOpen } = this.state;
+        const { dataCollection, modalOpen, ticket } = this.state;
 
         return (
             <Container>
 
-                <ModalComponent isOpen={modalOpen} toggle={this.closeModal} />
+                <ModalComponent isOpen={modalOpen} toggle={this.closeModal} ticket={ticket} />
 
                 <div className='img-product'>
                     <img
@@ -85,7 +107,7 @@ export default class ShowDataCollection extends React.Component {
                             size='sm'
                             className='btn-smooth btn-raised-success right'
                             style={{ height: '34px' }}
-                            onClick={this.genTicket}
+                            onClick={() => this.genTicket(dataCollection.collectionId)}
                         >
                             Gen Ticket
                         </Button>
@@ -115,31 +137,20 @@ export default class ShowDataCollection extends React.Component {
     }
 }
 
+export default connect(state => state)(ShowDataCollection);
 
 const noImageAvialable = 'http://www.freeiconspng.com/uploads/no-image-icon-6.png';
 
 
-const ModalComponent = ({ isOpen, toggle }) => (
+const ModalComponent = ({ isOpen, toggle, ticket }) => (
     <Modal size='lg' isOpen={isOpen} fade={true} toggle={toggle}>
         <ModalHeader toggle={this.toggle}>Generate Ticket Success</ModalHeader>
         <ModalBody>
-            Your ticket is
-
-            eyJkYXRhIjoiZmt5MWlZMGlyU3hQOFl6Rk5pWXlTVmE5NWg2cnZPZEthM29ma01kMzFSZTFKVFZGN2pTLUh0Mjlk
-            VmpLZDNYWkRqblowMmxEUGdVR0h6VFhBMHEtaXl0dy00eTBUN1pwMloxdjlJRE5EWG5aSXYySnJmUGdpb2Zn
-            RERFNmZDaUhCRnhtZVBuQ1VBalh5MkJ3d1BmVnUyUWhKZHF0YTl3U1UzajhLYjdaZ21ubkdHUTNpVjBvWEhZNz
-            RiRkhFejcxMlItTVM1VGY4eVIyTVBCUm1sT2xPODRWbDdEdG5SdkdaVFEzOHNpbko4My1hY1k3dGRGakdHZEQ
-            yWWdYZUFscmxEY08yRG9NRGUzR1hsamJqYjgybk93VkQyQW9QMkFKX0VHV0JMNGlBYWgzbzY1OUw0dFhqW
-            EdXUU8zQUtLMWRpaElNbFVGczJkclZRN2F3dTJKLWJxUFdFWlloTnZLLVV5eFNhZnIwbTUtQ016T1VTYTVoYmZLe
-            nBjNXNuNGE0ZnFoMjNERTlDYWRqVHdTbVYxYWtfemtQNVh1Rnp0TllFYzE0WjFzUzRZNHJCZlBfbkpRMDZkUz
-            ZTZ2puTUtURWpnUWFxTG9ubUc0TGRHSG5zaU5WamhGUXpKdnJXMFVBWV9fZVZELUdqRGVKQ3dsS3RPbXFja
-            3NiWTNmYTBfSnM4NmRmeEdvQjlVT1NVWndSM2daclF3PT0iLCJrZXkiOiJKcmNYWFhNQ1dNRmZrM
-            jBRbERNdk1KWGZpcDMweG9kM2pLNWUxM1d1MlNoMFNUODFMaHRYU1RUSGN1M01oTzVfekw1ZTltSk
-            01TUhTZGlRQndWdC1nY1BlS25VTXFfYmhyYnMzSE9qRk55anhaNThlX2d5QnhROVJ5QlNmdVRSSWpQQ
-            mhqOEUtLXJGdWNXX2RndjJnU0RyWFloSmd4RDFlYWVQa2ExVkVWQjM3NVhWUUxzUlhUTzBOUTI2eS1jZ
-            nRqVS02UXhNdjcyNG9DSHFydXFMTkRTODNlLW9HYlp3UkhlaDJCdDJpTzFjLW82T2lXR3NsS0tob1Yxekg
-            xSy1HWU81VFQxQzM0Y1hLNTk3UnpJd1pTN01NX2JIdEtmX1lHOWNvUUhvR3NrQjZRRTBqZHVzeGR0eDlyY2Z0
-            VlFqQl9zc2tuMFVNT0RBS1pfMXhnSTFyY2c9PSJ9
+            {
+                ticket!=''
+                ? `Your ticket is ${ticket}`
+                : 'Get ticket fail!'
+            }
         </ModalBody>
         <ModalFooter className='link'>
             <Button className='btn-smooth btn-raised-info'> <FaCopy /> Copy</Button>

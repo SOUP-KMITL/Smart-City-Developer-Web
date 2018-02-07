@@ -5,6 +5,7 @@ const api = {
   dataCollection: domain + '/api/v1/collections/',
   signin: domain + '/api/v1/users/login/',
   users: domain + '/api/v1/users/',
+  getTicket: domain + '/api/v1/tickets',
 }
 
 export default api;
