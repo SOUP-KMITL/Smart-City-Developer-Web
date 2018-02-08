@@ -10,6 +10,10 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
+    Dropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ReactJson from 'react-json-view';
@@ -18,6 +22,10 @@ import ReactJson from 'react-json-view';
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
 import FaUser from 'react-icons/lib/fa/user';
 import FaCopy from 'react-icons/lib/fa/copy';
+import FaEdit from 'react-icons/lib/fa/edit';
+import FaTrashO from 'react-icons/lib/fa/trash-o';
+import FaEllipsisV from 'react-icons/lib/fa/ellipsis-v';
+import FaTickets from 'react-icons/lib/fa/ticket';
 
 import api from '../../../constance/api.js';
 import '../../product/product.css';
@@ -30,8 +38,10 @@ class ShowDataCollection extends React.Component {
         this.state = {
             dataCollection: {},
             modalOpen: false,
-            ticket: ''
+            ticket: '',
+            dropdownOpen: false
         }
+        this.dropdownToggle = this.dropdownToggle.bind(this);
         this.formatDate = this.formatDate.bind(this);
         this.genTicket = this.genTicket.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -49,6 +59,12 @@ class ShowDataCollection extends React.Component {
                 console.log('CANNOT GET DATA');
             }
         )
+    }
+
+    dropdownToggle() {
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen
+        });
     }
 
     closeModal() {
@@ -102,15 +118,23 @@ class ShowDataCollection extends React.Component {
                 </div>
                 <div className='product-header' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h3>{ dataCollection.collectionName }</h3>
-                    <div className='link'>
-                        <Button
-                            size='sm'
-                            className='btn-smooth btn-raised-success right'
-                            style={{ height: '34px' }}
+                    <div className='flex-inline'>
+                        <div className='black pointer'><FaEdit /> Edit </div>
+                        <div
+                            className='pointer black'
+                            style={{ marginLeft: '10px' }}
                             onClick={() => this.genTicket(dataCollection.collectionId)}
                         >
-                            Gen Ticket
-                        </Button>
+                            <FaTickets /> Gen Ticket
+                        </div>
+                        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
+                            <DropdownToggle className='menu-more'>
+                                <FaEllipsisV />
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem>Delete</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
                     </div>
                 </div>
                 <div className='product-header-description'>
@@ -148,8 +172,8 @@ const ModalComponent = ({ isOpen, toggle, ticket }) => (
         <ModalBody>
             {
                 ticket!=''
-                ? `Your ticket is ${ticket}`
-                : 'Get ticket fail!'
+                    ? `Your ticket is ${ticket}`
+                    : 'Get ticket fail!'
             }
         </ModalBody>
         <ModalFooter className='link'>
