@@ -1,7 +1,7 @@
 const domain = 'https://api.smartcity.kmitl.io';
 
 const api = {
-  cityService: domain + '/web/cityServices/',
+  cityService: domain + '/api/v1/services',
   dataCollection: domain + '/api/v1/collections/',
   signin: domain + '/api/v1/users/login/',
   users: domain + '/api/v1/users/',

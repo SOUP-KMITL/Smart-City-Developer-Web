@@ -18,27 +18,29 @@ import api from '../../../constance/api.js';
 
 class MyCityServices extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             loading: false,
             cityServices: []
         }
+        this.requestCityService(props);
     }
 
-    componentWillMount() {
-        this.requestCityService();
+    componentWillReceiveProps(props) {
+        if (props.userData != undefined)
+            this.requestCityService(props);
     }
 
-    requestCityService() {
-        const { userName } = this.props.userData;
+    requestCityService({ userData }) {
         this.setState({ loading: true });
 
-        fetch(api.cityService + '?owner=' + userName, { method: 'GET' })
+        fetch(api.cityService + '?owner=' + userData.userName, { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
                     this.setState({ cityServices: res });
+                    console.log(res);
                 },
                 (err) => {
                     console.log('NOT FOUND 404 CityServices');
@@ -99,8 +101,8 @@ const MenuCityService = ({ cityServices }) => (
                     <Col md={3} className='mymenu-header'>
                         <img
                             className='img-fluid'
-                            src={ item.icon!=''? item.icon: noImageAvialable }
-                            alt='test'
+                            src={ item.thumbnail!=null? item.thumbnail: noImageAvialable }
+                            alt={item.serviceName}
                         />
                         <div className='mymenu-header-footer'>
                             <span>{ item.owner }</span>
