@@ -1,0 +1,118 @@
+import React from 'react';
+import { connect } from 'react-redux';
+import {
+    Card,
+    CardBody,
+    CardTitle,
+    Button,
+    Col,
+} from 'reactstrap';
+import { StyledText, Form, Radio, RadioGroup, StyledSelect, NestedForm } from 'react-form';
+import ReactLoading from 'react-loading';
+import FaPlus from 'react-icons/lib/fa/plus';
+
+import api from '../../../constance/api.js';
+
+
+class AddCityService extends React.Component {
+
+    constructor( props ) {
+        super( props );
+        this.state = {
+            loading: false,
+            submitResult: undefined,
+        }
+    }
+
+    requestUpload(value) {
+        this.setState({ loading: true });
+        value["owner"] = this.props.userData.userName;
+
+        fetch(api.cityService, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(value)
+        }).then(response => response.json()).then(
+            res => {
+                alert('CREATE SUCCESS');
+                this.setState({ submitResult: true });
+            },
+        ).finally(() => {
+            setTimeout(() => {
+                this.setState({ loading: false });
+            }, 1000)
+        })
+    }
+
+
+    render() {
+        const { loading, submitResult } = this.state;
+
+        return (
+            <Card>
+                <CardBody>
+                    <CardTitle>Create CityService</CardTitle>
+                    <hr />
+                    <Form onSubmit={submittedValues => this.requestUpload(submittedValues)}>
+                        { formApi => (
+                            <form onSubmit={formApi.submitForm} className='form-editprofile'>
+
+                                <label htmlFor='serviceName'>Service name</label>
+                                <StyledText type='text' field='serviceName' className='text-input login-input' />
+
+                                <label htmlFor='description'>description</label>
+                                <StyledText type='text' field='description' className='text-input login-input' />
+
+                                <br />
+
+
+                                <div className='login-submit'>
+                                    <Button
+                                        type='submit'
+                                        size='lg'
+                                        className='login-btn btn-smooth btn-raised-success pointer'
+                                        outline
+                                        disabled={loading}
+                                    >
+                                        <ReactLoading
+                                            type='bars'
+                                            height='30px'
+                                            width='30px'
+                                            className={(loading!==true? 'hidden': 'margin-auto ')} />
+                                        { loading!=true ? 'Create': '' }
+                                    </Button>
+                                </div>
+                            </form>
+                        )}
+                    </Form>
+                </CardBody>
+            </Card>
+        );
+    }
+}
+
+export default connect(state => state)(AddCityService);
+
+const encryptionLevel = [
+    {
+        label: 'Low encryption',
+        value: 0
+    },
+    {
+        label: 'Middle encryption',
+        value: 1
+    },
+    {
+        label: 'High encryption',
+        value: 2
+    },
+]
+
+const test = {
+    "owner": "Kohpai",
+    "serviceName": "Im Kohpai2",
+    "thumbnail": null,
+    "description": "some short description here"
+}
