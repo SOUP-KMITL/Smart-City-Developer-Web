@@ -9,9 +9,13 @@ import {
 } from 'reactstrap';
 import { StyledText, Form, Radio, RadioGroup, StyledSelect, NestedForm } from 'react-form';
 import ReactLoading from 'react-loading';
+import Dropzone from 'react-dropzone';
+
 import FaPlus from 'react-icons/lib/fa/plus';
+import FaCloudUpload from 'react-icons/lib/fa/cloud-upload';
 
 import api from '../../../constance/api.js';
+import './addCityservice.css';
 
 
 class AddCityService extends React.Component {
@@ -21,12 +25,30 @@ class AddCityService extends React.Component {
         this.state = {
             loading: false,
             submitResult: undefined,
+            thumbnail: null
         }
     }
+
+    onDrop = acceptedFiles => {
+        acceptedFiles.map(file => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const base64Image = reader.result;
+                this.setState({ thumbnail: base64Image });
+            };
+            reader.onabort = () => console.log('file reading was aborted');
+            reader.onerror = () => console.log('file reading has failed');
+
+            reader.readAsDataURL(file);
+        });
+    }
+
 
     requestUpload(value) {
         this.setState({ loading: true });
         value["owner"] = this.props.userData.userName;
+        value["thumbnail"] = this.state.thumbnail;
+        console.log(value);
 
         fetch(api.cityService, {
             method: 'POST',
@@ -48,7 +70,7 @@ class AddCityService extends React.Component {
 
 
     render() {
-        const { loading, submitResult } = this.state;
+        const { loading, submitResult, thumbnail } = this.state;
 
         return (
             <Card>
@@ -58,6 +80,20 @@ class AddCityService extends React.Component {
                     <Form onSubmit={submittedValues => this.requestUpload(submittedValues)}>
                         { formApi => (
                             <form onSubmit={formApi.submitForm} className='form-editprofile'>
+
+                                <label>Thumbnail</label>
+                                <Dropzone onDrop={this.onDrop.bind(this)} className='dropzone pointer' accept='image/*' >
+                                    {
+                                        thumbnail!=null
+                                            ? <div className='dropzone-thumbnail'><div className='dropzone-overlay'><img src={thumbnail} className='dropzone-img' /></div></div>
+                                            : <div className='dropzone-description'>
+                                                <FaCloudUpload className='dropzone-icon' />
+                                                <p>Drop image</p>
+                                                <p>or</p>
+                                                <p>Click to upload</p>
+                                            </div>
+                                    }
+                                </Dropzone>
 
                                 <label htmlFor='serviceName'>Service name</label>
                                 <StyledText type='text' field='serviceName' className='text-input login-input' />
@@ -109,10 +145,3 @@ const encryptionLevel = [
         value: 2
     },
 ]
-
-const test = {
-    "owner": "Kohpai",
-    "serviceName": "Im Kohpai2",
-    "thumbnail": null,
-    "description": "some short description here"
-}
