@@ -16,7 +16,7 @@ const profileRoute = [
   {path: '/my-datacollections/datacollection/:collectionName', component: ShowDataCollection},
   {path: '/add-cityservice', component: AddCityService},
   {path: '/my-cityservices/page/:page', component: MyCityServices},
-  {path: '/my-cityservices/cityservice/:cityserviceName', component: ShowCityService},
+  {path: '/my-cityservices/cityservice/:serviceId', component: ShowCityService},
   {path: '/my-cityservices', redirect: true, to: '/profile/my-cityservices/page/1'},
   {path: '/my-datacollections', redirect: true, to: '/profile/my-datacollections/page/1' },
   {redirect: true, to: '/notfound'},

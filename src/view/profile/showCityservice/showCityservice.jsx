@@ -43,6 +43,20 @@ export default class ShowCityService extends React.Component {
             dom_id: '#swaggerContainer',
             url: 'none',
         });
+        this.requestCityService(this.props.match.params);
+    }
+
+    requestCityService({ serviceId }) {
+        fetch(api.cityService + '/' + serviceId, {
+            method: 'GET',
+        }).then(response => response.json()).then(
+            res => {
+                this.setState({ cityService: res });
+            },
+            err => {
+                console.log('CANNOT GET DATA');
+            }
+        )
     }
 
     dropdownToggle() {
@@ -58,26 +72,19 @@ export default class ShowCityService extends React.Component {
 
     render() {
         const { cityService } = this.state;
-        const json = {
-            "object_or_array": "object",
-            "empty": false,
-            "parse_time_nanoseconds": 19608,
-            "validate": true,
-            "size": 1
-        }
 
         return (
             <Container>
 
                 <div className='img-product'>
                     <img
-                        src='https://screenshotscdn.firefoxusercontent.com/images/819fa6de-0a20-4ff5-aeed-9bd26769a1fa.png'
-                        className='img-fluid img-thumbnail'
-                        alt='smartcity_product_name'
+                        src={ cityService.thumbnail }
+                        className='img-fluid'
+                        alt={ cityService.serviceName }
                     />
                 </div>
                 <div className='product-header' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h3>Crowd flow prediction</h3>
+                    <h3>{ cityService.serviceName }</h3>
                     <div className='flex-inline'>
                         <div> <FaEdit /> Edit </div>
                         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
@@ -91,21 +98,16 @@ export default class ShowCityService extends React.Component {
                     </div>
                 </div>
                 <div className='product-header-description'>
-                    <p><FaCalendarO color='#56b8db' /> 1/2/2018</p>
-                    <p><FaUser color='#56b8db' /> Kohpai</p>
+                    <p><FaUser color='#56b8db' /> { cityService.owner }</p>
                 </div>
                 <hr />
 
-                <p>Traffic flow prediction heavily depends on historical and real-time traffic data collected
-                    from various sensor sources, including inductive loops, radars, cameras, mobile Global
-                    Po- sitioning System, crowd sourcing, social media, etc …</p>
+                <p>{ cityService.description }</p>
                 <hr />
 
-                <h3>API</h3>
                 {
-                    <ReactJson src={json} />
+                    cityService.sampleData!=undefined && <h3>Sample API</h3> && <ReactJson src={cityService.sampleData} /> && <hr />
                 }
-                <hr />
 
                 <div id="swaggerContainer" />
 

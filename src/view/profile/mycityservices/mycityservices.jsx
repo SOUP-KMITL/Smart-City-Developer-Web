@@ -110,7 +110,7 @@ const MenuCityService = ({ cityServices }) => (
                     </Col>
 
                     <Col md={9} className='mymenu-content'>
-                        <Link to={`/profile/my-cityservices/cityservice/${item.serviceName}`} className='black'>
+                        <Link to={`/profile/my-cityservices/cityservice/${item.serviceId}`} className='black'>
                             <strong>{ item.serviceName }</strong>
                         </Link>
                         <p className='mymenu-description'>{ item.description }</p>
