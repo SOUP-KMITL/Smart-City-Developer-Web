@@ -59,6 +59,20 @@ export default class ShowCityService extends React.Component {
         )
     }
 
+    deleteCityService(serviceId) {
+        fetch(api.cityService + '/' + serviceId, {
+            method: 'DELETE',
+        }).then(response => response.json()).then(
+            res => {
+                // ADD alert / notification here
+                this.props.history.goBack();
+            },
+            err => {
+                console.log('CANNOT GET DATA');
+            }
+        );
+    }
+
     dropdownToggle() {
         this.setState({
             dropdownOpen: !this.state.dropdownOpen
@@ -92,7 +106,7 @@ export default class ShowCityService extends React.Component {
                                 <FaEllipsisV />
                             </DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem>Delete</DropdownItem>
+                                <DropdownItem onClick={() => this.deleteCityService(cityService.serviceId)}>Delete</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </div>
