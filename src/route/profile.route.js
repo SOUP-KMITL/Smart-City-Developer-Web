@@ -6,6 +6,7 @@ import AddDataCollection from '../view/profile/addDatacollection/addDatacollecti
 import ShowDataCollection from '../view/profile/showDatacollection/showDatacollection.jsx';
 import AddCityService from '../view/profile/addCityservice/addCityservice.jsx';
 import ShowCityService from '../view/profile/showCityservice/showCityservice.jsx';
+import EditCityService from '../view/profile/editCityservice/editCityservice.jsx';
 import Notfound from '../view/pagenotfound.jsx';
 
 const profileRoute = [
@@ -17,6 +18,7 @@ const profileRoute = [
   {path: '/add-cityservice', component: AddCityService},
   {path: '/my-cityservices/page/:page', component: MyCityServices},
   {path: '/my-cityservices/cityservice/:serviceId', component: ShowCityService},
+  {path: '/my-cityservices/edit/:serviceId', component: EditCityService},
   {path: '/my-cityservices', redirect: true, to: '/profile/my-cityservices/page/1'},
   {path: '/my-datacollections', redirect: true, to: '/profile/my-datacollections/page/1' },
   {redirect: true, to: '/notfound'},

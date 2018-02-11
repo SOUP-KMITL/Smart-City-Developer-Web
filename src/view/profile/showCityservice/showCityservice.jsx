@@ -100,7 +100,7 @@ export default class ShowCityService extends React.Component {
                 <div className='product-header' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h3>{ cityService.serviceName }</h3>
                     <div className='flex-inline'>
-                        <div> <FaEdit /> Edit </div>
+                        <Link to={`/profile/my-cityservices/edit/${cityService.serviceId}`}> <FaEdit /> Edit </Link>
                         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
                             <DropdownToggle className='menu-more'>
                                 <FaEllipsisV />
