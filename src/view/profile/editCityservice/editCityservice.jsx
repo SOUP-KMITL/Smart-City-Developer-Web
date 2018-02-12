@@ -22,8 +22,10 @@ class EditCityService extends React.Component {
             thumbnail: null,
             cityService: undefined,
             swagger: undefined,
+            code: undefined,
         }
-        this.tobase64 = this.tobase64.bind(this);
+        this.swaggerTobase64 = this.swaggerTobase64.bind(this);
+        this.codeTobase64 = this.codeTobase64.bind(this);
     }
 
     componentDidMount() {
@@ -43,7 +45,20 @@ class EditCityService extends React.Component {
         )
     }
 
-    tobase64 = e => {
+    codeTobase64 = e => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            const base64File = reader.result;
+            this.setState({ code: base64File });
+        };
+        reader.onabort = () => console.log('file reading was aborted');
+        reader.onerror = () => console.log('file reading has failed');
+
+        reader.readAsDataURL(file);
+    }
+
+    swaggerTobase64 = e => {
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.onload = () => {
@@ -63,11 +78,15 @@ class EditCityService extends React.Component {
             // Validate error of object invalid
         }
 
-        if (value.code=='' || value.code==null)
+        if (this.state.code == undefined)
             value.kind = undefined;
 
         if (this.state.swagger != undefined)
             value.swagger = this.state.swagger;
+
+        if (this.state.code != undefined && this.state.code != '')
+            value.code = this.state.code;
+
         return value;
     }
 
@@ -85,6 +104,7 @@ class EditCityService extends React.Component {
         }).then(response => response.json()).then(
             res => {
                 this.setState({ cityService: res });
+                this.props.history.goBack();
             },
             err => {
                 console.log('CANNOT GET DATA');
@@ -120,13 +140,13 @@ class EditCityService extends React.Component {
                                 <StyledText type='text' field='videoLink' className='text-input login-input' />
 
                                 <label htmlFor='swagger'>Swagger</label>
-                                <input type='file' accept='.yaml' onChange={this.tobase64} className='text-input login-input' />
+                                <input type='file' accept='.yaml' onChange={this.swaggerTobase64} className='text-input login-input' />
 
                                 <label htmlFor='code'>Source code</label>
-                                <StyledText type='text' field='code' className='text-input login-input' />
+                                <input type='file' onChange={this.codeTobase64} className='text-input login-input' />
 
                                 {
-                                    formApi.values.code!=undefined && formApi.values.code!=''
+                                    this.state.code != undefined
                                         && <div>
                                             <label htmlFor='kind'>Kind</label>
                                             <Select field="kind" options={selectKind} className='text-input login-input' />
