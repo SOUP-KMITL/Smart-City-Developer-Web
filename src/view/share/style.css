@@ -176,3 +176,9 @@
   flex-direction: row;
   align-items: center;
 }
+
+ /*------------------------- swagger ----------------------*/
+/*.swagger > .swagger-io > div > .wrapper > .block > .info > .main > a > .url {*/
+.swagger > .swagger-ui .info a {
+  display: none !important; /*hide base64 swagger url*/
+}

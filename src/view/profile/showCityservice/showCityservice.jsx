@@ -36,7 +36,6 @@ export default class ShowCityService extends React.Component {
         }
         this.dropdownToggle = this.dropdownToggle.bind(this);
         this.formatDate = this.formatDate.bind(this);
-        this.getSwagger = this.getSwagger.bind(this);
     }
 
     componentDidMount() {
@@ -51,6 +50,8 @@ export default class ShowCityService extends React.Component {
                 if (res.sampleData!=undefined)
                     res.sampleData = res.sampleData;
                 this.setState({ cityService: res });
+                if (res.swagger!=undefined)
+                    this.getSwagger();
             },
             err => {
                 console.log('CANNOT GET DATA');
@@ -78,10 +79,10 @@ export default class ShowCityService extends React.Component {
         });
     }
 
-    getSwagger(swagger) {
+    getSwagger() {
         SwaggerUi({
             dom_id: '#swaggerContainer',
-            url: 'none',
+            url: this.state.cityService.swagger,
         });
     }
 
@@ -92,9 +93,6 @@ export default class ShowCityService extends React.Component {
 
     render() {
         const { cityService } = this.state;
-        if (cityService.swagger !== undefined)
-            this.getSwagger;
-
 
         return (
             <Container>
@@ -144,17 +142,17 @@ export default class ShowCityService extends React.Component {
                 }
 
                 {
-                    cityService.swagger!=undefined
-                        && <div id="swaggerContainer" />
-                }
-
-                {
                     cityService.appLink
                         && <div>
                             <h3>Application Link</h3>
                             <a href={cityService.appLink} >{cityService.appLink}</a>
                             <hr />
                         </div>
+                }
+
+                {
+                    cityService.swagger!=undefined
+                        && <div id="swaggerContainer" className='swagger' />
                 }
 
             </Container>
