@@ -36,13 +36,10 @@ export default class ShowCityService extends React.Component {
         }
         this.dropdownToggle = this.dropdownToggle.bind(this);
         this.formatDate = this.formatDate.bind(this);
+        this.getSwagger = this.getSwagger.bind(this);
     }
 
     componentDidMount() {
-        SwaggerUi({
-            dom_id: '#swaggerContainer',
-            url: 'none',
-        });
         this.requestCityService(this.props.match.params);
     }
 
@@ -51,6 +48,8 @@ export default class ShowCityService extends React.Component {
             method: 'GET',
         }).then(response => response.json()).then(
             res => {
+                if (res.sampleData!=undefined)
+                    res.sampleData = res.sampleData;
                 this.setState({ cityService: res });
             },
             err => {
@@ -79,6 +78,13 @@ export default class ShowCityService extends React.Component {
         });
     }
 
+    getSwagger(swagger) {
+        SwaggerUi({
+            dom_id: '#swaggerContainer',
+            url: 'none',
+        });
+    }
+
     formatDate(date) {
         const value = new Date(date);
         return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
@@ -86,21 +92,29 @@ export default class ShowCityService extends React.Component {
 
     render() {
         const { cityService } = this.state;
+        if (cityService.swagger !== undefined)
+            this.getSwagger;
+
 
         return (
             <Container>
 
                 <div className='img-product'>
-                    <img
-                        src={ cityService.thumbnail }
-                        className='img-fluid'
-                        alt={ cityService.serviceName }
-                    />
+                    {
+                        cityService.thumbnail!==null &&
+                            <img
+                                src={ cityService.thumbnail }
+                                className='img-fluid'
+                                alt={ cityService.serviceName }
+                            />
+                    }
                 </div>
                 <div className='product-header' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h3>{ cityService.serviceName }</h3>
                     <div className='flex-inline'>
-                        <Link to={`/profile/my-cityservices/edit/${cityService.serviceId}`}> <FaEdit /> Edit </Link>
+                        <Link to={`/profile/my-cityservices/edit/${cityService.serviceId}`} className='link black'>
+                            <FaEdit /> Edit
+                        </Link>
                         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
                             <DropdownToggle className='menu-more'>
                                 <FaEllipsisV />
@@ -120,10 +134,28 @@ export default class ShowCityService extends React.Component {
                 <hr />
 
                 {
-                    cityService.sampleData!=undefined && <h3>Sample API</h3> && <ReactJson src={cityService.sampleData} /> && <hr />
+                    cityService.sampleData!=undefined
+                        && <div>
+                            <h3>Sample API</h3>
+                            <br />
+                            <ReactJson src={cityService.sampleData} />
+                            <hr />
+                        </div>
                 }
 
-                <div id="swaggerContainer" />
+                {
+                    cityService.swagger!=undefined
+                        && <div id="swaggerContainer" />
+                }
+
+                {
+                    cityService.appLink
+                        && <div>
+                            <h3>Application Link</h3>
+                            <a href={cityService.appLink} >{cityService.appLink}</a>
+                            <hr />
+                        </div>
+                }
 
             </Container>
         );
