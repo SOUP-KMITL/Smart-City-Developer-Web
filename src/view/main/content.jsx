@@ -11,6 +11,7 @@ import {
 import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import classnames from 'classnames';
+import Blockies from 'react-blockies';
 
 // Icons
 import FaPlus from 'react-icons/lib/fa/plus';
@@ -156,19 +157,28 @@ const getCssType = (value, index) => {
     });
 }
 
-const noImageAvialable = 'http://www.freeiconspng.com/uploads/no-image-icon-6.png';
-
 const MenuCityService = ({ cityServices }) => (
     cityServices!=[] && cityServices.map((item, i) => {
         return (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
                     <Col md={4} className='mymenu-header'>
-                        <img
-                            className='img-fluid'
-                            src={ item.icon!=''? item.icon: noImageAvialable }
-                            alt='test'
-                        />
+                        {
+                            item.thumbnail==null
+                                ? <Blockies
+                                    seed={item.owner}
+                                    size={7}
+                                    scale={10}
+                                    color='#DC90DD'
+                                    bgColor='#F0F0F0'
+                                    spotColor='#77C5D4'
+                                />
+                                : <img
+                                    className='img-fluid'
+                                    src={ item.thumbnail }
+                                    alt={item.serviceName}
+                                />
+                        }
                         <div className='mymenu-header-footer'>
                             <span>{ item.owner }</span>
                         </div>
@@ -193,11 +203,22 @@ const MenuDataCollection = ({ dataCollections }) => (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
                     <Col md={4} className='mymenu-header'>
-                        <img
-                            className='img-fluid'
-                            src={ item.icon!='' && item.icon!='icon'? item.icon: noImageAvialable }
-                            alt='test'
-                        />
+                        {
+                            item.icon=='' || item.icon==null
+                                ? <Blockies
+                                    seed={ item.owner }
+                                    size={7}
+                                    scale={10}
+                                    color='#DC90DD'
+                                    bgColor='#F0F0F0'
+                                    spotColor='#77C5D4'
+                                />
+                                : <img
+                                    className='img-fluid'
+                                    src={ item.icon }
+                                    alt={ item.collectionName }
+                                />
+                        }
                         <div className='mymenu-header-footer'>
                             <span>{ item.owner }</span>
                         </div>

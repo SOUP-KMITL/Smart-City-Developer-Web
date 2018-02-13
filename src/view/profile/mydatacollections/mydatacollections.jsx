@@ -96,8 +96,6 @@ const getCssType = (value, index) => {
     });
 }
 
-const noImageAvialable = 'http://www.freeiconspng.com/uploads/no-image-icon-6.png';
-
 const MenuDataCollection = ({ dataCollections, match }) => (
     dataCollections!=[] && dataCollections.map((item, i) => {
         return (
