@@ -110,11 +110,14 @@ class ShowDataCollection extends React.Component {
                 <ModalComponent isOpen={modalOpen} toggle={this.closeModal} ticket={ticket} />
 
                 <div className='img-product'>
-                    <img
-                        src={ dataCollection.icon==null? noImageAvialable: dataCollection.icon }
-                        className='img-fluid img-thumbnail'
-                        alt='smartcity_product_name'
-                    />
+                    {
+                        dataCollection.icon!=null
+                            && <img
+                                src={dataCollection.icon}
+                                className='img-fluid img-thumbnail'
+                                alt='smartcity_product_name'
+                            />
+                    }
                 </div>
                 <div className='product-header' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h3>{ dataCollection.collectionName }</h3>
@@ -163,7 +166,7 @@ class ShowDataCollection extends React.Component {
 
 export default connect(state => state)(ShowDataCollection);
 
-const noImageAvialable = 'http://www.freeiconspng.com/uploads/no-image-icon-6.png';
+const noImageAvialable = 'https://avatars1.githubusercontent.com/u/17084428?s=460&v=4';
 
 
 const ModalComponent = ({ isOpen, toggle, ticket }) => (

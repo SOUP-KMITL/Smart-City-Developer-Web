@@ -30,7 +30,7 @@ class Profile extends React.Component {
                         <hr className='vertical' />
                     </Col>
 
-                    <Col md={{ size: 7 }} sm={12}>
+                    <Col md={{ size: 7 }} sm={12} style={{ marginBottom: '30px' }}>
                         <Switch>
                             {
                                 profileRoute.map((route, i) => {

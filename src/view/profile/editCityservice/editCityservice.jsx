@@ -9,6 +9,10 @@ import {
 } from 'reactstrap';
 import { StyledText, Form, Radio, RadioGroup, StyledSelect, NestedForm, Select } from 'react-form';
 import ReactLoading from 'react-loading';
+import Dropzone from 'react-dropzone';
+
+import FaCloudUpload from 'react-icons/lib/fa/cloud-upload';
+
 import api from '../../../constance/api.js';
 
 
@@ -19,7 +23,7 @@ class EditCityService extends React.Component {
         this.state = {
             loading: false,
             submitResult: undefined,
-            thumbnail: null,
+            thumbnail: undefined,
             cityService: undefined,
             swagger: undefined,
             code: undefined,
@@ -58,6 +62,20 @@ class EditCityService extends React.Component {
         reader.readAsDataURL(file);
     }
 
+    onDrop = acceptedFiles => {
+        acceptedFiles.map(file => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const base64Image = reader.result;
+                this.setState({ thumbnail: base64Image });
+            };
+            reader.onabort = () => console.log('file reading was aborted');
+            reader.onerror = () => console.log('file reading has failed');
+
+            reader.readAsDataURL(file);
+        });
+    }
+
     swaggerTobase64 = e => {
         const file = e.target.files[0];
         const reader = new FileReader();
@@ -87,6 +105,9 @@ class EditCityService extends React.Component {
         if (this.state.code != undefined && this.state.code != '')
             value.code = this.state.code;
 
+        if (this.state.thumbnail != undefined)
+            value.thumbnail = this.state.thumbnail;
+
         return value;
     }
 
@@ -113,7 +134,7 @@ class EditCityService extends React.Component {
     }
 
     render() {
-        const { loading, submitResult, cityService } = this.state;
+        const { loading, submitResult, cityService, thumbnail } = this.state;
 
         return (
             <Card>
@@ -123,6 +144,24 @@ class EditCityService extends React.Component {
                     <Form onSubmit={submittedValues => this.updateCityservice(submittedValues)}>
                         { formApi => (
                             <form onSubmit={formApi.submitForm} className='form-editprofile'>
+
+                                <label>Thumbnail</label>
+                                <Dropzone onDrop={this.onDrop.bind(this)} className='dropzone pointer' accept='image/*' >
+                                    {
+                                        thumbnail!=null
+                                            ? <div className='dropzone-thumbnail'>
+                                                <div className='dropzone-overlay'>
+                                                    <img src={thumbnail} className='dropzone-img' />
+                                                </div>
+                                            </div>
+                                            : <div className='dropzone-description'>
+                                                <FaCloudUpload className='dropzone-icon' />
+                                                <p>Drop image</p>
+                                                <p>or</p>
+                                                <p>Click to upload</p>
+                                            </div>
+                                    }
+                                </Dropzone>
 
                                 <label htmlFor='endpoint'>Endpoint <small>*empty for local or URL for remote</small></label>
                                 <StyledText type='text' field='endpoint' className='text-input login-input' />

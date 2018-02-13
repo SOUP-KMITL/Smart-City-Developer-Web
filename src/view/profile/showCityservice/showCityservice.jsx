@@ -159,6 +159,3 @@ export default class ShowCityService extends React.Component {
         );
     }
 }
-
-
-const noImageAvialable = 'http://www.freeiconspng.com/uploads/no-image-icon-6.png';

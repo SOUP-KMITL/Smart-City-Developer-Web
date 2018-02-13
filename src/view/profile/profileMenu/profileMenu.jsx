@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import {
     Container,
@@ -14,6 +15,7 @@ import {
     Input,
 } from 'reactstrap';
 import { Switch, Route, Redirect, Link } from 'react-router-dom';
+import Blockies from 'react-blockies';
 
 import Storage from '../../share/authorization/storage.jsx';
 import api from '../../../constance/api.js';
@@ -34,6 +36,7 @@ class ProfileMenu extends React.Component {
         this.closeModalPwd = this.closeModalPwd.bind(this);
         this.updatePwdInput = this.updatePwdInput.bind(this);
         this.openModalPwd = this.openModalPwd.bind(this);
+
     }
 
     closeModal() {
@@ -94,12 +97,22 @@ class ProfileMenu extends React.Component {
                 <ModalComponent isOpen={modalOpen} toggle={this.closeModal} newToken={accessToken} requestResult={requestResult} />
                 <ModalPassword isOpen={modalPwdOpen} swapModal={this.swapModal} close={this.closeModalPwd} updatePwd={this.updatePwdInput} />
                 <div className='profile-image'>
-                    <img
-                        src='https://avatars1.githubusercontent.com/u/17084428?s=460&v=4'
-                        width='200px'
-                        className='img-fluid'
-                        alt=''
+                    <Blockies
+                        seed={userName}
+                        size={7}
+                        scale={30}
+                        color='#DC90DD'
+                        bgColor='#F0F0F0'
+                        spotColor='#77C5D4'
                     />
+                    {
+/*                        <img*/
+                            //src='https://avatars1.githubusercontent.com/u/17084428?s=460&v=4'
+                            //width='200px'
+                            //className='img-fluid'
+                            //alt=''
+                        /*/>*/
+                    }
                 </div>
                 <div className='profile-info'>
                     <strong>@{userName}</strong>
