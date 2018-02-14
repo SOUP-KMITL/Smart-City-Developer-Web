@@ -22,7 +22,7 @@ export default class Register extends React.Component {
             <div className='fullscreen'>
                 <div className='login-background' >
                     <div className='login-overlay'>
-                        <div className='form-area' style={{ height: '100%', paddingBottom: '150px' }}>
+                        <div className='form-area' style={{ height: '100vh', paddingBottom: '150px' }}>
                             <Form onSubmit={submittedValues => this.setState( { submittedValues } )}>
                                 { formApi => (
                                     <form onSubmit={formApi.submitForm} id='form2' className='form-login'>
