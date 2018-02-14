@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
 
 import appRoute from '../route/route';
 import MyNavbar from '../component/navbar/navbar';
@@ -15,6 +16,29 @@ class App extends Component {
     const userData = await Storage.getUserData();
     if (userData)
       this.props.updateUserData(userData);
+  }
+
+  componentDidMount() {
+    this.props.initNotify(this.notify);
+  }
+
+  notify = (content, type, timeout=2500) => {
+    if(type == 'success')
+      toast.success(content, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: timeout
+      })
+    else if(type == 'error')
+      toast.error(content, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: timeout
+      })
+    else if(type == 'warning')
+      toast.warn(content, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: timeout
+      });
+
   }
 
   render() {
@@ -44,6 +68,7 @@ class App extends Component {
               })
             }
           </Switch>
+          <ToastContainer />
         </div>
         <Footer />
       </div>
@@ -57,8 +82,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: 'UPDATE',
         payload: data
-      })
-    }
+      });
+    },
+    initNotify: (notify) => {
+      dispatch({
+        type: 'INIT',
+        payload: notify
+      });
+    },
   }
 }
 

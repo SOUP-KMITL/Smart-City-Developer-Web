@@ -111,7 +111,7 @@ class EditCityService extends React.Component {
         return value;
     }
 
-    updateCityservice(value) {
+    updateCityservice = (value) => {
         const { serviceId } = this.props.match.params;
         value = this.resolveData(value);
         console.log(value);
@@ -125,10 +125,14 @@ class EditCityService extends React.Component {
         }).then(response => response.json()).then(
             res => {
                 this.setState({ cityService: res });
-                this.props.history.goBack();
+                this.props.notify('UPDATE SUCCESSFULLY', 'success');
+                setTimeout(() => {
+                    this.props.history.goBack();
+                }, 1000)
             },
             err => {
                 console.log('CANNOT GET DATA');
+                this.props.notify('UPDATE UNSUCCESSFULLY', 'error');
             }
         )
     }

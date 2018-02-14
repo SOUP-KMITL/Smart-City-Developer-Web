@@ -64,9 +64,15 @@ class AddDataCollection extends React.Component {
             body: JSON.stringify(value)
         }).then(
             res => {
-                alert('CREATE SUCCESS');
                 this.setState({ submitResult: true });
+                this.props.notify('CREATE SUCCESS', 'success');
+                setTimeout(() => {
+                    this.props.history.goBack();
+                }, 1000);
             },
+            err => {
+                this.props.notify('CREATE UNSUCCESS', 'error');
+            }
         ).finally(() => {
             setTimeout(() => {
                 this.setState({ loading: false });

@@ -18,6 +18,7 @@
     "react-router-dom": "^4.2.2",
     "react-router-redux": "next",
     "react-scripts": "^1.0.17",
+    "react-toastify": "^3.3.2",
     "reactstrap": "5.0.0-alpha.4",
     "redux": "^3.7.2",
     "swagger-ui": "^3.9.2"

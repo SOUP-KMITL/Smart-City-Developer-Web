@@ -58,8 +58,11 @@ class AddCityService extends React.Component {
             body: JSON.stringify(value)
         }).then(response => response.json()).then(
             res => {
-                alert('CREATE SUCCESS');
                 this.setState({ submitResult: true });
+                this.props.notify('CREATE SUCCESS', 'success');
+                setTimeout(() => {
+                    this.props.history.goBack();
+                }, 1000);
             },
         ).finally(() => {
             setTimeout(() => {
