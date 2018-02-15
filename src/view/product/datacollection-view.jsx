@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
     Container,
     Col,
@@ -22,7 +23,7 @@ import './cityservice-view.css';
 import api from '../../constance/api.js';
 
 
-export default class ViewDatacollection extends React.Component {
+class ViewDatacollection extends React.Component {
 
     constructor() {
         super()
@@ -62,11 +63,11 @@ export default class ViewDatacollection extends React.Component {
 
                     <Col md={3} xs={12} sm={12}>
                         {
-                            this.props.userData
-                            ?<ProfileMenu userData={ this.props.userData }/>
-                            : <Link to='/signin' className='link'>
+                            this.props.userData.userId==undefined
+                            ? <Link to='/signin' className='link'>
                                 <Button size='lg' block className='btn-smooth btn-raised-success'>Sign In</Button>
                             </Link>
+                            :<ProfileMenu userData={ this.props.userData }/>
                         }
                     </Col>
 
@@ -127,3 +128,5 @@ export default class ViewDatacollection extends React.Component {
         );
     }
 }
+
+export default connect(state => state)(ViewDatacollection);
