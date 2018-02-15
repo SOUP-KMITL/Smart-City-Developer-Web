@@ -1,6 +1,6 @@
 import Main from '../view/main/main.jsx';
 import Notfound from '../view/pagenotfound.jsx';
-import Product from '../view/productview/product.jsx';
+import ViewCityservice from '../view/product/cityservice-view.jsx';
 import Login from '../view/login/login.jsx';
 import Register from '../view/register/register.jsx';
 import Contact from '../view/contact/contact.jsx';
@@ -9,7 +9,7 @@ import Signout from '../view/signout/signout.jsx';
 
 const appRoute = [
   {path: '/', component: Main, exact: true},
-  {path: '/product/:productName', component: Product},
+  {path: '/view/cityservice/:serviceId', component: ViewCityservice},
   {path: '/contact-us', component: Contact},
   {path: '/profile', component: Profile, requireLogin: false},
   {path: '/profile/my-datacollection', component: Profile, requireLogin: false},

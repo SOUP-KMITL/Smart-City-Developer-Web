@@ -23,7 +23,7 @@ import FaEllipsisV from 'react-icons/lib/fa/ellipsis-v';
 
 import  './showCityservice.css';
 import api from '../../../constance/api.js';
-import '../../product/product.css';
+import '../../product/cityservice-view.css';
 
 
 export default class ShowCityService extends React.Component {

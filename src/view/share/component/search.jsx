@@ -13,7 +13,7 @@ export default class MainSearchBar extends React.Component {
 
     render() {
         return (
-            <InputGroup>
+            <InputGroup style={{ marginBottom: '60px' }}>
                 <Input placeholder="Search..." />
                 <InputGroupAddon><MdSearch /></InputGroupAddon>
             </InputGroup>

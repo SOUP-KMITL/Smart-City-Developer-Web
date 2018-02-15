@@ -83,7 +83,7 @@ class Content extends Component {
                 </Row>
 
                 <Row>
-                    <Col md={4} xs={12} className='right-menu order-md-8'>
+                    <Col md={4} xs={12} className=''>
                         {
                             this.props.userData.userId==undefined
                                 ? <Link to='/signin' className='link'>
@@ -93,7 +93,7 @@ class Content extends Component {
                         }
                     </Col>
 
-                    <Col md={8} xs={12} className='order-md-4'>
+                    <Col md={8} xs={12} className=''>
                         <h3 className='content-header'>City Service</h3>
                         <hr className='content-hr' />
                         {
@@ -113,6 +113,7 @@ class Content extends Component {
                 </Row>
 
                 <Row>
+                    <Col md={4} xs={12}></Col>
                     <Col md={8} xs={12} className='margin-content'>
                         <h3 className='content-header'>Data Collections</h3>
                         <hr className='content-hr' />
@@ -185,7 +186,7 @@ const MenuCityService = ({ cityServices }) => (
                     </Col>
 
                     <Col md={10} className='mymenu-content'>
-                        <Link to='/product/{{ item.serviceName }}' className='black'>
+                        <Link to={`/view/cityservice/${item.serviceId}`} className='black'>
                             <strong>{ item.serviceName }</strong>
                         </Link>
                         <p className='mymenu-description'>{ item.description }</p>

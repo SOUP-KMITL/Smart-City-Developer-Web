@@ -28,7 +28,7 @@ import FaEllipsisV from 'react-icons/lib/fa/ellipsis-v';
 import FaTickets from 'react-icons/lib/fa/ticket';
 
 import api from '../../../constance/api.js';
-import '../../product/product.css';
+import '../../product/cityservice-view.css';
 
 
 class ShowDataCollection extends React.Component {
