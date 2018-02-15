@@ -226,7 +226,7 @@ const MenuDataCollection = ({ dataCollections }) => (
                     </Col>
 
                     <Col md={10} className='mymenu-content'>
-                        <Link to='/product/{{ item.serviceName }}' className='black'>
+                        <Link to={`/view/datacollection/${item.collectionName}`} className='black'>
                             <strong>{ item.collectionName }</strong>
                         </Link>
                         <p className='mymenu-description'>{item.description}</p>
