@@ -179,7 +179,7 @@ const MenuDataCollection = ({ dataCollections }) => (
                     </Col>
 
                     <Col md={9} className='mymenu-content'>
-                        <Link to={`/product/${item.serviceName}`} className='black'>
+                        <Link to={`/profile/my-datacollections/datacollection/${item.collectionName}`} className='black'>
                             <strong>{ item.collectionName }</strong>
                         </Link>
                         <p className='mymenu-description'>{item.description}</p>
@@ -197,7 +197,7 @@ const MenuCityService = ({ cityServices }) => (
                 <Row style={{ width: '880px' }}>
                     <Col md={3} className='mymenu-header'>
                         {
-                            item.icon=='' || item.icon==null
+                            item.thumbnail=='' || item.thumbnail==null
                                 ? <Blockies
                                     seed={item.owner}
                                     size={7}
@@ -208,7 +208,7 @@ const MenuCityService = ({ cityServices }) => (
                                 />
                                 : <img
                                     className='img-fluid'
-                                    src={  item.icon }
+                                    src={ item.thumbnail }
                                     alt={ item.collectionName }
                                 />
                         }
@@ -218,7 +218,7 @@ const MenuCityService = ({ cityServices }) => (
                     </Col>
 
                     <Col md={9} className='mymenu-content'>
-                        <Link to={`/product/${item.serviceName}`} className='black'>
+                        <Link to={`/profile/my-cityservices/cityservice/${item.serviceId}`} className='black'>
                             <strong>{ item.serviceName }</strong>
                         </Link>
                         <p className='mymenu-description'>{ item.description }</p>
