@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import FaPlus from 'react-icons/lib/fa/plus';
+import Blockies from 'react-blockies';
 
 import api from '../../../constance/api.js';
 
@@ -18,7 +19,6 @@ class MainProfile extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             activeTab: '1',
             cityServices: [],
@@ -28,15 +28,19 @@ class MainProfile extends React.Component {
                 cityService: false
             }
         };
+        this.requestCityService(props);
+        this.requestDataCollection(props);
     }
 
-    componentWillMount() {
-        this.requestCityService();
-        this.requestDataCollection();
+    componentWillReceiveProps(props) {
+        if (props.userData != undefined) {
+            this.requestCityService(props);
+            this.requestDataCollection(props);
+        }
     }
 
-    requestCityService() {
-        const { userName } = this.props.userData;
+    requestCityService(props) {
+        const { userName } = props.userData;
         // Update object state
         const loading = Object.assign({}, this.state.loading);
         loading.cityService = true;
@@ -62,8 +66,8 @@ class MainProfile extends React.Component {
             });
     }
 
-    requestDataCollection() {
-        const { userName } = this.props.userData;
+    requestDataCollection(props) {
+        const { userName } = props.userData;
         // Update object state
         const loading = Object.assign({}, this.state.loading);
         loading.dataCollection = true;
@@ -153,18 +157,29 @@ const MenuDataCollection = ({ dataCollections }) => (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
                     <Col md={3} className='mymenu-header'>
-                        <img
-                            className='img-fluid'
-                            src={ item.icon!=null ? item.icon: noImageAvialable }
-                            alt='test'
-                        />
+                        {
+                            item.icon=='' || item.icon==null
+                                ? <Blockies
+                                    seed={item.owner}
+                                    size={7}
+                                    scale={10}
+                                    color='#DC90DD'
+                                    bgColor='#F0F0F0'
+                                    spotColor='#77C5D4'
+                                />
+                                : <img
+                                    className='img-fluid'
+                                    src={  item.icon }
+                                    alt={ item.collectionName }
+                                />
+                        }
                         <div className='mymenu-header-footer'>
                             <span>{ item.owner }</span>
                         </div>
                     </Col>
 
                     <Col md={9} className='mymenu-content'>
-                        <Link to='/product/{{ item.serviceName }}' className='black'>
+                        <Link to={`/product/${item.serviceName}`} className='black'>
                             <strong>{ item.collectionName }</strong>
                         </Link>
                         <p className='mymenu-description'>{item.description}</p>
@@ -181,18 +196,29 @@ const MenuCityService = ({ cityServices }) => (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
                     <Col md={3} className='mymenu-header'>
-                        <img
-                            className='img-fluid'
-                            src={ item.icon!=null ? item.icon: noImageAvialable }
-                            alt='test'
-                        />
+                        {
+                            item.icon=='' || item.icon==null
+                                ? <Blockies
+                                    seed={item.owner}
+                                    size={7}
+                                    scale={10}
+                                    color='#DC90DD'
+                                    bgColor='#F0F0F0'
+                                    spotColor='#77C5D4'
+                                />
+                                : <img
+                                    className='img-fluid'
+                                    src={  item.icon }
+                                    alt={ item.collectionName }
+                                />
+                        }
                         <div className='mymenu-header-footer'>
                             <span>{ item.owner }</span>
                         </div>
                     </Col>
 
                     <Col md={9} className='mymenu-content'>
-                        <Link to='/product/{{ item.serviceName }}' className='black'>
+                        <Link to={`/product/${item.serviceName}`} className='black'>
                             <strong>{ item.serviceName }</strong>
                         </Link>
                         <p className='mymenu-description'>{ item.description }</p>

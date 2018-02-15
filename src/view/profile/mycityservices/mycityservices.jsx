@@ -72,7 +72,7 @@ class MyCityServices extends React.Component {
                     loading===true
                         ? <Loading />
                         : cityServices.length===0
-                        ? <Link to='profile/add-cityservice' className='link'>
+                        ? <Link to='/profile/add-cityservice' className='link'>
                             <Button size='lg' className='btn-smooth btn-raised-success no-data'><FaPlus style={{marginTop: '5px'}} />  CityService</Button>
                         </Link>
                         : <MenuCityService cityServices={cityServices} />
