@@ -122,7 +122,11 @@ class ShowDataCollection extends React.Component {
                 <div className='product-header' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h3>{ dataCollection.collectionName }</h3>
                     <div className='flex-inline'>
-                        <div className='black pointer'><FaEdit /> Edit </div>
+                        <Link
+                            className='black pointer'
+                            to={`/profile/my-datacollections/edit/${dataCollection.collectionName}`}>
+                            <FaEdit /> Edit
+                        </Link>
                         <div
                             className='pointer black'
                             style={{ marginLeft: '10px' }}

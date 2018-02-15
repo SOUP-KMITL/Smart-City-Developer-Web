@@ -4,6 +4,7 @@ import MyDataCollections from '../view/profile/mydatacollections/mydatacollectio
 import MyCityServices from '../view/profile/mycityservices/mycityservices.jsx';
 import AddDataCollection from '../view/profile/addDatacollection/addDatacollection.jsx';
 import ShowDataCollection from '../view/profile/showDatacollection/showDatacollection.jsx';
+import EditDataCollection from '../view/profile/editDatacollection/editDatacollection.jsx';
 import AddCityService from '../view/profile/addCityservice/addCityservice.jsx';
 import ShowCityService from '../view/profile/showCityservice/showCityservice.jsx';
 import EditCityService from '../view/profile/editCityservice/editCityservice.jsx';
@@ -15,6 +16,7 @@ const profileRoute = [
   {path: '/add-datacollection', component: AddDataCollection},
   {path: '/my-datacollections/page/:page', component: MyDataCollections},
   {path: '/my-datacollections/datacollection/:collectionName', component: ShowDataCollection},
+  {path: '/my-datacollections/edit/:collectionName', component: EditDataCollection},
   {path: '/add-cityservice', component: AddCityService},
   {path: '/my-cityservices/page/:page', component: MyCityServices},
   {path: '/my-cityservices/cityservice/:serviceId', component: ShowCityService},
