@@ -80,7 +80,7 @@ export default class MainCarousel extends React.Component {
                 </Carousel>
                 <div className=' overlay'>
                     <h2>Smart City</h2>
-                    <h5> Using the Hello World guide, you’ll create a repository, start a branch, <br /> write comments, and open a pull request.  </h5>
+                    <h5>Open data exchange platform for supporting smart city service  <br />development and innovation.</h5>
                     <Button color='warning' className='btn-white' outline size='lg'>Sign Up</Button>
                 </div>
 
