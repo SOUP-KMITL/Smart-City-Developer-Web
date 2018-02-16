@@ -122,7 +122,7 @@ class MainProfile extends React.Component {
                             ? <Link to='/profile/add-datacollection' className='link'>
                                 <Button size='lg' className='btn-smooth btn-raised-success no-data'>+ ADD DATA COLLECTION</Button>
                             </Link>
-                            : <MenuDataCollection dataCollections={dataCollections} />
+                            : <MenuDataCollection dataCollections={dataCollections.content} />
                     }
 
                 </div>
@@ -179,7 +179,7 @@ const MenuDataCollection = ({ dataCollections }) => (
                     </Col>
 
                     <Col md={9} className='mymenu-content'>
-                        <Link to={`/profile/my-datacollections/datacollection/${item.collectionName}`} className='black'>
+                        <Link to={`/profile/my-datacollections/datacollection/${item.collectionId}`} className='black'>
                             <strong>{ item.collectionName }</strong>
                         </Link>
                         <p className='mymenu-description'>{item.description}</p>

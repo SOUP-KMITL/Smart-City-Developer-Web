@@ -5,6 +5,9 @@ import {
     Col,
     Row,
     Button,
+    Pagination,
+    PaginationItem,
+    PaginationLink
 } from 'reactstrap';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
@@ -15,6 +18,8 @@ import Blockies from 'react-blockies';
 import FaPlus from 'react-icons/lib/fa/plus';
 
 import api from '../../../constance/api.js';
+
+const PAGESIZE = 5;
 
 
 class MyDataCollections extends React.Component {
@@ -34,10 +39,10 @@ class MyDataCollections extends React.Component {
     }
 
     requestDataCollection({userData, match}) {
-        const page = match.params.page;
+        const page = +match.params.page - 1;
         this.setState({ loading: true });
 
-        fetch(api.dataCollection + `?owner=${userData.userName}&size=10&page=${page}`, { method: 'GET' })
+        fetch(api.dataCollection + `?owner=${userData.userName}&size=${PAGESIZE}&page=${page}`, { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
@@ -64,9 +69,9 @@ class MyDataCollections extends React.Component {
                 <h3 className='content-header'>Data Collections</h3>
                 {
                     dataCollections.length!==0 &&
-                    <Link to='/profile/add-datacollection' className='link'>
-                        <Button size='sm' className='btn-smooth btn-raised-success content-header-btn no-data'><FaPlus style={{marginTop: '3px'}} />  DataCollection</Button>
-                    </Link>
+                        <Link to='/profile/add-datacollection' className='link'>
+                            <Button size='sm' className='btn-smooth btn-raised-success content-header-btn no-data'><FaPlus style={{marginTop: '3px'}} />  DataCollection</Button>
+                        </Link>
                 }
                 <hr className='content-hr' />
                 {
@@ -76,8 +81,9 @@ class MyDataCollections extends React.Component {
                         ? <Link to='/profile/add-datacollection' className='link'>
                             <Button size='lg' className='btn-smooth btn-raised-success no-data'><FaPlus style={{marginTop: '5px'}} />  Data Collection</Button>
                         </Link>
-                        : <MenuDataCollection dataCollections={dataCollections} match={this.props.match}/>
+                        : <MenuDataCollection dataCollections={dataCollections.content} match={this.props.match}/>
                 }
+                <MyPagination dataCollections={dataCollections} match={ this.props.match }/>
             </div>
         );
     }
@@ -124,7 +130,7 @@ const MenuDataCollection = ({ dataCollections, match }) => (
                     </Col>
 
                     <Col md={9} className='mymenu-content'>
-                        <Link to={`/profile/my-datacollections/datacollection/${item.collectionName}`} className='black'>
+                        <Link to={`/profile/my-datacollections/datacollection/${item.collectionId}`} className='black'>
                             <strong>{ item.collectionName }</strong>
                         </Link>
                         <p className='mymenu-description'>{item.description}</p>
@@ -140,3 +146,46 @@ const Loading = () => (
         <ReactLoading type='bars' color='#ced4da' height={100} width={100} />
     </div>
 )
+
+const MyPagination = ({ dataCollections, match }) => {
+    const pages = [];
+    if (pages.length < dataCollections.totalPages)
+        for (let i = 1; i <= dataCollections.totalPages; i++)
+            pages.push(i);
+
+    return (
+        <Pagination>
+            {
+                <PaginationItem disabled={ dataCollections.first === true }>
+                    <Link
+                        to={`/profile/my-datacollections/page/${match.params.page - 1}`}
+                        disabled={ dataCollections.fist === true }
+                    >
+                        <PaginationLink previous />
+                    </Link>
+                </PaginationItem>
+            }
+            {
+                pages.map((page) => (
+                    <PaginationItem>
+                        <Link to={`/profile/my-datacollections/page/${page}`}>
+                            <PaginationLink>
+                                { page }
+                            </PaginationLink>
+                        </Link>
+                    </PaginationItem>
+                ))
+            }
+            <PaginationItem disabled={ dataCollections.last === true }>
+                {
+                    <Link
+                        to={`/profile/my-datacollections/page/${+match.params.page + 1}`}
+                        disabled={ dataCollections.last === true }
+                    >
+                        <PaginationLink next />
+                    </Link>
+                }
+            </PaginationItem>
+        </Pagination>
+    )
+}

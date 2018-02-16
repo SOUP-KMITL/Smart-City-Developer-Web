@@ -22,6 +22,8 @@ import api from '../../constance/api';
 import ProfileMenu from '../profile/profileMenu/profileMenu.jsx';
 import MainSearchBar from '../share/component/search.jsx';
 
+const PAGESIZE = 5;
+
 class Content extends Component {
 
     constructor(props) {
@@ -55,7 +57,7 @@ class Content extends Component {
     }
 
     requestDataCollection() {
-        fetch(api.dataCollection, { method: 'GET' })
+        fetch(api.dataCollection + `?size=${PAGESIZE}`, { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
@@ -120,7 +122,7 @@ class Content extends Component {
                         {
                             dataCollections.length==0
                                 ? <Loading />
-                                : <MenuDataCollection dataCollections={dataCollections} />
+                                : <MenuDataCollection dataCollections={dataCollections.content} />
                         }
                         {
                             dataCollections.length!=0 &&

@@ -33,8 +33,8 @@ import '../../product/cityservice-view.css';
 
 class ShowDataCollection extends React.Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             dataCollection: {},
             modalOpen: false,
@@ -45,12 +45,22 @@ class ShowDataCollection extends React.Component {
         this.formatDate = this.formatDate.bind(this);
         this.genTicket = this.genTicket.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.requestDatacollection(props);
     }
 
-    componentDidMount() {
-        const dataCollection = this.props.match.params.collectionName;
-        fetch(api.dataCollection + '?collectionName=' + dataCollection, {
+    componentWillReceiveProps(props) {
+        if (props.userData != undefined)
+            this.requestDatacollection(props);
+    }
+
+    requestDatacollection(props) {
+        const dataCollection = props.match.params.collectionId;
+        fetch(api.dataCollection + dataCollection + '/meta', {
             method: 'GET',
+            headers: {
+                'Authorization': props.userData.accessToken,
+                'Content-Type': 'application/json'
+            }
         }).then(response => response.json()).then(
             res => {
                 this.setState({ dataCollection: res[0] });

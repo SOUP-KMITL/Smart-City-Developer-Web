@@ -15,7 +15,7 @@ const profileRoute = [
   {path: '/edit-profile', component: EditProfile},
   {path: '/add-datacollection', component: AddDataCollection},
   {path: '/my-datacollections/page/:page', component: MyDataCollections},
-  {path: '/my-datacollections/datacollection/:collectionName', component: ShowDataCollection},
+  {path: '/my-datacollections/datacollection/:collectionId', component: ShowDataCollection},
   {path: '/my-datacollections/edit/:collectionName', component: EditDataCollection},
   {path: '/add-cityservice', component: AddCityService},
   {path: '/my-cityservices/page/:page', component: MyCityServices},
