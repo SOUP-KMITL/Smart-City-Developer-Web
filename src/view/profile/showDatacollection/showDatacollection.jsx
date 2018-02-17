@@ -71,6 +71,24 @@ class ShowDataCollection extends React.Component {
         )
     }
 
+    deleteDatacollection(collectionId) {
+        fetch(api.dataCollection + collectionId, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': this.props.userData.accessToken
+            }
+        }).then(
+            res => {
+                this.props.notify('DELETE SUCCESS', 'success');
+                this.props.history.goBack();
+            }
+        ).catch(
+            err => {
+                this.props.notify('DELETE fail', 'error');
+            }
+        );
+    }
+
     dropdownToggle() {
         this.setState({
             dropdownOpen: !this.state.dropdownOpen
@@ -149,7 +167,7 @@ class ShowDataCollection extends React.Component {
                                 <FaEllipsisV />
                             </DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem>Delete</DropdownItem>
+                                <DropdownItem onClick={ () => this.deleteDatacollection(dataCollection.collectionId) }>Delete</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </div>
