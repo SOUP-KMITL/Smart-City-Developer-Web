@@ -153,39 +153,54 @@ const MyPagination = ({ dataCollections, match }) => {
         for (let i = 1; i <= dataCollections.totalPages; i++)
             pages.push(i);
 
-    return (
-        <Pagination>
-            {
-                <PaginationItem disabled={ dataCollections.first === true }>
-                    <Link
-                        to={`/profile/my-datacollections/page/${match.params.page - 1}`}
-                        disabled={ dataCollections.fist === true }
-                    >
-                        <PaginationLink previous />
-                    </Link>
-                </PaginationItem>
-            }
-            {
-                pages.map((page) => (
-                    <PaginationItem>
-                        <Link to={`/profile/my-datacollections/page/${page}`}>
-                            <PaginationLink>
-                                { page }
-                            </PaginationLink>
+    if (dataCollections.length != 0)
+        return (
+            <Pagination>
+                <PaginationItem disabled={ dataCollections.first }>
+                    {
+                        dataCollections.first
+                        ? <Link
+                            to={`/profile/my-datacollections/page/${match.params.page - 1}`}
+                            onClick={ e => e.preventDefault() }
+                        >
+                            <PaginationLink previous />
                         </Link>
-                    </PaginationItem>
-                ))
-            }
-            <PaginationItem disabled={ dataCollections.last === true }>
+                        : <Link
+                            to={`/profile/my-datacollections/page/${match.params.page - 1}`}
+                        >
+                            <PaginationLink previous />
+                        </Link>
+                    }
+                </PaginationItem>
                 {
-                    <Link
-                        to={`/profile/my-datacollections/page/${+match.params.page + 1}`}
-                        disabled={ dataCollections.last === true }
-                    >
-                        <PaginationLink next />
-                    </Link>
+                    pages.map((page) => (
+                        <PaginationItem>
+                            <Link to={`/profile/my-datacollections/page/${page}`}>
+                                <PaginationLink>
+                                    { page }
+                                </PaginationLink>
+                            </Link>
+                        </PaginationItem>
+                    ))
                 }
-            </PaginationItem>
-        </Pagination>
-    )
+                <PaginationItem disabled={ dataCollections.last }>
+                    {
+                        dataCollections.last
+                        ? <Link
+                            to={`/profile/my-datacollections/page/${+match.params.page + 1}`}
+                            onClick={e => e.preventDefault()}
+                        >
+                            <PaginationLink next />
+                        </Link>
+                        : <Link
+                            to={`/profile/my-datacollections/page/${+match.params.page + 1}`}
+                        >
+                            <PaginationLink next />
+                        </Link>
+                    }
+                </PaginationItem>
+            </Pagination>
+        )
+    else
+        return null;
 }
