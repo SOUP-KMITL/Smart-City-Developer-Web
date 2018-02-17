@@ -43,7 +43,7 @@ class ViewDatacollection extends React.Component {
             res => {
                 if (res.sampleData!=undefined)
                     res.sampleData = res.sampleData;
-                this.setState({ dataCollection: res[0] });
+                this.setState({ dataCollection: res.content[0] });
                 if (res.swagger!=undefined)
                     this.getSwagger();
             },
