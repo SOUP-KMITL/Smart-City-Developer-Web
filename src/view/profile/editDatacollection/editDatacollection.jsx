@@ -22,28 +22,36 @@ class EditDataCollection extends React.Component {
             submitResult: undefined,
             dataCollection: undefined,
         }
+        this.requestDatacollection(props);
     }
 
-    componentDidMount() {
-        this.requestDatacollection(this.props.match.params);
+    componentWillReceiveProps(props) {
+        if (props.userData != undefined)
+            this.requestDatacollection(props);
     }
 
-    requestDatacollection({ collectionName }) {
-        fetch(api.dataCollection + '?collectionName=' + collectionName, {
+    requestDatacollection(props) {
+        const { collectionId } = this.props.match.params;
+
+        fetch(api.dataCollection + collectionId + '/meta', {
             method: 'GET',
+            headers: {
+                'Authorization': props.userData.accessToken
+            }
         }).then(response => response.json()).then(
             res => {
                 this.setState({ dataCollection: res });
             },
             err => {
-                console.log('CANNOT GET DATA');
+                this.props.notify('CANNOT GET DATA', 'WARNING');
             }
         )
     }
 
     resolveValue(value) {
         // Assign manual key, value in headers
-        value.isOpen = JSON.parse( value.isOpen);
+        if (value.isOpen != undefined)
+            value.isOpen = JSON.parse( value.isOpen);
 
         return value;
     }
@@ -51,7 +59,6 @@ class EditDataCollection extends React.Component {
     updateDatacollection = (value) => {
         const { collectionId } = this.state.dataCollection[0];
         value = this.resolveValue(value);
-        console.log(value);
 
         fetch(api.dataCollection + collectionId + '/meta', {
             method: 'PUT',
@@ -62,17 +69,11 @@ class EditDataCollection extends React.Component {
             body: JSON.stringify(value)
         }).then(
             res => {
-                this.setState({ dataCollection: res });
-            },
-        ).finally(
-            () => {
-                console.log('CANNOT GET DATA');
                 this.props.notify('UPDATE SUCCESSFULLY', 'success');
-                // It's update success but response status is 4xx
                 setTimeout(() => {
                     this.props.history.goBack();
                 }, 1000)
-            }
+            },
         )
     }
 

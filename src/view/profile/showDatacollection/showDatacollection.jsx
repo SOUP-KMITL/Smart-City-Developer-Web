@@ -66,7 +66,7 @@ class ShowDataCollection extends React.Component {
                 this.setState({ dataCollection: res[0] });
             },
             err => {
-                console.log('CANNOT GET DATA');
+                this.props.notify('CANNOT GET DATA', 'WARNING');
             }
         )
     }
@@ -134,7 +134,7 @@ class ShowDataCollection extends React.Component {
                     <div className='flex-inline'>
                         <Link
                             className='black pointer'
-                            to={`/profile/my-datacollections/edit/${dataCollection.collectionName}`}>
+                            to={`/profile/my-datacollections/edit/${dataCollection.collectionId}`}>
                             <FaEdit /> Edit
                         </Link>
                         <div
