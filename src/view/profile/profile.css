@@ -1,7 +1,43 @@
 .profile-image {
+  display: flex;
+  justify-content: center;
   text-align: center;
   padding: 40px;
   padding-top: 0px;
+}
+
+.profile-image-overlay {
+  margin: auto;
+  width: 210px;
+  height: 210px;
+  margin-bottom: 40px;
+}
+
+.profile-image-overlay:hover .profile-image {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+.profile-image-overlay:hover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 215px;
+  height: 210px;
+  margin: auto;
+  margin-bottom: 40px;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.profile-image-overlay:hover:before {
+  content: 'Change';
+  font-weight: bold;
+  color: white;
+  border: solid 1px white;
+  padding: 5px;
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
 }
 
 hr.vertical {
@@ -39,3 +75,4 @@ hr.vertical {
   margin-top: 50px;
   margin-bottom: 50px;
 }
+

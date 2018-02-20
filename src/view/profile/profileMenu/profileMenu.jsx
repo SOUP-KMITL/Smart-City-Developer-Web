@@ -96,23 +96,25 @@ class ProfileMenu extends React.Component {
             <div>
                 <ModalComponent isOpen={modalOpen} toggle={this.closeModal} newToken={accessToken} requestResult={requestResult} />
                 <ModalPassword isOpen={modalPwdOpen} swapModal={this.swapModal} close={this.closeModalPwd} updatePwd={this.updatePwdInput} />
-                <div className='profile-image'>
-                    <Blockies
-                        seed={userName}
-                        size={7}
-                        scale={30}
-                        color='#DC90DD'
-                        bgColor='#F0F0F0'
-                        spotColor='#77C5D4'
-                    />
-                    {
-/*                        <img*/
+                <div className='profile-image-overlay' onClick={() => alert('UPLOAD IMG IS COMING SOON')}>
+                    <div className='profile-image'>
+                        <Blockies
+                            seed={userName}
+                            size={7}
+                            scale={30}
+                            color='#DC90DD'
+                            bgColor='#F0F0F0'
+                            spotColor='#77C5D4'
+                        />
+                        {
+                            /*                        <img*/
                             //src='https://avatars1.githubusercontent.com/u/17084428?s=460&v=4'
                             //width='200px'
                             //className='img-fluid'
                             //alt=''
-                        /*/>*/
-                    }
+                            /*/>*/
+                        }
+                    </div>
                 </div>
                 <div className='profile-info'>
                     <strong>@{userName}</strong>
