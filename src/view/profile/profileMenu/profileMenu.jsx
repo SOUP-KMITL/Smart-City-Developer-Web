@@ -127,12 +127,12 @@ class ProfileMenu extends React.Component {
                     </ListGroupItem>
                     <ListGroupItem>
                         <Link to='/profile/my-datacollections/page/1'>
-                            My DataCollections
+                            My Data Collections
                         </Link>
                     </ListGroupItem>
                     <ListGroupItem>
                         <Link to='/profile/my-cityservices/cityservice'>
-                            My CityServices
+                            My City Services
                         </Link>
                     </ListGroupItem>
                     <ListGroupItem>
