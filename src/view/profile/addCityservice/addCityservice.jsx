@@ -46,14 +46,13 @@ class AddCityService extends React.Component {
 
     requestUpload(value) {
         this.setState({ loading: true });
-        value["owner"] = this.props.userData.userName;
-        value["thumbnail"] = this.state.thumbnail;
-        console.log(value);
+        //value["thumbnail"] = this.state.thumbnail;
 
         fetch(api.cityService, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': this.props.userData.accessToken
             },
             body: JSON.stringify(value)
         }).then(response => response.json()).then(

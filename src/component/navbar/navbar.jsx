@@ -11,6 +11,7 @@ import {
     Button,
 } from 'reactstrap';
 import { connect } from 'react-redux';
+import Blockies from 'react-blockies';
 
 import './navbar.css';
 import logo from '../../assets/logo.png';
@@ -32,7 +33,7 @@ class MyNavbar extends Component {
     }
 
     render() {
-        const { userId, userName } = this.props.userData;
+        const { userId, userName, thumbnail } = this.props.userData;
 
         return (
             <div>
@@ -63,17 +64,38 @@ class MyNavbar extends Component {
                                         <Link to='/signin'><NavLink>Sign In</NavLink></Link>
                                     </NavItem>
                                     : <NavItem className='menu'>
-                                        <Link to='/profile'><NavLink>{ userName }</NavLink></Link>
+                                        <Link to='/profile'>
+                                            <NavLink>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    {
+                                                        thumbnail==null
+                                                            ? <Blockies
+                                                                seed={userName}
+                                                                size={7}
+                                                                scale={4}
+                                                                color='#DC90DD'
+                                                                bgColor='#F0F0F0'
+                                                                spotColor='#77C5D4'
+                                                            />
+                                                            : <img
+                                                                className='img-fluid'
+                                                                src={ thumbnail }
+                                                            />
+                                                    }
+                                                    <span style={{ marginLeft: '10px' }}>{ userName }</span>
+                                                </div>
+                                            </NavLink>
+                                        </Link>
                                     </NavItem>
 
                             }
                             {
                                 userId==undefined &&
-                                <NavItem className='menu'>
-                                    <Link to='/signup' className='link'>
-                                        <Button color='warning' className='btn-raised-yellow'>Sign Up</Button>
-                                    </Link>
-                                </NavItem>
+                                    <NavItem className='menu'>
+                                        <Link to='/signup' className='link'>
+                                            <Button color='warning' className='btn-raised-yellow'>Sign Up</Button>
+                                        </Link>
+                                    </NavItem>
                             }
                         </Nav>
                     </Collapse>

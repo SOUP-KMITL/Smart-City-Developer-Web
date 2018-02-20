@@ -99,7 +99,7 @@ const MenuCityService = ({ cityServices }) => (
                 <Row style={{ width: '880px' }}>
                     <Col md={3} className='mymenu-header'>
                         {
-                            item.thumbnail==null
+                            item.thumbnail!=null
                                 ? <Blockies
                                     seed={item.owner}
                                     size={7}

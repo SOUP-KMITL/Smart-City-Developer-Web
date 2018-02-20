@@ -63,7 +63,7 @@ class ShowDataCollection extends React.Component {
             }
         }).then(response => response.json()).then(
             res => {
-                this.setState({ dataCollection: res[0] });
+                this.setState({ dataCollection: res });
             },
             err => {
                 this.props.notify('CANNOT GET DATA', 'WARNING');
@@ -139,9 +139,9 @@ class ShowDataCollection extends React.Component {
 
                 <div className='img-product'>
                     {
-                        dataCollection.icon!=null
+                        dataCollection.thumbnail!=null
                             && <img
-                                src={dataCollection.icon}
+                                src={dataCollection.thumbnail}
                                 className='img-fluid img-thumbnail'
                                 alt='smartcity_product_name'
                             />
@@ -173,7 +173,7 @@ class ShowDataCollection extends React.Component {
                     </div>
                 </div>
                 <div className='product-header-description'>
-                    <p><FaCalendarO color='#56b8db' />  { this.formatDate(dataCollection.timestamp) }</p>
+                    <p><FaCalendarO color='#56b8db' />  { this.formatDate(dataCollection.createdAt) }</p>
                     <p><FaUser color='#56b8db' /> { dataCollection.owner }</p>
                 </div>
                 <hr />

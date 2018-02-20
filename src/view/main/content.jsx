@@ -207,7 +207,7 @@ const MenuDataCollection = ({ dataCollections }) => (
                 <Row style={{ width: '880px' }}>
                     <Col md={4} className='mymenu-header'>
                         {
-                            item.icon=='' || item.icon==null
+                            item.thumbnail=='' || item.thumbnail==null
                                 ? <Blockies
                                     seed={ item.owner }
                                     size={7}
@@ -218,7 +218,7 @@ const MenuDataCollection = ({ dataCollections }) => (
                                 />
                                 : <img
                                     className='img-fluid'
-                                    src={ item.icon }
+                                    src={ item.thumbnail }
                                     alt={ item.collectionName }
                                 />
                         }

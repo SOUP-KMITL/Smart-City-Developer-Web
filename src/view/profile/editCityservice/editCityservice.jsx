@@ -63,17 +63,7 @@ class EditCityService extends React.Component {
     }
 
     onDrop = acceptedFiles => {
-        acceptedFiles.map(file => {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const base64Image = reader.result;
-                this.setState({ thumbnail: base64Image });
-            };
-            reader.onabort = () => console.log('file reading was aborted');
-            reader.onerror = () => console.log('file reading has failed');
-
-            reader.readAsDataURL(file);
-        });
+        this.uploadThumbnail(acceptedFiles[0]);
     }
 
     swaggerTobase64 = e => {
@@ -105,10 +95,34 @@ class EditCityService extends React.Component {
         if (this.state.code != undefined && this.state.code != '')
             value.code = this.state.code;
 
-        if (this.state.thumbnail != undefined)
+        if (this.state.thumbnail != undefined) {
             value.thumbnail = this.state.thumbnail;
+            this.uploadThumbnail(this.state.thumbnail);
+        }
 
         return value;
+    }
+
+    uploadThumbnail(thumbnail) {
+        const { serviceId } = this.props.match.params;
+        const formData = new FormData();
+        formData.append('file', thumbnail);
+
+        fetch(api.cityService + '/' + serviceId + '/thumbnail', {
+            method: 'PUT',
+            headers: {
+                'Authorization': this.props.userData.accessToken,
+            },
+            body: formData
+        }).then(response => response.json()).then(
+            res => {
+                this.props.notify('UPDATE THUMBNAIL SUCCESSFULLY', 'success');
+            },
+            err => {
+                console.log('CANNOT GET DATA');
+                this.props.notify('UPDATE THUMBNAIL UNSUCCESSFULLY', 'error');
+            }
+        )
     }
 
     updateCityservice = (value) => {
