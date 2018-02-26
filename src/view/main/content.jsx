@@ -41,11 +41,11 @@ class Content extends Component {
     }
 
     requestCityService() {
-        fetch(api.cityService, { method: 'GET' })
+        fetch(api.cityService + '?size=5', { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
-                    this.setState({ cityServices: res });
+                    this.setState({ cityServices: res.content });
                 },
                 (err) => {
                     console.log('NOT FOUND 404 CityServices');

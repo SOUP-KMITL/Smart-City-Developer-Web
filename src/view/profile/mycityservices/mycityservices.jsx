@@ -41,7 +41,7 @@ class MyCityServices extends React.Component {
             .then((response) => response.json())
             .then(
                 (res) => {
-                    this.setState({ cityServices: res });
+                    this.setState({ cityServices: res.content });
                 },
                 (err) => {
                     console.log('NOT FOUND 404 CityServices');

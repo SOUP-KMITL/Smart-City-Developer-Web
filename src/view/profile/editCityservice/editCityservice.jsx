@@ -62,7 +62,20 @@ class EditCityService extends React.Component {
         reader.readAsDataURL(file);
     }
 
+    imgTobase64 = e => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const base64File = reader.result;
+            this.setState({ thumbnail: base64File });
+        };
+        reader.onabort = () => console.log('file reading was aborted');
+        reader.onerror = () => console.log('file reading has failed');
+
+        reader.readAsDataURL(e);
+    }
+
     onDrop = acceptedFiles => {
+        this.imgTobase64(acceptedFiles[0]);
         this.uploadThumbnail(acceptedFiles[0]);
     }
 
@@ -117,6 +130,9 @@ class EditCityService extends React.Component {
         }).then(response => response.json()).then(
             res => {
                 this.props.notify('UPDATE THUMBNAIL SUCCESSFULLY', 'success');
+                setTimeout(() => {
+                    this.props.history.goBack();
+                }, 1000);
             },
             err => {
                 console.log('CANNOT GET DATA');
@@ -134,6 +150,7 @@ class EditCityService extends React.Component {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': this.props.userData.accessToken
             },
             body: JSON.stringify(value)
         }).then(response => response.json()).then(

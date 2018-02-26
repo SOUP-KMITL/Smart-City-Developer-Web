@@ -93,6 +93,7 @@ export default class ShowCityService extends React.Component {
 
     render() {
         const { cityService } = this.state;
+        console.log(cityService.thumbnail);
 
         return (
             <Container>
