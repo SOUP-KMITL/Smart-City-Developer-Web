@@ -16,7 +16,9 @@ import Blockies from 'react-blockies';
 import FaPlus from 'react-icons/lib/fa/plus';
 
 import api from '../../../constance/api.js';
+import Pagination from '../../share/component/pagination.jsx';
 
+const PAGESIZE = 3;
 
 class MyCityServices extends React.Component {
 
@@ -24,7 +26,8 @@ class MyCityServices extends React.Component {
         super(props);
         this.state = {
             loading: false,
-            cityServices: []
+            cityServices: [],
+            pages: {}
         }
         this.requestCityService(props);
     }
@@ -34,14 +37,15 @@ class MyCityServices extends React.Component {
             this.requestCityService(props);
     }
 
-    requestCityService({ userData }) {
+    requestCityService({ userData, match }) {
+        const page = +match.params.page - 1;
         this.setState({ loading: true });
 
-        fetch(api.cityService + '?owner=' + userData.userName, { method: 'GET' })
+        fetch(api.cityService + `?size=${PAGESIZE}&page=${page}`, { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
-                    this.setState({ cityServices: res.content });
+                    this.setState({ cityServices: res.content, pages: res });
                 },
                 (err) => {
                     console.log('NOT FOUND 404 CityServices');
@@ -57,7 +61,7 @@ class MyCityServices extends React.Component {
 
 
     render() {
-        const { cityServices, loading } = this.state;
+        const { cityServices, loading, pages } = this.state;
         return (
             <div>
                 <h3 className='content-header'>City Service</h3>
@@ -77,6 +81,8 @@ class MyCityServices extends React.Component {
                         </Link>
                         : <MenuCityService cityServices={cityServices} />
                 }
+
+                <Pagination services={pages} match={ this.props.match } linkPage='/profile/my-cityservices/page/' />
             </div>
         );
     }

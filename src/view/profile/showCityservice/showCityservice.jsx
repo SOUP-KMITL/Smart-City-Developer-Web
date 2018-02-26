@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
     Container,
     Col,
@@ -26,7 +27,7 @@ import api from '../../../constance/api.js';
 import '../../product/cityservice-view.css';
 
 
-export default class ShowCityService extends React.Component {
+class ShowCityService extends React.Component {
 
     constructor() {
         super()
@@ -62,6 +63,9 @@ export default class ShowCityService extends React.Component {
     deleteCityService(serviceId) {
         fetch(api.cityService + '/' + serviceId, {
             method: 'DELETE',
+            headers: {
+                'Authorization': this.props.userData.accessToken
+            }
         }).then(response => response.json()).then(
             res => {
                 // ADD alert / notification here
@@ -93,7 +97,6 @@ export default class ShowCityService extends React.Component {
 
     render() {
         const { cityService } = this.state;
-        console.log(cityService.thumbnail);
 
         return (
             <Container>
@@ -160,3 +163,6 @@ export default class ShowCityService extends React.Component {
         );
     }
 }
+
+
+export default connect(state => state)(ShowCityService);

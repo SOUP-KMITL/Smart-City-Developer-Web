@@ -5,9 +5,6 @@ import {
     Col,
     Row,
     Button,
-    Pagination,
-    PaginationItem,
-    PaginationLink
 } from 'reactstrap';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
@@ -18,6 +15,7 @@ import Blockies from 'react-blockies';
 import FaPlus from 'react-icons/lib/fa/plus';
 
 import api from '../../../constance/api.js';
+import Pagination from '../../share/component/pagination.jsx';
 
 const PAGESIZE = 5;
 
@@ -83,7 +81,8 @@ class MyDataCollections extends React.Component {
                         </Link>
                         : <MenuDataCollection dataCollections={dataCollections.content} match={this.props.match}/>
                 }
-                <MyPagination dataCollections={dataCollections} match={ this.props.match }/>
+
+                <Pagination services={dataCollections} match={ this.props.match } linkPage='/profile/my-datacollections/page/' />
             </div>
         );
     }
@@ -146,61 +145,3 @@ const Loading = () => (
         <ReactLoading type='bars' color='#ced4da' height={100} width={100} />
     </div>
 )
-
-const MyPagination = ({ dataCollections, match }) => {
-    const pages = [];
-    if (pages.length < dataCollections.totalPages)
-        for (let i = 1; i <= dataCollections.totalPages; i++)
-            pages.push(i);
-
-    if (dataCollections.length != 0)
-        return (
-            <Pagination>
-                <PaginationItem disabled={ dataCollections.first }>
-                    {
-                        dataCollections.first
-                        ? <Link
-                            to={`/profile/my-datacollections/page/${match.params.page - 1}`}
-                            onClick={ e => e.preventDefault() }
-                        >
-                            <PaginationLink previous />
-                        </Link>
-                        : <Link
-                            to={`/profile/my-datacollections/page/${match.params.page - 1}`}
-                        >
-                            <PaginationLink previous />
-                        </Link>
-                    }
-                </PaginationItem>
-                {
-                    pages.map((page) => (
-                        <PaginationItem>
-                            <Link to={`/profile/my-datacollections/page/${page}`}>
-                                <PaginationLink>
-                                    { page }
-                                </PaginationLink>
-                            </Link>
-                        </PaginationItem>
-                    ))
-                }
-                <PaginationItem disabled={ dataCollections.last }>
-                    {
-                        dataCollections.last
-                        ? <Link
-                            to={`/profile/my-datacollections/page/${+match.params.page + 1}`}
-                            onClick={e => e.preventDefault()}
-                        >
-                            <PaginationLink next />
-                        </Link>
-                        : <Link
-                            to={`/profile/my-datacollections/page/${+match.params.page + 1}`}
-                        >
-                            <PaginationLink next />
-                        </Link>
-                    }
-                </PaginationItem>
-            </Pagination>
-        )
-    else
-        return null;
-}
