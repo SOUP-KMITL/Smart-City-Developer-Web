@@ -108,7 +108,7 @@ class MainProfile extends React.Component {
                             ? <Link to='/profile/add-cityservice' className='link'>
                                 <Button size='lg' className='btn-smooth btn-raised-success no-data'>+ ADD CITY SERVICE</Button>
                             </Link>
-                            : <MenuCityService cityServices={cityServices} />
+                            : <MenuCityService cityServices={cityServices.content} />
                     }
                 </div>
 
