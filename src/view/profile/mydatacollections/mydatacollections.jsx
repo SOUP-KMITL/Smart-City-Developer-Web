@@ -17,7 +17,7 @@ import FaPlus from 'react-icons/lib/fa/plus';
 import api from '../../../constance/api.js';
 import Pagination from '../../share/component/pagination.jsx';
 
-const PAGESIZE = 5;
+const PAGESIZE = 10;
 
 
 class MyDataCollections extends React.Component {
