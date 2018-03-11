@@ -41,7 +41,12 @@ class MyCityServices extends React.Component {
         const page = +match.params.page - 1;
         this.setState({ loading: true });
 
-        fetch(api.cityService + `?size=${PAGESIZE}&page=${page}`, { method: 'GET' })
+        fetch(api.cityService + `?size=${PAGESIZE}&page=${page}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': userData.accessToken,
+            }
+        })
             .then((response) => response.json())
             .then(
                 (res) => {

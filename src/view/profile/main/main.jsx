@@ -46,7 +46,12 @@ class MainProfile extends React.Component {
         loading.cityService = true;
         this.setState({ loading });
 
-        fetch(api.cityService + '?owner=' + userName, { method: 'GET' })
+        fetch(api.cityService, {
+            method: 'GET',
+            headers: {
+                'Authorization': props.userData.accessToken
+            }
+        })
             .then((response) => response.json())
             .then(
                 (res) => {
