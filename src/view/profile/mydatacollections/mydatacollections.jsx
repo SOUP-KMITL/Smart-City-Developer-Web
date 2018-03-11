@@ -27,12 +27,14 @@ class MyDataCollections extends React.Component {
         this.state = {
             dataCollections: [],
             loading: false,
+            pages: {}
         }
-        this.requestDataCollection(props);
+        if (props.userData.accessToken != undefined)
+            this.requestDataCollection(props);
     }
 
     componentWillReceiveProps(props) {
-        if (props.userData != undefined)
+        if (props.userData.accessToken != undefined)
             this.requestDataCollection(props);
     }
 
@@ -44,7 +46,7 @@ class MyDataCollections extends React.Component {
             .then((response) => response.json())
             .then(
                 (res) => {
-                    this.setState({ dataCollections: res });
+                    this.setState({ dataCollections: res.content, pages: res });
                 },
                 (err) => {
                     console.log('NOT FOUND 404 dataCollections');
@@ -60,7 +62,7 @@ class MyDataCollections extends React.Component {
 
 
     render() {
-        const { dataCollections, loading } = this.state;
+        const { dataCollections, loading, pages } = this.state;
 
         return (
             <div>
@@ -79,10 +81,10 @@ class MyDataCollections extends React.Component {
                         ? <Link to='/profile/add-datacollection' className='link'>
                             <Button size='lg' className='btn-smooth btn-raised-success no-data'><FaPlus style={{marginTop: '5px'}} />  Data Collection</Button>
                         </Link>
-                        : <MenuDataCollection dataCollections={dataCollections.content} match={this.props.match}/>
+                        : <MenuDataCollection dataCollections={dataCollections} match={this.props.match}/>
                 }
 
-                <Pagination services={dataCollections} match={ this.props.match } linkPage='/profile/my-datacollections/page/' />
+                <Pagination services={pages} match={ this.props.match } linkPage='/profile/my-datacollections/page/' />
             </div>
         );
     }

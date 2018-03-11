@@ -45,8 +45,21 @@ class AddDataCollection extends React.Component {
             delete queryString.keys;
             delete queryString.values;
         }
-        value.example = JSON.parse( value.example );
-        value.isOpen = JSON.parse( value.isOpen);
+        try {
+            value.example = JSON.parse( value.example );
+        } catch(err) {
+            this.props.notify('Example object format is invalid', 'error');
+            this.setState({ loading: false });
+            return null;
+        }
+
+        try {
+            value.isOpen = JSON.parse( value.isOpen);
+        } catch(err) {
+            this.props.notify('Please check Public or Private field', 'error');
+            this.setState({ loading: false });
+            return null;
+        }
 
         return value;
     }
@@ -55,29 +68,31 @@ class AddDataCollection extends React.Component {
         this.setState({ loading: true });
         let value = this.resolveValue(val);
 
-        fetch(api.dataCollection, {
-            method: 'POST',
-            headers: {
-                'Authorization': this.props.userData.accessToken,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(value)
-        }).then(
-            res => {
-                this.setState({ submitResult: true });
-                this.props.notify('CREATE SUCCESS', 'success');
+        if (value != null) {
+            fetch(api.dataCollection, {
+                method: 'POST',
+                headers: {
+                    'Authorization': this.props.userData.accessToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(value)
+            }).then(
+                res => {
+                    this.setState({ submitResult: true })
+                    this.props.notify('CREATE SUCCESS', 'success');
+                    setTimeout(() => {
+                        this.props.history.goBack();
+                    }, 1000);
+                },
+                err => {
+                    this.props.notify('CREATE UNSUCCESS', 'error');
+                }
+            ).finally(() => {
                 setTimeout(() => {
-                    this.props.history.goBack();
-                }, 1000);
-            },
-            err => {
-                this.props.notify('CREATE UNSUCCESS', 'error');
-            }
-        ).finally(() => {
-            setTimeout(() => {
-                this.setState({ loading: false });
-            }, 1000)
-        })
+                    this.setState({ loading: false });
+                }, 1000)
+            })
+        }
     }
 
     addHeaders() {

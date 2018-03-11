@@ -28,12 +28,15 @@ class MainProfile extends React.Component {
                 cityService: false
             }
         };
-        this.requestCityService(props);
-        this.requestDataCollection(props);
+
+        if (props.userData.accessToken != undefined) {
+            this.requestCityService(props);
+            this.requestDataCollection(props);
+        }
     }
 
     componentWillReceiveProps(props) {
-        if (props.userData != undefined) {
+        if (props.userData.accessToken != undefined) {
             this.requestCityService(props);
             this.requestDataCollection(props);
         }
@@ -42,9 +45,7 @@ class MainProfile extends React.Component {
     requestCityService(props) {
         const { userName } = props.userData;
         // Update object state
-        const loading = Object.assign({}, this.state.loading);
-        loading.cityService = true;
-        this.setState({ loading });
+        this.state.loading.cityService = true;
 
         fetch(api.cityService, {
             method: 'GET',
@@ -55,7 +56,7 @@ class MainProfile extends React.Component {
             .then((response) => response.json())
             .then(
                 (res) => {
-                    this.setState({ cityServices: res });
+                    this.setState({ cityServices: res.content });
                 },
                 (err) => {
                     console.log('NOT FOUND 404 CityServices');
@@ -65,7 +66,7 @@ class MainProfile extends React.Component {
                 this.setState({ cityServices: [] })
             })
             .finally(() => {
-                const loading = Object.assign({}, this.state.loading);    //creating copy of object
+                const loading = Object.assign({}, this.state.loading.cityService);
                 loading.cityService = false;
                 this.setState({ loading });
             });
@@ -74,15 +75,13 @@ class MainProfile extends React.Component {
     requestDataCollection(props) {
         const { userName } = props.userData;
         // Update object state
-        const loading = Object.assign({}, this.state.loading);
-        loading.dataCollection = true;
-        this.setState({ loading });
+        this.state.loading.dataCollection = true;
 
         fetch(api.dataCollection + '?owner=' + userName, { method: 'GET' })
             .then((response) => response.json())
             .then(
                 (res) => {
-                    this.setState({ dataCollections: res });
+                    this.setState({ dataCollections: res.content });
                 },
                 (err) => {
                     console.log('NOT FOUND 404 dataCollections');
@@ -92,7 +91,7 @@ class MainProfile extends React.Component {
                 this.setState({ dataCollections: [] })
             })
             .finally(() => {
-                const loading = Object.assign({}, this.state.loading);    //creating copy of object
+                const loading = Object.assign({}, this.state.loading.dataCollection);
                 loading.dataCollection = false;
                 this.setState({ loading });
             });
@@ -113,7 +112,7 @@ class MainProfile extends React.Component {
                             ? <Link to='/profile/add-cityservice' className='link'>
                                 <Button size='lg' className='btn-smooth btn-raised-success no-data'>+ ADD CITY SERVICE</Button>
                             </Link>
-                            : <MenuCityService cityServices={cityServices.content} />
+                            : <MenuCityService cityServices={cityServices} />
                     }
                 </div>
 

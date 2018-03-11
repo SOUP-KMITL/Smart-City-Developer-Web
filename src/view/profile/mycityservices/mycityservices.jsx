@@ -29,11 +29,12 @@ class MyCityServices extends React.Component {
             cityServices: [],
             pages: {}
         }
-        this.requestCityService(props);
+        if (props.userData.accessToken != undefined)
+            this.requestCityService(props);
     }
 
     componentWillReceiveProps(props) {
-        if (props.userData != undefined)
+        if (props.userData.accessToken != undefined)
             this.requestCityService(props);
     }
 
