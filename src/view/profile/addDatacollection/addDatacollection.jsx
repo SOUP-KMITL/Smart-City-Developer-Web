@@ -10,6 +10,7 @@ import {
 import { StyledText, Form, Radio, RadioGroup, StyledSelect, NestedForm } from 'react-form';
 import ReactLoading from 'react-loading';
 import FaPlus from 'react-icons/lib/fa/plus';
+import axios from 'axios';
 
 import api from '../../../constance/api.js';
 
@@ -69,29 +70,31 @@ class AddDataCollection extends React.Component {
         let value = this.resolveValue(val);
 
         if (value != null) {
-            fetch(api.dataCollection, {
-                method: 'POST',
+
+            axios.post(api.dataCollection, JSON.stringify(value), {
                 headers: {
                     'Authorization': this.props.userData.accessToken,
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(value)
-            }).then(
-                res => {
+                }
+            })
+                .then(({ data }) => {
                     this.setState({ submitResult: true })
                     this.props.notify('CREATE SUCCESS', 'success');
                     setTimeout(() => {
                         this.props.history.goBack();
                     }, 1000);
-                },
-                err => {
-                    this.props.notify('CREATE UNSUCCESS', 'error');
-                }
-            ).finally(() => {
-                setTimeout(() => {
-                    this.setState({ loading: false });
-                }, 1000)
-            })
+                })
+                .catch(({ response }) => {
+                    if (response.status === 409)
+                        this.props.notify('This collection name is already been taken', 'error');
+                    else
+                        this.props.notify('CREATE UNSUCCESS', 'error');
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        this.setState({ loading: false });
+                    }, 1000)
+                })
         }
     }
 

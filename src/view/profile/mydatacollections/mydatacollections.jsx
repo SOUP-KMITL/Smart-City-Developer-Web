@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import Blockies from 'react-blockies';
+import axios from 'axios';
 
 // Icon
 import FaPlus from 'react-icons/lib/fa/plus';
@@ -42,17 +43,12 @@ class MyDataCollections extends React.Component {
         const page = +match.params.page - 1;
         this.setState({ loading: true });
 
-        fetch(api.dataCollection + `?owner=${userData.userName}&size=${PAGESIZE}&page=${page}`, { method: 'GET' })
-            .then((response) => response.json())
-            .then(
-                (res) => {
-                    this.setState({ dataCollections: res.content, pages: res });
-                },
-                (err) => {
-                    console.log('NOT FOUND 404 dataCollections');
-                })
-            .catch((err) => {
-                console.log(this.state.dataCollections);
+        axios.get(api.dataCollection + `?owner=${userData.userName}&size=${PAGESIZE}&page=${page}`)
+            .then(({ data }) => {
+                this.setState({ dataCollections: data.content, pages: data });
+            })
+            .catch(({ response }) => {
+                this.props.notify('CANNOT GET DATA COLLECTOIN', 'error');
                 this.setState({ dataCollections: [] })
             })
             .finally(() => {

@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import classnames from 'classnames';
 import Blockies from 'react-blockies';
+import axios from 'axios';
 
 // Icons
 import FaPlus from 'react-icons/lib/fa/plus';
@@ -41,35 +42,25 @@ class Content extends Component {
     }
 
     requestCityService() {
-        fetch(api.cityService + '?size=5', { method: 'GET' })
-            .then((response) => response.json())
-            .then(
-                (res) => {
-                    this.setState({ cityServices: res.content });
-                },
-                (err) => {
-                    console.log('NOT FOUND 404 CityServices');
-                })
-            .catch((err) => {
-                console.log(this.state.cityServices);
-                this.setState({ cityServices: [] })
+        axios.get(api.cityService + '?size=5')
+            .then(({ data }) => {
+                this.setState({ cityServices: data.content });
             })
+            .catch((err) => {
+                console.log('CANNOT GET CITY SERVICE');
+                this.setState({ cityServices: [] })
+            });
     }
 
     requestDataCollection() {
-        fetch(api.dataCollection + `?size=${PAGESIZE}`, { method: 'GET' })
-            .then((response) => response.json())
-            .then(
-                (res) => {
-                    this.setState({ dataCollections: res });
-                },
-                (err) => {
-                    console.log('NOT FOUND 404 dataCollections');
-                })
-            .catch((err) => {
-                console.log(this.state.dataCollections);
-                this.setState({ dataCollections: [] })
+        axios.get(api.dataCollection + `?size=${PAGESIZE}`)
+            .then(({ data }) => {
+                this.setState({ dataCollections: data });
             })
+            .catch((err) => {
+                console.log('CANNOT GET DATA COLLECTION');
+                this.setState({ dataCollections: [] })
+            });
     }
 
 

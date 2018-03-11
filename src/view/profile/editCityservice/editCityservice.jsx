@@ -10,6 +10,7 @@ import {
 import { StyledText, Form, Radio, RadioGroup, StyledSelect, NestedForm, Select } from 'react-form';
 import ReactLoading from 'react-loading';
 import Dropzone from 'react-dropzone';
+import axios from 'axios';
 
 import FaCloudUpload from 'react-icons/lib/fa/cloud-upload';
 
@@ -37,16 +38,13 @@ class EditCityService extends React.Component {
     }
 
     requestCityService({ serviceId }) {
-        fetch(api.cityService + '/' + serviceId, {
-            method: 'GET',
-        }).then(response => response.json()).then(
-            res => {
-                this.setState({ cityService: res });
-            },
-            err => {
-                console.log('CANNOT GET DATA');
-            }
-        )
+        axios.get(api.cityService + '/' + serviceId)
+            .then(({ data }) => {
+                this.setState({ cityService: data });
+            })
+            .catch(({ response }) => {
+                console.log(response);
+            });
     }
 
     codeTobase64 = e => {
@@ -121,51 +119,42 @@ class EditCityService extends React.Component {
         const formData = new FormData();
         formData.append('file', thumbnail);
 
-        fetch(api.cityService + '/' + serviceId + '/thumbnail', {
-            method: 'PUT',
+        axios.put(api.cityService + '/' + serviceId + '/thumbnail', formData, {
             headers: {
                 'Authorization': this.props.userData.accessToken,
             },
-            body: formData
-        }).then(response => response.json()).then(
-            res => {
-                this.props.notify('UPDATE THUMBNAIL SUCCESSFULLY', 'success');
+        })
+            .then(({ data }) => {
+                this.props.notify('UPDATE THUMBNAIL SUCCESS', 'success');
                 setTimeout(() => {
                     this.props.history.goBack();
                 }, 1000);
-            },
-            err => {
-                console.log('CANNOT GET DATA');
-                this.props.notify('UPDATE THUMBNAIL UNSUCCESSFULLY', 'error');
-            }
-        )
+            })
+            .catch(({ response }) => {
+                this.props.notify('UPDATE THUMBNAIL UNSUCCESS', 'error');
+            });
     }
 
     updateCityservice = (value) => {
         const { serviceId } = this.props.match.params;
         value = this.resolveData(value);
-        console.log(value);
 
-        fetch(api.cityService + '/' + serviceId, {
-            method: 'PATCH',
+        axios.patch(api.cityService + '/' + serviceId, JSON.stringify(value), {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': this.props.userData.accessToken
             },
-            body: JSON.stringify(value)
-        }).then(response => response.json()).then(
-            res => {
-                this.setState({ cityService: res });
+        })
+            .then(({ data }) => {
+                this.setState({ cityService: data });
                 this.props.notify('UPDATE SUCCESSFULLY', 'success');
                 setTimeout(() => {
                     this.props.history.goBack();
-                }, 1000)
-            },
-            err => {
-                console.log('CANNOT GET DATA');
+                }, 1000);
+            })
+            .catch(({ response }) => {
                 this.props.notify('UPDATE UNSUCCESSFULLY', 'error');
-            }
-        )
+            });
     }
 
     render() {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { StyledText, Form } from 'react-form';
 import { Link } from 'react-router-dom';
 import {
@@ -7,11 +8,12 @@ import {
     Row,
     Button
 } from 'reactstrap';
+import axios from 'axios';
 
 import api from '../../constance/api.js';
 import '../login/login.css';
 
-export default class Register extends React.Component {
+class Register extends React.Component {
 
     constructor( props ) {
         super( props );
@@ -19,20 +21,25 @@ export default class Register extends React.Component {
     }
 
     requestRegister(value) {
-        fetch(api.users, {
-            method: 'POST',
+        axios.post(api.users, JSON.stringify(value), {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(value)
-        }).then(response => response.text()).then(
-            res => {
-                console.log(res);
-            },
-            err => {
-                console.log(err);
-            }
-        )
+        })
+            .then(({ data }) => {
+                    this.props.notify('CREATE USER SUCCESS', 'success');
+                    setTimeout(() => {
+                        this.props.history.goBack();
+                    }, 1000);
+            })
+            .catch(({ response }) => {
+                console.log(response.status);
+                if (response.status === 409)
+                    this.props.notify('This username is already taken', 'error');
+                else
+                    this.props.notify('CREATE USER UNSUCCESS', 'success');
+
+            });
     }
 
     render() {
@@ -78,6 +85,9 @@ export default class Register extends React.Component {
     }
 
 }
+
+
+export default connect(state => state)(Register);
 
 
 const statusOptions = [

@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import FaPlus from 'react-icons/lib/fa/plus';
 import Blockies from 'react-blockies';
+import axios from 'axios';
 
 import api from '../../../constance/api.js';
 
@@ -47,22 +48,16 @@ class MainProfile extends React.Component {
         // Update object state
         this.state.loading.cityService = true;
 
-        fetch(api.cityService, {
-            method: 'GET',
+        axios.get(api.cityService, {
             headers: {
                 'Authorization': props.userData.accessToken
             }
         })
-            .then((response) => response.json())
-            .then(
-                (res) => {
-                    this.setState({ cityServices: res.content });
-                },
-                (err) => {
-                    console.log('NOT FOUND 404 CityServices');
-                })
-            .catch((err) => {
-                console.log(this.state.cityServices);
+            .then(({ data }) => {
+                this.setState({ cityServices: data.content });
+            })
+            .catch(({ response }) => {
+                this.props.notify('CANNOT GET CITY SERVICE', 'error');
                 this.setState({ cityServices: [] })
             })
             .finally(() => {
@@ -77,17 +72,12 @@ class MainProfile extends React.Component {
         // Update object state
         this.state.loading.dataCollection = true;
 
-        fetch(api.dataCollection + '?owner=' + userName, { method: 'GET' })
-            .then((response) => response.json())
-            .then(
-                (res) => {
-                    this.setState({ dataCollections: res.content });
-                },
-                (err) => {
-                    console.log('NOT FOUND 404 dataCollections');
-                })
-            .catch((err) => {
-                console.log(this.state.dataCollections);
+        axios.get(api.dataCollection + '?owner=' + userName)
+            .then(({ data }) => {
+                this.setState({ dataCollections: data.content });
+            })
+            .catch(({ response }) => {
+                this.props.notify('CANNOT GET DATA COLLECTION');
                 this.setState({ dataCollections: [] })
             })
             .finally(() => {
@@ -126,7 +116,7 @@ class MainProfile extends React.Component {
                             ? <Link to='/profile/add-datacollection' className='link'>
                                 <Button size='lg' className='btn-smooth btn-raised-success no-data'>+ ADD DATA COLLECTION</Button>
                             </Link>
-                            : <MenuDataCollection dataCollections={dataCollections.content} />
+                            : <MenuDataCollection dataCollections={dataCollections} />
                     }
 
                 </div>

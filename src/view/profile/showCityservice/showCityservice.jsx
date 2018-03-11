@@ -14,6 +14,7 @@ import {
 import { Link } from 'react-router-dom';
 import ReactJson from 'react-json-view';
 import SwaggerUi from 'swagger-ui';
+import axios from 'axios';
 
 // Icons
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
@@ -44,37 +45,34 @@ class ShowCityService extends React.Component {
     }
 
     requestCityService({ serviceId }) {
-        fetch(api.cityService + '/' + serviceId, {
-            method: 'GET',
-        }).then(response => response.json()).then(
-            res => {
-                if (res.sampleData!=undefined)
-                    res.sampleData = res.sampleData;
-                this.setState({ cityService: res });
-                if (res.swagger!=undefined)
+        axios.get(api.cityService + '/' + serviceId)
+            .then(({ data }) => {
+                if (data.sampleData!=undefined)
+                    data.sampleData = data.sampleData;
+                this.setState({ cityService: data });
+                if (data.swagger!=undefined)
                     this.getSwagger();
-            },
-            err => {
-                console.log('CANNOT GET DATA');
-            }
-        )
+            })
+            .catch(({ response }) => {
+                this.props.notify('CANNOT GET CITY SERVICE', 'error');
+            });
     }
 
     deleteCityService(serviceId) {
-        fetch(api.cityService + '/' + serviceId, {
-            method: 'DELETE',
+        axios.delete(api.cityService + '/' + serviceId, {
             headers: {
                 'Authorization': this.props.userData.accessToken
             }
-        }).then(response => response.json()).then(
-            res => {
-                // ADD alert / notification here
-                this.props.history.goBack();
-            },
-            err => {
-                console.log('CANNOT GET DATA');
-            }
-        );
+        })
+            .then(res => {
+                this.props.notify('DELETE SUCCESS', 'success');
+                setTimeout(() => {
+                    this.props.history.goBack();
+                }, 1000);
+            })
+            .catch(({ response }) => {
+                this.props.notify('DELETE UNSUCCESS', 'error');
+            });
     }
 
     dropdownToggle() {

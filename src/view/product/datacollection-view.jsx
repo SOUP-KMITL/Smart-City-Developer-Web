@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import SwaggerUi from 'swagger-ui';
 import 'swagger-ui/dist/swagger-ui.css';
 import ReactJson from 'react-json-view';
+import axios from 'axios';
 
 // Icons
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
@@ -37,20 +38,17 @@ class ViewDatacollection extends React.Component {
     }
 
     requestDataCollection({ collectionName }) {
-        fetch(api.dataCollection + '?collectionName=' + collectionName, {
-            method: 'GET',
-        }).then(response => response.json()).then(
-            res => {
-                if (res.sampleData!=undefined)
-                    res.sampleData = res.sampleData;
-                this.setState({ dataCollection: res.content[0] });
-                if (res.swagger!=undefined)
+        axios.get(api.dataCollection + '?collectionName=' + collectionName)
+        .then(({ data }) => {
+                if (data.sampleData!=undefined)
+                    data.sampleData = data.sampleData;
+                this.setState({ dataCollection: data.content[0] });
+                if (data.swagger!=undefined)
                     this.getSwagger();
-            },
-            err => {
-                console.log('CANNOT GET DATA');
-            }
-        )
+            })
+            .catch(({ response }) => {
+                console.log('CANNOT GET DATA COLLECTION');
+            })
     }
 
 

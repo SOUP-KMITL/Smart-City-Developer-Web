@@ -9,6 +9,7 @@ import {
 } from 'reactstrap';
 import { StyledText, Form, Radio, RadioGroup, StyledSelect, NestedForm, Select } from 'react-form';
 import ReactLoading from 'react-loading';
+import axios from 'axios';
 
 import api from '../../../constance/api.js';
 
@@ -33,48 +34,50 @@ class EditDataCollection extends React.Component {
     requestDatacollection(props) {
         const { collectionId } = this.props.match.params;
 
-        fetch(api.dataCollection + collectionId + '/meta', {
-            method: 'GET',
+        axios.get(api.dataCollection + collectionId + '/meta', {
             headers: {
                 'Authorization': props.userData.accessToken
             }
-        }).then(response => response.json()).then(
-            res => {
-                this.setState({ dataCollection: res });
-            },
-            err => {
+        })
+            .then(({ data }) => {
+                this.setState({ dataCollection: data });
+            })
+            .catch(({ response }) => {
                 this.props.notify('CANNOT GET DATA', 'WARNING');
-            }
-        )
+            });
     }
 
     resolveValue(value) {
         // Assign manual key, value in headers
         if (value.isOpen != undefined)
             value.isOpen = JSON.parse( value.isOpen);
+        else {
+            this.props.notify('PLEASE CHECK Public or Private button', 'error');
+            return null;
+        }
 
         return value;
     }
 
     updateDatacollection = (value) => {
-        const { collectionId } = this.state.dataCollection[0];
+        const { collectionId } = this.state.dataCollection;
         value = this.resolveValue(value);
 
-        fetch(api.dataCollection + collectionId + '/meta', {
-            method: 'PUT',
+        axios.put(api.dataCollection + collectionId + '/meta', JSON.stringify(value), {
             headers: {
                 'Authorization': this.props.userData.accessToken,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(value)
-        }).then(
-            res => {
-                this.props.notify('UPDATE SUCCESSFULLY', 'success');
+        })
+            .then(({ data }) => {
+                this.props.notify('UPDATE SUCCESS', 'success');
                 setTimeout(() => {
                     this.props.history.goBack();
-                }, 1000)
-            },
-        )
+                }, 1000);
+            })
+            .catch(({ response }) => {
+                this.props.notify('UPDATE UNSUCCESS', 'error');
+            });
     }
 
     render() {

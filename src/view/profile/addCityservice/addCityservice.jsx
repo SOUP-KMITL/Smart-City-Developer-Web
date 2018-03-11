@@ -10,6 +10,7 @@ import {
 import { StyledText, Form, Radio, RadioGroup, StyledSelect, NestedForm } from 'react-form';
 import ReactLoading from 'react-loading';
 import Dropzone from 'react-dropzone';
+import axios from 'axios';
 
 import FaPlus from 'react-icons/lib/fa/plus';
 import FaCloudUpload from 'react-icons/lib/fa/cloud-upload';
@@ -48,26 +49,30 @@ class AddCityService extends React.Component {
         this.setState({ loading: true });
         //value["thumbnail"] = this.state.thumbnail;
 
-        fetch(api.cityService, {
-            method: 'POST',
+        axios.post(api.cityService, JSON.stringify(value), {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': this.props.userData.accessToken
             },
-            body: JSON.stringify(value)
-        }).then(response => response.json()).then(
+        }).then(
             res => {
                 this.setState({ submitResult: true });
                 this.props.notify('CREATE SUCCESS', 'success');
                 setTimeout(() => {
                     this.props.history.goBack();
                 }, 1000);
-            },
-        ).finally(() => {
-            setTimeout(() => {
-                this.setState({ loading: false });
-            }, 1000)
-        })
+            })
+            .catch(({ response }) => {
+                if (response.status === 409)
+                    this.props.notify('This service name is already taken', 'error');
+                else
+                    this.props.notify('CREATE UNSUCCESS', 'error');
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    this.setState({ loading: false });
+                }, 1000)
+            });
     }
 
 

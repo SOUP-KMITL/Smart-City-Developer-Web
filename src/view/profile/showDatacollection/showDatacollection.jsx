@@ -17,6 +17,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ReactJson from 'react-json-view';
+import axios from 'axios';
 
 // Icons
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
@@ -55,38 +56,33 @@ class ShowDataCollection extends React.Component {
 
     requestDatacollection(props) {
         const dataCollection = props.match.params.collectionId;
-        fetch(api.dataCollection + dataCollection + '/meta', {
-            method: 'GET',
+        axios.get(api.dataCollection + dataCollection + '/meta', {}, {
             headers: {
                 'Authorization': props.userData.accessToken,
                 'Content-Type': 'application/json'
             }
-        }).then(response => response.json()).then(
-            res => {
-                this.setState({ dataCollection: res });
-            },
-            err => {
+        })
+            .then(({ data }) => {
+                this.setState({ dataCollection: data });
+            })
+            .catch(({ err }) => {
                 this.props.notify('CANNOT GET DATA', 'WARNING');
-            }
-        )
+            })
     }
 
     deleteDatacollection(collectionId) {
-        fetch(api.dataCollection + collectionId, {
-            method: 'DELETE',
+        axios.delete(api.dataCollection + collectionId, {
             headers: {
                 'Authorization': this.props.userData.accessToken
             }
-        }).then(
-            res => {
+        })
+            .then(({ data }) => {
                 this.props.notify('DELETE SUCCESS', 'success');
                 this.props.history.goBack();
-            }
-        ).catch(
-            err => {
-                this.props.notify('DELETE fail', 'error');
-            }
-        );
+            })
+            .catch(({ response }) => {
+                this.props.notify('DELETE UNSUCCESS', 'error');
+            });
     }
 
     dropdownToggle() {
@@ -105,21 +101,21 @@ class ShowDataCollection extends React.Component {
             collectionId: datacollectionId,
             expire: 0
         }
-        fetch(api.getTicket, {
-            method: 'POST',
+        axios.post(api.getTicket, JSON.stringify(body), {
             headers: {
                 'Authorization': accessToken,
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(body)
-        }).then(response => response.text()).then(
-            res => {
-                this.setState({ ticket: res });
-            },
-            err => {
-                console.log('CANNOT GET TICKET');
             }
-        ).finally(() => this.setState({ modalOpen: true }));
+        })
+            .then(({ data }) => {
+                this.setState({ ticket: data });
+            })
+            .catch(({ response }) => {
+                this.props.notify('CANNOT GENERATE TICKET', 'error');
+            })
+            .finally(() => {
+                this.setState({ modalOpen: true });
+            });
     }
 
 

@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import ReactLoading from 'react-loading';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 
 import api from '../../constance/api.js';
 import './login.css';
@@ -30,33 +31,32 @@ class Login extends React.Component {
 
         const auth = 'Basic ' + new Buffer(value.username + ':' + value.password).toString('base64');
 
-        fetch(api.signin, {
-            method: 'GET',
+        axios.get(api.signin, {
             headers: {
                 'Authorization': auth
             }
-        }).then(response => response.json()).then(
-            res => {
-                this.setState({ loginResult: true })
-                if (res.success != false) {
-                    Storage.saveUserData(res);
-                    this.props.updateUserData(res);
-                }
-            },
-            err => {
-                this.setState({ loginResult: false })
-                console.log('CANNOT SIGN IN');
-            },
-        ).finally(() => {
-            setTimeout(() => {
-                this.setState({ loading: false })
-            }, 1000);
         })
+            .then(({ data }) => {
+                this.setState({ loginResult: true })
+                if (data.success != false) {
+                    Storage.saveUserData(data);
+                    this.props.updateUserData(data);
+                }
+            })
+            .catch(({ response }) => {
+                this.setState({ loginResult: false })
+                console.log('LOGIN INVALID');
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    this.setState({ loading: false })
+                }, 1000);
+            })
     }
 
 
     render() {
-        const { loading } = this.state;
+        const { loading, loginResult } = this.state;
         const { userId } = this.props.userData;
 
         if (userId!==undefined)
@@ -77,6 +77,9 @@ class Login extends React.Component {
                                             <label htmlFor="password">Password</label>
                                             <StyledText type='password' field='password' className='text-input login-input' />
 
+                                            {
+                                                loginResult===false && loading===false && <small className='validate-error'>Username or Password is invalid!!</small>
+                                            }
                                             <div className='login-submit'>
                                                 <Button
                                                     type='submit'

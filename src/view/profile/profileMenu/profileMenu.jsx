@@ -16,6 +16,7 @@ import {
 } from 'reactstrap';
 import { Switch, Route, Redirect, Link } from 'react-router-dom';
 import Blockies from 'react-blockies';
+import axios from 'axios';
 
 import Storage from '../../share/authorization/storage.jsx';
 import api from '../../../constance/api.js';
@@ -67,15 +68,15 @@ class ProfileMenu extends React.Component {
         const { userName } = this.props.userData;
         const { pwd } = this.state;
         const auth = 'Basic ' + new Buffer(userName + ':' + pwd).toString('base64');
-        fetch(api.users + userName + '/token', {
-            method: 'PUT',
+
+        axios.put(api.users + userName + '/token', {}, {
             headers: {
                 'Authorization': auth,
             },
-        }).then(response => response.text()).then(
-            ( res ) => {
-                if (res!='') {
-                    this.props.userData.accessToken = res;
+        })
+            .then(({ data }) => {
+                if (data!='') {
+                    this.props.userData.accessToken = data;
                     this.props.updateUserData(this.props.userData);
                     Storage.saveUserData(this.props.userData);
                     this.setState({ requestResult: true });
@@ -84,8 +85,8 @@ class ProfileMenu extends React.Component {
                     console.log('CANNOT GENERATE NEW ACCESSTOKEN');
                     this.setState({ requestResult: false });
                 }
-            }
-        ).finally(() => this.setState({ modalOpen: true }));
+            })
+            .finally(() => this.setState({ modalOpen: true }));
     }
 
     render() {

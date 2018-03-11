@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import Blockies from 'react-blockies';
+import axios from 'axios';
 
 
 // Icon
@@ -42,22 +43,16 @@ class MyCityServices extends React.Component {
         const page = +match.params.page - 1;
         this.setState({ loading: true });
 
-        fetch(api.cityService + `?size=${PAGESIZE}&page=${page}`, {
-            method: 'GET',
+        axios.get(api.cityService + `?size=${PAGESIZE}&page=${page}`, {
             headers: {
                 'Authorization': userData.accessToken,
             }
         })
-            .then((response) => response.json())
-            .then(
-                (res) => {
-                    this.setState({ cityServices: res.content, pages: res });
-                },
-                (err) => {
-                    console.log('NOT FOUND 404 CityServices');
-                })
-            .catch((err) => {
-                console.log(this.state.cityServices);
+            .then(({ data }) => {
+                this.setState({ cityServices: data.content, pages: data });
+            })
+            .catch(({ response }) => {
+                this.props.notify('CANNOT GET CITY SERVICE')
                 this.setState({ cityServices: [] })
             })
             .finally(() => {
