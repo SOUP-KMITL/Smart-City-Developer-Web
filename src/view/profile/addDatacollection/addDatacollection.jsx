@@ -33,8 +33,7 @@ class AddDataCollection extends React.Component {
 
     resolveValue(value) {
         // Assign manual key, value in headers
-        const { headers, queryString } = value.endPoint;
-        const { columns } = value;
+        const { columns, endPoint } = value;
 
         if (value.type === 'timeseries') {
             value.columns = [{
@@ -54,29 +53,32 @@ class AddDataCollection extends React.Component {
             }];
         }
 
-        if (columns.name != undefined && columns.type != undefined && columns.indexed != undefined) {
-            columns.name.map((name, i) => {
-                value.columns.push({
-                    "name": columns.name[i],
-                    "type": columns.type[i],
-                    "indexed": columns.indexed[i]
-                });
-            })
+        if (columns != undefined) {
+            columns.name!=undefined && columns.type!=undefined && columns.indexed!=undefined &&
+                columns.name.map((name, i) => {
+                    columns.push({
+                        "name": columns.name[i],
+                        "type": columns.type[i],
+                        "indexed": columns.indexed[i]
+                    });
+                })
         }
 
-        if (headers != undefined) {
-            headers.keys.map((key, i) => {
-                headers[key] = headers.values[i];
-            })
-            delete headers.keys;
-            delete headers.values;
+        if (endPoint != undefined) {
+            endPoint.headers != undefined &&
+                endPoint.headers.keys.map((key, i) => {
+                    endPoint.headers[key] = endPoint.headers.values[i];
+                })
+            delete endPoint.headers.keys;
+            delete endPoint.headers.values;
         }
-        if (queryString != undefined) {
-            queryString.keys.map((key, i) => {
-                queryString[key] = queryString.values[i];
-            })
-            delete queryString.keys;
-            delete queryString.values;
+        if (endPoint != undefined) {
+            endPoint.queryString != undefined &&
+                endPoint.queryString.keys.map((key, i) => {
+                    endPoint.queryString[key] = endPoint.queryString.values[i];
+                })
+            delete endPoint.queryString.keys;
+            delete endPoint.queryString.values;
         }
         try {
             value.example = JSON.parse( value.example );
@@ -100,7 +102,6 @@ class AddDataCollection extends React.Component {
     requestUpload(val) {
         this.setState({ loading: true });
         let value = this.resolveValue(val);
-        console.log(value);
 
         if (value != null) {
 
