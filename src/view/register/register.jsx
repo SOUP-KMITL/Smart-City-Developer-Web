@@ -37,7 +37,7 @@ class Register extends React.Component {
                 if (response.status === 409)
                     this.props.notify('This username is already taken', 'error');
                 else
-                    this.props.notify('CREATE USER UNSUCCESS', 'success');
+                    this.props.notify('CREATE USER UNSUCCESS', 'error');
 
             });
     }
