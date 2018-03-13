@@ -186,3 +186,10 @@ a[disabled] {
   display: none !important; /*hide base64 swagger url*/
 }
 
+
+
+
+.left-right {
+  display: flex;
+  justify-content: space-between;
+}

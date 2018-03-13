@@ -24,14 +24,23 @@ class AddDataCollection extends React.Component {
             submitResult: undefined,
             queryStrings: [],
             headers: [],
+            columns: [],
         }
         this.addHeaders = this.addHeaders.bind(this);
         this.addQueryString = this.addQueryString.bind(this);
+        this.addColumns = this.addColumns.bind(this);
     }
 
     resolveValue(value) {
         // Assign manual key, value in headers
         const { headers, queryString } = value.endPoint;
+
+        value.columns = [{
+                "name": "ts",
+                "type": "timeseries",
+                "indexed": true
+            }];
+
         if (headers != undefined) {
             headers.keys.map((key, i) => {
                 headers[key] = headers.values[i];
@@ -102,6 +111,10 @@ class AddDataCollection extends React.Component {
         this.setState({ headers: this.state.headers.concat(['']) })
     }
 
+    addColumns() {
+        this.setState({ columns: this.state.columns.concat(['']) })
+    }
+
     addQueryString() {
         this.setState({ queryStrings: this.state.queryStrings.concat(['']) })
     }
@@ -123,7 +136,7 @@ class AddDataCollection extends React.Component {
                                 <StyledText type='text' field='collectionName' className='text-input login-input' />
 
                                 <label htmlFor='type'>Type</label>
-                                <StyledText type='text' field='type' className='text-input login-input' />
+                                <StyledSelect field="type" options={type} className='text-input-select' />
 
                                 <label htmlFor='encryptionLevel'>Encryption level</label>
                                 <StyledSelect field="encryptionLevel" options={encryptionLevel} className='text-input-select' />
@@ -131,10 +144,40 @@ class AddDataCollection extends React.Component {
                                 <label htmlFor='example'>Example</label>
                                 <StyledText type='text' field='example' className='text-input login-input' />
 
+                                <br />
+                                <div className='left-right'>
+                                    <h3>Columns</h3>
+                                    <Button type='button' size='sm' outline color='info' onClick={this.addColumns}>
+                                        <FaPlus />
+                                    </Button>
+                                </div>
+                                <hr />
+                                {
+                                    this.state.columns.map((item, i) => (
+                                        <div class="input-row">
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <label htmlFor="type">Name</label>
+                                                <StyledText type='text' field='columns.name' className='text-input login-input' />
+                                            </Col>
+
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <label htmlFor="type">Type</label>
+                                                <StyledSelect field="columns.type" options={columnsType} className='text-input-select' />
+                                            </Col>
+
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <label htmlFor="type">Indexed</label>
+                                                <StyledSelect field="columns.indexed" options={boolean} className='text-input-select' />
+                                            </Col>
+                                        </div>
+                                    ))
+                                }
+
+                                <br />
                                 <h3>endPoint</h3>
                                 <hr />
                                 <label htmlFor="type">Type</label>
-                                <StyledText type='text' field='endPoint.type' className='text-input login-input' />
+                                <StyledSelect field="endPoint.type" options={endpointType} className='text-input-select' />
 
                                 <label htmlFor="url">URL</label>
                                 <StyledText type='text' field='endPoint.url' className='text-input login-input' />
@@ -223,23 +266,94 @@ const encryptionLevel = [
     {
         label: 'High encryption',
         value: 2
+    }
+]
+
+const type = [
+    {
+        label: 'Timeseries',
+        value: 'timeseries'
     },
+    {
+        label: 'Geotemporal',
+        value: 'geotemporal'
+    },
+    {
+        label: 'Keyvalue',
+        value: 'keyvalue'
+    }
+]
+
+const endpointType = [
+    {
+        label: 'Local',
+        value: 'local'
+    },
+    {
+        label: 'Remote',
+        value: 'remote'
+    }
+]
+
+const columnsType = [
+    {
+        label: 'Varchar',
+        value: 'varchar'
+    },
+    {
+        label: 'Int',
+        value: 'int'
+    },
+    {
+        label: 'Bigint',
+        value: 'bigint'
+    },
+    {
+        label: 'Double',
+        value: 'double'
+    },
+    {
+        label: 'Text',
+        value: 'text'
+    },
+    {
+        label: 'Timestamp',
+        value: 'timestamp'
+    }
+]
+
+const boolean = [
+    {
+        label: 'True',
+        value: true
+    },
+    {
+        label: 'False',
+        value: false
+    }
 ]
 
 const test = {
-    "collectionName": "babjazz-testog",
+    "collectionName": "kjsdfo",
     "endPoint": {
-        "type": "local | remote",
+        "type": "local",
         "url": "http://url.com",
-        "headers": {
-            "content-type": "application/json",
-            "accept": "application/json"
-        },
-        "queryString": {
-            "param": "value"
-        }
+        /*
+         *"headers": {
+         *    "content-type": "application/json",
+         *    "accept": "application/json"
+         *},
+         *"queryString": {
+         *    "param": "value"
+         *},
+         */
     },
-    "type": "string",
+    "columns": [
+        "name": "ts",
+        "type": "timeseries",
+        "indexed": true
+    ],
+    "type": "timeseries",
     "encryptionLevel": 0,
     "example": {},
     "isOpen": true
