@@ -64,22 +64,22 @@ class AddDataCollection extends React.Component {
                 })
         }
 
-        if (endPoint != undefined) {
-            endPoint.headers != undefined &&
-                endPoint.headers.keys.map((key, i) => {
-                    endPoint.headers[key] = endPoint.headers.values[i];
-                })
+        if (endPoint != undefined && endPoint.headers != undefined) {
+            endPoint.headers.keys.map((key, i) => {
+                endPoint.headers[key] = endPoint.headers.values[i];
+            })
             delete endPoint.headers.keys;
             delete endPoint.headers.values;
         }
-        if (endPoint != undefined) {
-            endPoint.queryString != undefined &&
-                endPoint.queryString.keys.map((key, i) => {
-                    endPoint.queryString[key] = endPoint.queryString.values[i];
-                })
+
+        if (endPoint != undefined && endPoint.queryString != undefined) {
+            endPoint.queryString.keys.map((key, i) => {
+                endPoint.queryString[key] = endPoint.queryString.values[i];
+            })
             delete endPoint.queryString.keys;
             delete endPoint.queryString.values;
         }
+
         try {
             value.example = JSON.parse( value.example );
         } catch(err) {
