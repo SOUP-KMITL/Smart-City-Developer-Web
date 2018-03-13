@@ -34,12 +34,35 @@ class AddDataCollection extends React.Component {
     resolveValue(value) {
         // Assign manual key, value in headers
         const { headers, queryString } = value.endPoint;
+        const { columns } = value;
 
-        value.columns = [{
+        if (value.type === 'timeseries') {
+            value.columns = [{
                 "name": "ts",
                 "type": "timeseries",
                 "indexed": true
             }];
+        } else if (value.type === 'geotemporal') {
+            value.columns = [{
+                "name": "lat",
+                "type": "double",
+                "indexed": true
+            }, {
+                "name": "lng",
+                "type": "double",
+                "indexed": true
+            }];
+        }
+
+        if (columns.name != undefined && columns.type != undefined && columns.indexed != undefined) {
+            columns.name.map((name, i) => {
+                value.columns.push({
+                    "name": columns.name[i],
+                    "type": columns.type[i],
+                    "indexed": columns.indexed[i]
+                });
+            })
+        }
 
         if (headers != undefined) {
             headers.keys.map((key, i) => {
@@ -77,6 +100,7 @@ class AddDataCollection extends React.Component {
     requestUpload(val) {
         this.setState({ loading: true });
         let value = this.resolveValue(val);
+        console.log(value);
 
         if (value != null) {
 
@@ -154,20 +178,20 @@ class AddDataCollection extends React.Component {
                                 <hr />
                                 {
                                     this.state.columns.map((item, i) => (
-                                        <div class="input-row">
+                                        <div class="input-row" key={i}>
                                             <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <label htmlFor="type">Name</label>
-                                                <StyledText type='text' field='columns.name' className='text-input login-input' />
+                                                <label htmlFor="columns.name">Name</label>
+                                                <StyledText type='text' field={['columns.name', i]} className='text-input login-input' />
                                             </Col>
 
                                             <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <label htmlFor="type">Type</label>
-                                                <StyledSelect field="columns.type" options={columnsType} className='text-input-select' />
+                                                <label htmlFor='columns.type'>Type</label>
+                                                <StyledSelect field={['columns.type', i]} options={columnsType} className='text-input-select' />
                                             </Col>
 
                                             <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <label htmlFor="type">Indexed</label>
-                                                <StyledSelect field="columns.indexed" options={boolean} className='text-input-select' />
+                                                <label htmlFor='columns.indexed'>Indexed</label>
+                                                <StyledSelect field={['columns.indexed', i]} options={boolean} className='text-input-select' />
                                             </Col>
                                         </div>
                                     ))
@@ -305,7 +329,7 @@ const columnsType = [
         value: 'int'
     },
     {
-        label: 'Bigint',
+        label: 'BigInt',
         value: 'bigint'
     },
     {
