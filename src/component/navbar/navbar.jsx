@@ -53,7 +53,7 @@ class MyNavbar extends Component {
                                 <Link to='/tutorial'><NavLink>Tutorial</NavLink></Link>
                             </NavItem>
                             <NavItem className='menu'>
-                                <Link to='/market-place'><NavLink>Marketplace</NavLink></Link>
+                                <Link to='/marketplace/datacollection'><NavLink>Marketplace</NavLink></Link>
                             </NavItem>
                             <NavItem className='menu'>
                                 <Link to='/contact-us'><NavLink>Contact Us</NavLink></Link>

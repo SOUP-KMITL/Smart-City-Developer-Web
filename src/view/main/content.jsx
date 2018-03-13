@@ -97,7 +97,7 @@ class Content extends Component {
                         {
                             cityServices.length!=0 &&
                                 <div className='more-detail'>
-                                    <Link to='' className='link'>
+                                    <Link to='/marketplace/cityservice' className='link'>
                                         <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>
                                     </Link>
                                 </div>
@@ -118,7 +118,7 @@ class Content extends Component {
                         {
                             dataCollections.length!=0 &&
                                 <div className='more-detail'>
-                                    <Link to='' className='link'>
+                                    <Link to='marketplace/datacollection' className='link'>
                                         <Button size='sm' block className='btn-raised-success underline-none'><FaPlus /> MORE</Button>
                                     </Link>
                                 </div>

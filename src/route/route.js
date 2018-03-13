@@ -7,6 +7,8 @@ import Register from '../view/register/register.jsx';
 import Contact from '../view/contact/contact.jsx';
 import Profile from '../view/profile/profile.jsx';
 import Signout from '../view/signout/signout.jsx';
+import MarketplaceCityservice from '../view/marketplace/marketplace-cityservice.jsx';
+import MarketplaceDatacollection from '../view/marketplace/marketplace-datacollection.jsx';
 
 const appRoute = [
   {path: '/', component: Main, exact: true},
@@ -15,10 +17,13 @@ const appRoute = [
   {path: '/contact-us', component: Contact},
   {path: '/profile', component: Profile, requireLogin: false},
   {path: '/profile/my-datacollection', component: Profile, requireLogin: false},
+  {path: '/marketplace/datacollection/page/:page', component: MarketplaceDatacollection, requireLogin: false},
+  {path: '/marketplace/cityservice/page/:page', component: MarketplaceCityservice, requireLogin: false},
   {path: '/signin', component: Login, requirePublic: true},
   {path: '/signup', component: Register, requirePublic: true},
   {path: '/signout', component: Signout},
   {path: '/notfound', component: Notfound},
+  {path: '/marketplace', redirect: true, to: '/marketplace/datacollection/page/1'},
   {redirect: true, to: '/notfound'},
 ];
 
