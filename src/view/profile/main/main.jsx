@@ -15,6 +15,7 @@ import axios from 'axios';
 
 import api from '../../../constance/api.js';
 
+const PAGESIZE = 6;
 
 class MainProfile extends React.Component {
 
@@ -48,7 +49,7 @@ class MainProfile extends React.Component {
         // Update object state
         this.state.loading.cityService = true;
 
-        axios.get(api.cityService, {
+        axios.get(api.cityService + `?size=${PAGESIZE}`, {
             headers: {
                 'Authorization': props.userData.accessToken
             }
@@ -72,7 +73,7 @@ class MainProfile extends React.Component {
         // Update object state
         this.state.loading.dataCollection = true;
 
-        axios.get(api.dataCollection + '?owner=' + userName)
+        axios.get(api.dataCollection + `?owner=${userName}&size=${PAGESIZE}`)
             .then(({ data }) => {
                 this.setState({ dataCollections: data.content });
             })
