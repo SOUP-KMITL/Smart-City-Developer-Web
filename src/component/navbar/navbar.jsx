@@ -93,7 +93,7 @@ class MyNavbar extends Component {
                                                             ? <Blockies
                                                                 seed={userName}
                                                                 size={7}
-                                                                scale={4}
+                                                                scale={3}
                                                                 color='#DC90DD'
                                                                 bgColor='#F0F0F0'
                                                                 spotColor='#77C5D4'
@@ -104,7 +104,7 @@ class MyNavbar extends Component {
                                                                 style={{ maxWidth: 20, maxHeight: 20 }}
                                                             />
                                                     }
-                                                    <span style={{ marginLeft: '10px' }}>{ userName }</span>
+                                                    <span style={{ marginLeft: '10px', verticalAlign: 'top' }}>{ userName }</span>
                                                 </DropdownToggle>
                                             </div>
                                             <DropdownMenu >
