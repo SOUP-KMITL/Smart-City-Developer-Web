@@ -73,7 +73,7 @@ class MarketplaceCityservice extends Component {
                 <Row style={{ marginBottom: '40px' }}>
                     <Col md={2}></Col>
                     <Col md={8} xs={12} className=''>
-                        <h3 className='content-header'>City Service</h3>
+                        <h3 className='content-header'>City Services</h3>
                         <hr className='content-hr' />
                         {
                             loading===true

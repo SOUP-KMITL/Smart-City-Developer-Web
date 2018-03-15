@@ -9,6 +9,10 @@ import {
     Collapse,
     NavbarToggler,
     Button,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
+    UncontrolledDropdown
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import Blockies from 'react-blockies';
@@ -53,7 +57,24 @@ class MyNavbar extends Component {
                                 <Link to='/tutorial'><NavLink>Tutorial</NavLink></Link>
                             </NavItem>
                             <NavItem className='menu'>
-                                <Link to='/marketplace/datacollection'><NavLink>Marketplace</NavLink></Link>
+                                <UncontrolledDropdown nav inNavbar>
+                                    <DropdownToggle nav caret>
+                                        Marketplace
+                                    </DropdownToggle>
+                                    <DropdownMenu >
+                                        <DropdownItem>
+                                            <Link to='/marketplace/datacollection/page/1' className='black'>
+                                                Data collections
+                                            </Link>
+                                        </DropdownItem>
+                                        <DropdownItem divider />
+                                        <DropdownItem>
+                                            <Link to='/marketplace/cityservice/page/1' className='black'>
+                                                City services
+                                            </Link>
+                                        </DropdownItem>
+                                    </DropdownMenu>
+                                </UncontrolledDropdown>
                             </NavItem>
                             <NavItem className='menu'>
                                 <Link to='/contact-us'><NavLink>Contact Us</NavLink></Link>
@@ -69,18 +90,18 @@ class MyNavbar extends Component {
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     {
                                                         thumbnail==null
-                                                            ? <Blockies
-                                                                seed={userName}
-                                                                size={7}
-                                                                scale={4}
-                                                                color='#DC90DD'
-                                                                bgColor='#F0F0F0'
-                                                                spotColor='#77C5D4'
-                                                            />
-                                                            : <img
-                                                                className='img-fluid'
-                                                                src={ thumbnail }
-                                                            />
+                                                        ? <Blockies
+                                                            seed={userName}
+                                                            size={7}
+                                                            scale={4}
+                                                            color='#DC90DD'
+                                                            bgColor='#F0F0F0'
+                                                            spotColor='#77C5D4'
+                                                        />
+                                                        : <img
+                                                            className='img-fluid'
+                                                            src={ thumbnail }
+                                                        />
                                                     }
                                                     <span style={{ marginLeft: '10px' }}>{ userName }</span>
                                                 </div>

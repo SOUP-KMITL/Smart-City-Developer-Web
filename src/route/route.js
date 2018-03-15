@@ -23,7 +23,6 @@ const appRoute = [
   {path: '/signup', component: Register, requirePublic: true},
   {path: '/signout', component: Signout},
   {path: '/notfound', component: Notfound},
-  {path: '/marketplace', redirect: true, to: '/marketplace/datacollection/page/1'},
   {redirect: true, to: '/notfound'},
 ];
 
