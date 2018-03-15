@@ -31,21 +31,12 @@ class ProfileMenu extends React.Component {
             modalPwdOpen: false,
             pwd: '',
             requestResult: null,
-            thumbnail: null
         }
         this.requestGenAcessToken = this.requestGenAcessToken.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.closeModalPwd = this.closeModalPwd.bind(this);
         this.updatePwdInput = this.updatePwdInput.bind(this);
         this.openModalPwd = this.openModalPwd.bind(this);
-    }
-
-    componentWillMount() {
-        this.setState({ thumbnail: this.props.userData.thumbnail });
-    }
-
-    componentWillReceiveProps(props) {
-        this.setState({ thumbnail: props.userData.thumbnail });
     }
 
     closeModal() {
@@ -111,7 +102,9 @@ class ProfileMenu extends React.Component {
             .then(({ data }) => {
                 this.props.notify('UPDATE PROFILE THUMBNAIL SUCCESS', 'success');
                 // For reload profile image without refresh page
-                this.setState({ thumbnail: thumbnail + '?t=' + new Date() });
+                const tmpUserData  = Object.assign({}, this.props.userData);
+                tmpUserData.thumbnail = thumbnail + '?t=' + new Date();
+                this.props.updateUserData(tmpUserData);
             })
             .catch(({ response }) => {
                 this.props.notify('UPDATE PROFILE THUMBNAIL UNSUCCESS', 'error');
@@ -120,8 +113,8 @@ class ProfileMenu extends React.Component {
 
 
     render() {
-        const { firstName, lastName, userName, accessToken } = this.props.userData;
-        const { modalOpen, modalPwdOpen, requestResult, thumbnail } = this.state;
+        const { firstName, lastName, userName, accessToken, thumbnail } = this.props.userData;
+        const { modalOpen, modalPwdOpen, requestResult } = this.state;
 
         return (
             <div>
@@ -169,11 +162,6 @@ class ProfileMenu extends React.Component {
                     <ListGroupItem>
                         <Link to='/profile/my-cityservices/cityservice'>
                             My City Services
-                        </Link>
-                    </ListGroupItem>
-                    <ListGroupItem>
-                        <Link to='/signout'>
-                            Sign Out
                         </Link>
                     </ListGroupItem>
                 </ListGroup>
