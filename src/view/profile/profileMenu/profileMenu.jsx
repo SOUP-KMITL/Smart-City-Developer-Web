@@ -24,20 +24,28 @@ import api from '../../../constance/api.js';
 
 class ProfileMenu extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             modalOpen: false,
             modalPwdOpen: false,
             pwd: '',
-            requestResult: null
+            requestResult: null,
+            thumbnail: null
         }
         this.requestGenAcessToken = this.requestGenAcessToken.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.closeModalPwd = this.closeModalPwd.bind(this);
         this.updatePwdInput = this.updatePwdInput.bind(this);
         this.openModalPwd = this.openModalPwd.bind(this);
+    }
 
+    componentWillMount() {
+        this.setState({ thumbnail: this.props.userData.thumbnail });
+    }
+
+    componentWillReceiveProps(props) {
+        this.setState({ thumbnail: props.userData.thumbnail });
     }
 
     closeModal() {
@@ -89,31 +97,56 @@ class ProfileMenu extends React.Component {
             .finally(() => this.setState({ modalOpen: true }));
     }
 
+    uploadImgProfile(event) {
+        const acceptFiled = event.target.files[0];
+        const { userName, thumbnail } = this.props.userData;
+        const formData = new FormData();
+        formData.append('thumbnail', acceptFiled);
+
+        axios.put(api.users + userName + '/thumbnail', formData, {
+            headers: {
+                'Authorization': this.props.userData.accessToken,
+            },
+        })
+            .then(({ data }) => {
+                this.props.notify('UPDATE PROFILE THUMBNAIL SUCCESS', 'success');
+                // For reload profile image without refresh page
+                this.setState({ thumbnail: thumbnail + '?t=' + new Date() });
+            })
+            .catch(({ response }) => {
+                this.props.notify('UPDATE PROFILE THUMBNAIL UNSUCCESS', 'error');
+            });
+    }
+
+
     render() {
         const { firstName, lastName, userName, accessToken } = this.props.userData;
-        const { modalOpen, modalPwdOpen, requestResult } = this.state;
+        const { modalOpen, modalPwdOpen, requestResult, thumbnail } = this.state;
 
         return (
             <div>
                 <ModalComponent isOpen={modalOpen} toggle={this.closeModal} newToken={accessToken} requestResult={requestResult} />
                 <ModalPassword isOpen={modalPwdOpen} swapModal={this.swapModal} close={this.closeModalPwd} updatePwd={this.updatePwdInput} />
-                <div className='profile-image-overlay' onClick={() => alert('UPLOAD IMG IS COMING SOON')}>
+                <div className='profile-image-overlay' onClick={ () => this.file.click() }>
+                    <input type="file" ref={(file) => this.file = file} style={{ display: 'none' }} onChange={ e => this.uploadImgProfile(e) } />
                     <div className='profile-image'>
-                        <Blockies
-                            seed={userName}
-                            size={7}
-                            scale={30}
-                            color='#DC90DD'
-                            bgColor='#F0F0F0'
-                            spotColor='#77C5D4'
-                        />
                         {
-                            /*                        <img*/
-                            //src='https://avatars1.githubusercontent.com/u/17084428?s=460&v=4'
-                            //width='200px'
-                            //className='img-fluid'
-                            //alt=''
-                            /*/>*/
+                            thumbnail===null ?
+                                <Blockies
+                                    seed={userName}
+                                    size={7}
+                                    scale={30}
+                                    color='#DC90DD'
+                                    bgColor='#F0F0F0'
+                                    spotColor='#77C5D4'
+                                />
+                                : <img
+                                    src={thumbnail}
+                                    className='img-fluid'
+                                    style={{ maxWidth: 210, maxHeight: 210 }}
+                                    ref={ (t) => this.t = t }
+                                    alt={userName}
+                                />
                         }
                     </div>
                 </div>

@@ -101,6 +101,7 @@ class MyNavbar extends Component {
                                                             : <img
                                                                 className='img-fluid'
                                                                 src={ thumbnail }
+                                                                style={{ maxWidth: 20, maxHeight: 20 }}
                                                             />
                                                     }
                                                     <span style={{ marginLeft: '10px' }}>{ userName }</span>
