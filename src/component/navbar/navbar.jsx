@@ -85,30 +85,42 @@ class MyNavbar extends Component {
                                         <Link to='/signin'><NavLink>Sign In</NavLink></Link>
                                     </NavItem>
                                     : <NavItem className='menu'>
-                                        <Link to='/profile'>
-                                            <NavLink>
-                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <UncontrolledDropdown nav inNavbar>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <DropdownToggle nav caret>
                                                     {
                                                         thumbnail==null
-                                                        ? <Blockies
-                                                            seed={userName}
-                                                            size={7}
-                                                            scale={4}
-                                                            color='#DC90DD'
-                                                            bgColor='#F0F0F0'
-                                                            spotColor='#77C5D4'
-                                                        />
-                                                        : <img
-                                                            className='img-fluid'
-                                                            src={ thumbnail }
-                                                        />
+                                                            ? <Blockies
+                                                                seed={userName}
+                                                                size={7}
+                                                                scale={4}
+                                                                color='#DC90DD'
+                                                                bgColor='#F0F0F0'
+                                                                spotColor='#77C5D4'
+                                                            />
+                                                            : <img
+                                                                className='img-fluid'
+                                                                src={ thumbnail }
+                                                            />
                                                     }
                                                     <span style={{ marginLeft: '10px' }}>{ userName }</span>
-                                                </div>
-                                            </NavLink>
-                                        </Link>
+                                                </DropdownToggle>
+                                            </div>
+                                            <DropdownMenu >
+                                                <DropdownItem>
+                                                    <Link to='/profile' className='black'>
+                                                        My Profile
+                                                    </Link>
+                                                </DropdownItem>
+                                                <DropdownItem divider />
+                                                <DropdownItem>
+                                                    <Link to='/signout' className='black'>
+                                                        Sign Out
+                                                    </Link>
+                                                </DropdownItem>
+                                            </DropdownMenu>
+                                        </UncontrolledDropdown>
                                     </NavItem>
-
                             }
                             {
                                 userId==undefined &&
