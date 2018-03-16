@@ -31,6 +31,7 @@ class ViewCityservice extends React.Component {
         this.state = {
             cityService: {},
         }
+        this.formatDate = this.formatDate.bind(this);
     }
 
     componentDidMount() {
@@ -49,6 +50,11 @@ class ViewCityservice extends React.Component {
             .catch(({ response }) => {
                 console.log('CANNOT GET CITY SERVICE');
             });
+    }
+
+    formatDate(date) {
+        const value = new Date(date);
+        return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
     }
 
 
@@ -90,6 +96,7 @@ class ViewCityservice extends React.Component {
                         </div>
                         <div className='product-header-description'>
                             <p><FaUser color='#56b8db' /> { cityService.owner }</p>
+                            <p><FaCalendarO color='#56b8db' />  { this.formatDate(cityService.createdAt) }</p>
                         </div>
                         <hr />
 

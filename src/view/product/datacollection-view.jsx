@@ -31,6 +31,7 @@ class ViewDatacollection extends React.Component {
         this.state = {
             dataCollection: {},
         }
+        this.formatDate = this.formatDate.bind(this);
     }
 
     componentDidMount() {
@@ -51,6 +52,10 @@ class ViewDatacollection extends React.Component {
             })
     }
 
+    formatDate(date) {
+        const value = new Date(date);
+        return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
+    }
 
     render() {
         const { dataCollection } = this.state;
@@ -77,9 +82,9 @@ class ViewDatacollection extends React.Component {
 
                         <div className='img-product'>
                             {
-                                dataCollection.icon!==null &&
+                                dataCollection.thumbnail!==null &&
                                     <img
-                                        src={ dataCollection.icon }
+                                        src={ dataCollection.thumbnail }
                                         className='img-fluid'
                                         alt={ dataCollection.collectionName }
                                     />
@@ -90,6 +95,7 @@ class ViewDatacollection extends React.Component {
                         </div>
                         <div className='product-header-description'>
                             <p><FaUser color='#56b8db' /> { dataCollection.owner }</p>
+                            <p><FaCalendarO color='#56b8db' />  { this.formatDate(dataCollection.createdAt) }</p>
                         </div>
                         <hr />
 

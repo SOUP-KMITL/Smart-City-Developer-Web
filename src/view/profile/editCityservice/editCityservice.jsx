@@ -97,6 +97,9 @@ class EditCityService extends React.Component {
             // Validate error of object invalid
         }
 
+        if (value.videoLink != undefined)
+            value.videoLink = value.videoLink.split('https://youtu.be/')[1];
+
         if (this.state.code == undefined)
             value.kind = undefined;
 
@@ -199,7 +202,10 @@ class EditCityService extends React.Component {
                                 <label htmlFor='appLink'>App link <small>URL to sample application link</small></label>
                                 <StyledText type='text' field='appLink' className='text-input login-input' />
 
-                                <label htmlFor='videoLink'>Video link <small>URL to sample video link</small></label>
+                                <label htmlFor='videoLink'>
+                                    { 'Video link '}
+                                    <small>Shorten link of youtube video Ex. https://youtu.be/rjzsUijnWTO</small>
+                                </label>
                                 <StyledText type='text' field='videoLink' className='text-input login-input' />
 
                                 <label htmlFor='swagger'>Swagger</label>

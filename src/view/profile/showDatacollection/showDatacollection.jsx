@@ -182,8 +182,8 @@ class ShowDataCollection extends React.Component {
                     </div>
                 </div>
                 <div className='product-header-description'>
-                    <p><FaCalendarO color='#56b8db' />  { this.formatDate(dataCollection.createdAt) }</p>
                     <p><FaUser color='#56b8db' /> { dataCollection.owner }</p>
+                    <p><FaCalendarO color='#56b8db' />  { this.formatDate(dataCollection.createdAt) }</p>
                 </div>
                 <hr />
 
