@@ -104,28 +104,44 @@ class ViewCityservice extends React.Component {
                         <hr />
 
                         {
+                            cityService.appLink
+                                && <div>
+                                    <h3>Application Link</h3>
+                                    <a href={cityService.appLink} >{cityService.appLink}</a>
+                                </div>
+                        }
+                        <br />
+
+                        {
+                            cityService.videoLink
+                                && <div>
+                                <iframe
+                                    width='560'
+                                    height='315'
+                                    src={'https://www.youtube.com/embed/' + cityService.videoLink}
+                                    frameborder='0'
+                                    allow='autoplay; encrypted-media'
+                                    allowfullscreen></iframe>
+                            </div>
+                        }
+
+                        {
+                            cityService.swagger!=undefined
+                                && <div>
+                                    <div id="swaggerContainer" className='swagger' />
+                                    <hr />
+                                </div>
+                        }
+
+                        {
                             cityService.sampleData!=undefined
                                 && <div>
                                     <h3>Sample API</h3>
                                     <br />
                                     <ReactJson src={cityService.sampleData} />
-                                    <hr />
                                 </div>
                         }
 
-                        {
-                            cityService.appLink
-                                && <div>
-                                    <h3>Application Link</h3>
-                                    <a href={cityService.appLink} >{cityService.appLink}</a>
-                                    <hr />
-                                </div>
-                        }
-
-                        {
-                            cityService.swagger!=undefined
-                                && <div id="swaggerContainer" className='swagger' />
-                        }
 
                     </Col>
                 </Row>

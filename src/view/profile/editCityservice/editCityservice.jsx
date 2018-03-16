@@ -24,7 +24,7 @@ class EditCityService extends React.Component {
         this.state = {
             loading: false,
             submitResult: undefined,
-            thumbnail: undefined,
+            thumbnail: null,
             cityService: undefined,
             swagger: undefined,
             code: undefined,
@@ -129,9 +129,6 @@ class EditCityService extends React.Component {
         })
             .then(({ data }) => {
                 this.props.notify('UPDATE THUMBNAIL SUCCESS', 'success');
-                setTimeout(() => {
-                    this.props.history.goBack();
-                }, 1000);
             })
             .catch(({ response }) => {
                 this.props.notify('UPDATE THUMBNAIL UNSUCCESS', 'error');

@@ -92,7 +92,11 @@ class AddCityService extends React.Component {
                                 <Dropzone onDrop={this.onDrop.bind(this)} className='dropzone pointer' accept='image/*' >
                                     {
                                         thumbnail!=null
-                                            ? <div className='dropzone-thumbnail'><div className='dropzone-overlay'><img src={thumbnail} className='dropzone-img' /></div></div>
+                                            ? <div className='dropzone-thumbnail'>
+                                                <div className='dropzone-overlay'>
+                                                    <img src={thumbnail} className='dropzone-img' />
+                                                </div>
+                                            </div>
                                             : <div className='dropzone-description'>
                                                 <FaCloudUpload className='dropzone-icon' />
                                                 <p>Drop image</p>
