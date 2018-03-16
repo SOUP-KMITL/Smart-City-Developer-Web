@@ -17,6 +17,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ReactJson from 'react-json-view';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 import axios from 'axios';
 
 // Icons
@@ -40,12 +41,14 @@ class ShowDataCollection extends React.Component {
             dataCollection: {},
             modalOpen: false,
             ticket: '',
-            dropdownOpen: false
+            dropdownOpen: false,
+            copy: 'Copy'
         }
         this.dropdownToggle = this.dropdownToggle.bind(this);
         this.formatDate = this.formatDate.bind(this);
         this.genTicket = this.genTicket.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.setWordCopy = this.setWordCopy.bind(this);
         this.requestDatacollection(props);
     }
 
@@ -124,14 +127,24 @@ class ShowDataCollection extends React.Component {
         return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
     }
 
+    setWordCopy() {
+        // Set word copy to copied
+        this.setState({ copy: 'Copied!' });
+    }
 
     render() {
-        const { dataCollection, modalOpen, ticket } = this.state;
+        const { dataCollection, modalOpen, ticket, copy } = this.state;
 
         return (
             <Container>
 
-                <ModalComponent isOpen={modalOpen} toggle={this.closeModal} ticket={ticket} />
+                <ModalComponent
+                    isOpen={modalOpen}
+                    toggle={this.closeModal}
+                    ticket={ticket}
+                    copy={copy}
+                    setwordCopy={this.setWordCopy}
+                />
 
                 <div className='img-product'>
                     {
@@ -197,21 +210,26 @@ export default connect(state => state)(ShowDataCollection);
 const noImageAvialable = 'https://avatars1.githubusercontent.com/u/17084428?s=460&v=4';
 
 
-const ModalComponent = ({ isOpen, toggle, ticket }) => (
+const ModalComponent = ({ isOpen, toggle, ticket, copy, setwordCopy }) => (
     <Modal size='lg' isOpen={isOpen} fade={true} toggle={toggle}>
         <ModalHeader toggle={this.toggle}>Generate Ticket Success</ModalHeader>
         <ModalBody>
             {
                 ticket!=''
-                    ? `Your ticket is ${ticket}`
+                    ? `Your ticket is`
                     : 'Get ticket fail!'
             }
+            <br />
+            <input type='text' value={ticket} disabled className='text-input login-input' />
         </ModalBody>
         <ModalFooter className='link'>
-            <Button className='btn-smooth btn-raised-info'> <FaCopy /> Copy</Button>
-            <div className='btn-invisible' onClick={toggle}>
-                Close
-            </div>
-        </ModalFooter>
-    </Modal>
+            <CopyToClipboard text={ticket}
+                onCopy={() => setwordCopy()}>
+                <Button className='btn-smooth btn-raised-info'> <FaCopy /> { copy }</Button>
+    </CopyToClipboard>
+    <div className='btn-invisible' onClick={toggle}>
+        Close
+    </div>
+    </ModalFooter>
+</Modal>
 )
