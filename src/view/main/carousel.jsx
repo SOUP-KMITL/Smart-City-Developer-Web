@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
     Carousel,
     CarouselItem,
@@ -6,11 +7,13 @@ import {
     CarouselIndicators,
     Button,
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
+
 import './main.css';
 
 
 
-export default class MainCarousel extends React.Component {
+class MainCarousel extends React.Component {
 
     constructor(props) {
         super(props);
@@ -81,7 +84,15 @@ export default class MainCarousel extends React.Component {
                 <div className=' overlay'>
                     <h2>Smart City</h2>
                     <h5>Open data exchange platform for supporting smart city service  <br />development and innovation.</h5>
-                    <Button color='warning' className='btn-white' outline size='lg'>Sign Up</Button>
+                    {
+                        this.props.userData.userName==null
+                            ? <Link to='/signup'>
+                                <Button color='warning' className='btn-white' outline size='lg'>Sign Up</Button>
+                            </Link>
+                            : <Link to='/marketplace/cityservice/page/1'>
+                                <Button color='info' className='btn-white' outline size='lg'>Explore</Button>
+                            </Link>
+                    }
                 </div>
 
 
@@ -98,6 +109,8 @@ export default class MainCarousel extends React.Component {
     }
 }
 
+
+export default connect(state => state)(MainCarousel);
 
 const items = [
     {
