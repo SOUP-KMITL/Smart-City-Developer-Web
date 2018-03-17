@@ -19,7 +19,6 @@ import FaPlus from 'react-icons/lib/fa/plus';
 
 import '../main/content.css';
 import api from '../../constance/api';
-import MainSearchBar from '../share/component/search.jsx';
 import Pagination from '../share/component/pagination.jsx';
 
 const PAGESIZE = 10;
@@ -64,13 +63,8 @@ class MarketplaceCityservice extends Component {
 
         return (
             <Container>
-                <Row>
-                    <Col md={{ size: 4, offset: 8 }} style={{ marginTop: '40px' }}>
-                        <MainSearchBar />
-                    </Col>
-                </Row>
 
-                <Row style={{ marginBottom: '40px' }}>
+                <Row style={{ marginBottom: '40px', paddingTop: '40px' }}>
                     <Col md={2}></Col>
                     <Col md={8} xs={12} className=''>
                         <h3 className='content-header'>City Services</h3>

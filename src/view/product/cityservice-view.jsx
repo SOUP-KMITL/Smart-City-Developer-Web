@@ -19,7 +19,6 @@ import FaUser from 'react-icons/lib/fa/user';
 
 import ProfileMenu from '../profile/profileMenu/profileMenu.jsx';
 import MainRightPanel from '../share/component/right-panel.jsx';
-import MainSearchBar from '../share/component/search.jsx';
 import './cityservice-view.css';
 import api from '../../constance/api.js';
 
