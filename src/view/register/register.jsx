@@ -24,31 +24,36 @@ class Register extends React.Component {
     }
 
     requestRegister(value) {
-        this.setState({ loading: true });
-        axios.post(api.users, JSON.stringify(value), {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(({ data }) => {
+        if (value.repassword == value.password) {
+            this.setState({ loading: true });
+            axios.post(api.users, JSON.stringify(value), {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(({ data }) => {
                     this.props.notify('CREATE USER SUCCESS', 'success');
                     setTimeout(() => {
                         this.props.history.goBack();
                     }, 1000);
-            })
-            .catch(({ response }) => {
-                console.log(response.status);
-                if (response.status === 409)
-                    this.props.notify('This username is already taken', 'error');
-                else
-                    this.props.notify('CREATE USER UNSUCCESS', 'error');
+                })
+                .catch(({ response }) => {
+                    console.log(response.status);
+                    if (response.status === 409)
+                        this.props.notify('This username is already taken', 'error');
+                    else
+                        this.props.notify('CREATE USER UNSUCCESS', 'error');
 
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    this.setState({ loading: false });
-                }, 1000);
-            })
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        this.setState({ loading: false });
+                    }, 1000);
+                })
+        }
+        else {
+            this.props.notify('Password is not match, Try again', 'error');
+        }
     }
 
     render() {
