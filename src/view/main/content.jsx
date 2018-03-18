@@ -21,6 +21,7 @@ import './content.css';
 import '../share/style.css';
 import api from '../../constance/api';
 import ProfileMenu from '../profile/profileMenu/profileMenu.jsx';
+import MainSearchBar from '../share/component/search.jsx';
 
 const PAGESIZE = 5;
 
@@ -68,6 +69,13 @@ class Content extends Component {
 
         return (
             <Container>
+
+                <Row>
+                    <Col md={8}></Col>
+                    <Col md={4}>
+                        <MainSearchBar />
+                    </Col>
+                </Row>
 
                 <Row>
                     <Col md={4} xs={12} className=''>
