@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import ReactJson from 'react-json-view';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import axios from 'axios';
+import Blockies from 'react-blockies';
 
 // Icons
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
@@ -31,6 +32,7 @@ import FaTickets from 'react-icons/lib/fa/ticket';
 
 import api from '../../../constance/api.js';
 import '../../product/cityservice-view.css';
+import Loading from '../../share/component/loading.jsx';
 
 
 class ShowDataCollection extends React.Component {
@@ -42,7 +44,9 @@ class ShowDataCollection extends React.Component {
             modalOpen: false,
             ticket: '',
             dropdownOpen: false,
-            copy: 'Copy'
+            copy: 'Copy',
+            thumbnail: null,
+            loading: true,
         }
         this.dropdownToggle = this.dropdownToggle.bind(this);
         this.formatDate = this.formatDate.bind(this);
@@ -57,6 +61,18 @@ class ShowDataCollection extends React.Component {
             this.requestDatacollection(props);
     }
 
+    requestUserThumbnail(serviceOwner) {
+        axios.get(api.users + serviceOwner + '/thumbnail')
+            .then(({ status }) => {
+                setTimeout(() => {
+                    this.setState({ thumbnail: status });
+                }, 1000);
+            })
+            .finally(() => {
+                this.setState({ loading: false });
+            })
+    }
+
     requestDatacollection(props) {
         const dataCollection = props.match.params.collectionId;
         axios.get(api.dataCollection + dataCollection + '/meta', {}, {
@@ -67,6 +83,12 @@ class ShowDataCollection extends React.Component {
         })
             .then(({ data }) => {
                 this.setState({ dataCollection: data });
+                if (data.thumbnail != undefined)
+                    setTimeout(() => {
+                        this.setState({ loading: false });
+                    }, 1000);
+                else
+                    this.requestUserThumbnail();
             })
             .catch(({ err }) => {
                 this.props.notify('CANNOT GET DATA', 'WARNING');
@@ -137,75 +159,101 @@ class ShowDataCollection extends React.Component {
     }
 
     render() {
-        const { dataCollection, modalOpen, ticket, copy } = this.state;
+        const { dataCollection, modalOpen, ticket, copy, thumbnail, loading } = this.state;
 
-        return (
-            <Container>
+        if (loading === true)
+            return ( <Loading /> )
+        else
+            return (
+                <Container>
 
-                <ModalComponent
-                    isOpen={modalOpen}
-                    toggle={this.closeModal}
-                    ticket={ticket}
-                    copy={copy}
-                    setwordCopy={this.setWordCopy}
-                />
+                    <ModalComponent
+                        isOpen={modalOpen}
+                        toggle={this.closeModal}
+                        ticket={ticket}
+                        copy={copy}
+                        setwordCopy={this.setWordCopy}
+                    />
 
-            <div className='img-product'>
-                {
-                    dataCollection.thumbnail!=null
-                        && <img
-                            src={dataCollection.thumbnail}
-                            className='img-fluid img-thumbnail'
-                            alt='smartcity_product_name'
-                        />
-                }
-            </div>
-            <div className='product-header' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h3>{ dataCollection.collectionName }</h3>
-                <div className='flex-inline'>
-                    <Link
-                        className='black pointer'
-                        to={`/profile/my-datacollections/edit/${dataCollection.collectionId}`}>
-                        <FaEdit /> Edit
-                    </Link>
-                    <div
-                        className='pointer black'
-                        style={{ marginLeft: '10px' }}
-                        onClick={() => this.genTicket(dataCollection.collectionId)}
-                    >
-                        <FaTickets /> Gen Ticket
-                    </div>
-                    <Dropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
-                        <DropdownToggle className='menu-more'>
-                            <FaEllipsisV />
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            <DropdownItem onClick={ () => this.deleteDatacollection(dataCollection.collectionId) }>Delete</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
+                <div className='img-product'>
+                    {
+                        dataCollection.thumbnail
+                            && <img
+                                src={dataCollection.thumbnail}
+                                className='img-fluid'
+                                style={{ maxWidth: 210, maxHeight: 210 }}
+                                ref={ (t) => this.t = t }
+                                alt={dataCollection.collectionName}
+                            />
+                    }
+                    {
+                        !dataCollection.thumbnail && thumbnail!=200
+                            && <Blockies
+                                seed={dataCollection.owner}
+                                size={7}
+                                scale={30}
+                                color='#DC90DD'
+                                bgColor='#F0F0F0'
+                                spotColor='#77C5D4'
+                            />
+                    }
+                    {
+                        !dataCollection.thumbnail && thumbnail==200
+                            && <img
+                                src={api.users + dataCollection.owner + '/thumbnail'}
+                                className='img-fluid'
+                                style={{ maxWidth: 210, maxHeight: 210 }}
+                                ref={ (t) => this.t = t }
+                                alt={dataCollection.collectionName}
+                            />
+                    }
                 </div>
-            </div>
-            <div className='product-header-description'>
-                <p><FaUser color='#56b8db' /> { dataCollection.owner }</p>
-                <p><FaCalendarO color='#56b8db' />  { this.formatDate(dataCollection.createdAt) }</p>
-            </div>
-            <hr />
+                <div className='product-header' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h3>{ dataCollection.collectionName }</h3>
+                    <div className='flex-inline'>
+                        <Link
+                            className='black pointer'
+                            to={`/profile/my-datacollections/edit/${dataCollection.collectionId}`}>
+                            <FaEdit /> Edit
+                        </Link>
+                        <div
+                            className='pointer black'
+                            style={{ marginLeft: '10px' }}
+                            onClick={() => this.genTicket(dataCollection.collectionId)}
+                        >
+                            <FaTickets /> Gen Ticket
+                        </div>
+                        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
+                            <DropdownToggle className='menu-more'>
+                                <FaEllipsisV />
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem onClick={ () => this.deleteDatacollection(dataCollection.collectionId) }>Delete</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
+                </div>
+                <div className='product-header-description'>
+                    <p><FaUser color='#56b8db' /> { dataCollection.owner }</p>
+                    <p><FaCalendarO color='#56b8db' />  { this.formatDate(dataCollection.createdAt) }</p>
+                </div>
+                <hr />
 
-            <p>{ dataCollection.description }</p>
-            { dataCollection.description!=null && <hr /> }
+                <p>{ dataCollection.description }</p>
+                { dataCollection.description!=null && <hr /> }
 
-            <h3>API</h3>
-            {
-                dataCollection.example!=undefined && Object.keys(dataCollection.example).length === 0
-                    ? <h4>No Example API</h4>
-                    : <ReactJson src={ dataCollection.example } />
-            }
-            <hr />
+                <h3>API</h3>
+                {
+                    dataCollection.example!=undefined && Object.keys(dataCollection.example).length === 0
+                        ? <h4>No Example API</h4>
+                        : <ReactJson src={ dataCollection.example } />
+                }
+                <hr />
 
-            <div id="swaggerContainer" />
+                <div id="swaggerContainer" />
 
-        </Container>
-        );
+            </Container>
+            );
     }
 }
 

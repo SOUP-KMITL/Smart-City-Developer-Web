@@ -51,7 +51,9 @@ class EditCityService extends React.Component {
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.onload = () => {
-            const base64File = reader.result;
+            const base64Tmp = reader.result;
+            // Substr, use only token after ','
+            const base64File = base64Tmp.substr( base64Tmp.indexOf(',') + 1, base64Tmp.length );
             this.setState({ code: base64File });
         };
         reader.onabort = () => console.log('file reading was aborted');
