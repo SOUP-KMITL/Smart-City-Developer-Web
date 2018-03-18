@@ -89,8 +89,12 @@ class ShowCityService extends React.Component {
     }
 
     formatDate(date) {
-        const value = new Date(date);
-        return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
+        if (date != null) {
+            const value = new Date(date * 1000);
+            return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
+        }
+        else
+            return '-';
     }
 
     render() {

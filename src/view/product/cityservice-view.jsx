@@ -52,8 +52,12 @@ class ViewCityservice extends React.Component {
     }
 
     formatDate(date) {
-        const value = new Date(date);
-        return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
+        if (date != null) {
+            const value = new Date(date * 1000);
+            return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
+        }
+        else
+            return '-';
     }
 
 
@@ -114,14 +118,14 @@ class ViewCityservice extends React.Component {
                         {
                             cityService.videoLink
                                 && <div>
-                                <iframe
-                                    width='560'
-                                    height='315'
-                                    src={'https://www.youtube.com/embed/' + cityService.videoLink}
-                                    frameborder='0'
-                                    allow='autoplay; encrypted-media'
-                                    allowfullscreen></iframe>
-                            </div>
+                                    <iframe
+                                        width='560'
+                                        height='315'
+                                        src={'https://www.youtube.com/embed/' + cityService.videoLink}
+                                        frameborder='0'
+                                        allow='autoplay; encrypted-media'
+                                        allowfullscreen></iframe>
+                                </div>
                         }
 
                         {

@@ -123,8 +123,12 @@ class ShowDataCollection extends React.Component {
 
 
     formatDate(date) {
-        const value = new Date(date);
-        return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
+        if (date != null) {
+            const value = new Date(date);
+            return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
+        }
+        else
+            return '-';
     }
 
     setWordCopy() {
@@ -146,61 +150,61 @@ class ShowDataCollection extends React.Component {
                     setwordCopy={this.setWordCopy}
                 />
 
-                <div className='img-product'>
-                    {
-                        dataCollection.thumbnail!=null
-                            && <img
-                                src={dataCollection.thumbnail}
-                                className='img-fluid img-thumbnail'
-                                alt='smartcity_product_name'
-                            />
-                    }
-                </div>
-                <div className='product-header' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h3>{ dataCollection.collectionName }</h3>
-                    <div className='flex-inline'>
-                        <Link
-                            className='black pointer'
-                            to={`/profile/my-datacollections/edit/${dataCollection.collectionId}`}>
-                            <FaEdit /> Edit
-                        </Link>
-                        <div
-                            className='pointer black'
-                            style={{ marginLeft: '10px' }}
-                            onClick={() => this.genTicket(dataCollection.collectionId)}
-                        >
-                            <FaTickets /> Gen Ticket
-                        </div>
-                        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
-                            <DropdownToggle className='menu-more'>
-                                <FaEllipsisV />
-                            </DropdownToggle>
-                            <DropdownMenu>
-                                <DropdownItem onClick={ () => this.deleteDatacollection(dataCollection.collectionId) }>Delete</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                    </div>
-                </div>
-                <div className='product-header-description'>
-                    <p><FaUser color='#56b8db' /> { dataCollection.owner }</p>
-                    <p><FaCalendarO color='#56b8db' />  { this.formatDate(dataCollection.createdAt) }</p>
-                </div>
-                <hr />
-
-                <p>{ dataCollection.description }</p>
-                { dataCollection.description!=null && <hr /> }
-
-                <h3>API</h3>
+            <div className='img-product'>
                 {
-                    dataCollection.example!=undefined && Object.keys(dataCollection.example).length === 0
-                        ? <h4>No Example API</h4>
-                        : <ReactJson src={ dataCollection.example } />
+                    dataCollection.thumbnail!=null
+                        && <img
+                            src={dataCollection.thumbnail}
+                            className='img-fluid img-thumbnail'
+                            alt='smartcity_product_name'
+                        />
                 }
-                <hr />
+            </div>
+            <div className='product-header' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h3>{ dataCollection.collectionName }</h3>
+                <div className='flex-inline'>
+                    <Link
+                        className='black pointer'
+                        to={`/profile/my-datacollections/edit/${dataCollection.collectionId}`}>
+                        <FaEdit /> Edit
+                    </Link>
+                    <div
+                        className='pointer black'
+                        style={{ marginLeft: '10px' }}
+                        onClick={() => this.genTicket(dataCollection.collectionId)}
+                    >
+                        <FaTickets /> Gen Ticket
+                    </div>
+                    <Dropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
+                        <DropdownToggle className='menu-more'>
+                            <FaEllipsisV />
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem onClick={ () => this.deleteDatacollection(dataCollection.collectionId) }>Delete</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </div>
+            </div>
+            <div className='product-header-description'>
+                <p><FaUser color='#56b8db' /> { dataCollection.owner }</p>
+                <p><FaCalendarO color='#56b8db' />  { this.formatDate(dataCollection.createdAt) }</p>
+            </div>
+            <hr />
 
-                <div id="swaggerContainer" />
+            <p>{ dataCollection.description }</p>
+            { dataCollection.description!=null && <hr /> }
 
-            </Container>
+            <h3>API</h3>
+            {
+                dataCollection.example!=undefined && Object.keys(dataCollection.example).length === 0
+                    ? <h4>No Example API</h4>
+                    : <ReactJson src={ dataCollection.example } />
+            }
+            <hr />
+
+            <div id="swaggerContainer" />
+
+        </Container>
         );
     }
 }
@@ -226,10 +230,10 @@ const ModalComponent = ({ isOpen, toggle, ticket, copy, setwordCopy }) => (
             <CopyToClipboard text={ticket}
                 onCopy={() => setwordCopy()}>
                 <Button className='btn-smooth btn-raised-info'> <FaCopy /> { copy }</Button>
-    </CopyToClipboard>
-    <div className='btn-invisible' onClick={toggle}>
-        Close
-    </div>
-    </ModalFooter>
-</Modal>
+            </CopyToClipboard>
+            <div className='btn-invisible' onClick={toggle}>
+                Close
+            </div>
+        </ModalFooter>
+    </Modal>
 )
