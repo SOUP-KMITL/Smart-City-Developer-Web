@@ -139,6 +139,7 @@ class EditCityService extends React.Component {
 
     updateCityservice = (value) => {
         const { serviceId } = this.props.match.params;
+        this.setState({ thumbnail: null }); // Not upload thumbnail in resolveData
         value = this.resolveData(value);
 
         axios.patch(api.cityService + '/' + serviceId, JSON.stringify(value), {
