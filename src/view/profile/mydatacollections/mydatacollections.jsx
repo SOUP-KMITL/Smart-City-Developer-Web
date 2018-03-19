@@ -8,7 +8,6 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
-import ReactLoading from 'react-loading';
 import Blockies from 'react-blockies';
 import axios from 'axios';
 
@@ -17,6 +16,7 @@ import FaPlus from 'react-icons/lib/fa/plus';
 
 import api from '../../../constance/api.js';
 import Pagination from '../../share/component/pagination.jsx';
+import Loading from '../../share/component/loading.jsx';
 
 const PAGESIZE = 10;
 
@@ -27,7 +27,7 @@ class MyDataCollections extends React.Component {
         super();
         this.state = {
             dataCollections: [],
-            loading: false,
+            loading: true,
             pages: {}
         }
         if (props.userData.accessToken != undefined)
@@ -41,7 +41,6 @@ class MyDataCollections extends React.Component {
 
     requestDataCollection({userData, match}) {
         const page = +match.params.page - 1;
-        this.setState({ loading: true });
 
         axios.get(api.dataCollection + `?owner=${userData.userName}&size=${PAGESIZE}&page=${page}`)
             .then(({ data }) => {
@@ -136,10 +135,4 @@ const MenuDataCollection = ({ dataCollections, match }) => (
             </Container>
         );
     })
-)
-
-const Loading = () => (
-    <div className='flex-middle'>
-        <ReactLoading type='bars' color='#ced4da' height={100} width={100} />
-    </div>
 )
