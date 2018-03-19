@@ -71,8 +71,7 @@ class Content extends Component {
             <Container>
 
                 <Row>
-                    <Col md={8}></Col>
-                    <Col md={4}>
+                    <Col md={12}>
                         <MainSearchBar />
                     </Col>
                 </Row>

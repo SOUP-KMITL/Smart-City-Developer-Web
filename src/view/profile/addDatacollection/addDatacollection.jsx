@@ -38,7 +38,7 @@ class AddDataCollection extends React.Component {
         if (value.type === 'timeseries') {
             value.columns = [{
                 "name": "ts",
-                "type": "timeseries",
+                "type": "timestamp",
                 "indexed": true
             }];
         } else if (value.type === 'geotemporal') {
