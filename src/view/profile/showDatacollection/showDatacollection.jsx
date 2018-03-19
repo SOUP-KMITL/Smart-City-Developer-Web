@@ -266,8 +266,6 @@ class ShowDataCollection extends React.Component {
                 }
                 <hr />
 
-                <div id="swaggerContainer" />
-
             </Container>
             );
     }

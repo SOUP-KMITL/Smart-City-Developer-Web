@@ -17,6 +17,9 @@ import Blockies from 'react-blockies';
 // Icons
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
 import FaUser from 'react-icons/lib/fa/user';
+import FaToggleOff from 'react-icons/lib/fa/toggle-off';
+import FaToggleOn from 'react-icons/lib/fa/toggle-on';
+import FaObjectGroup from 'react-icons/lib/fa/object-group';
 
 import ProfileMenu from '../profile/profileMenu/profileMenu.jsx';
 import MainRightPanel from '../share/component/right-panel.jsx';
@@ -146,36 +149,34 @@ class ViewDatacollection extends React.Component {
                             </div>
                             <div className='product-header-description'>
                                 <p><FaUser color='#56b8db' /> { dataCollection.owner }</p>
-                                <p><FaCalendarO color='#56b8db' />  { this.formatDate(dataCollection.createdAt) }</p>
+                                <p><FaObjectGroup color='#56b8db' />  { dataCollection.type.toUpperCase() }</p>
+                                {
+                                    dataCollection.open
+                                        ? <p><FaToggleOn color='#56b8db' /> Public</p>
+                                        : <p><FaToggleOff color='#56b8db'/> Private</p>
+                                }
                             </div>
                             <hr />
 
+
                             <p>{ dataCollection.description }</p>
+                            { dataCollection.description!=null && <hr /> }
+
+                            <h3>Example API</h3>
+                            {
+                                dataCollection.example!=undefined && Object.keys(dataCollection.example).length === 0
+                                    ? <p>No Example API</p>
+                                    : <ReactJson src={ dataCollection.example } />
+                            }
                             <hr />
 
+                            <h3>Category</h3>
                             {
-                                dataCollection.sampleData!=undefined
-                                    && <div>
-                                        <h3>Sample API</h3>
-                                        <br />
-                                        <ReactJson src={dataCollection.sampleData} />
-                                        <hr />
-                                    </div>
+                                dataCollection.category==null
+                                    ? <p>No category</p>
+                                    : <p>{ dataCollection.category }</p>
                             }
-
-                            {
-                                dataCollection.appLink
-                                    && <div>
-                                        <h3>Application Link</h3>
-                                        <a href={dataCollection.appLink} >{dataCollection.appLink}</a>
-                                        <hr />
-                                    </div>
-                            }
-
-                            {
-                                dataCollection.swagger!=undefined
-                                    && <div id="swaggerContainer" className='swagger' />
-                            }
+                            <hr />
 
                         </Col>
                     </Row>
