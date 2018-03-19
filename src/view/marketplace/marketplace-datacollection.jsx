@@ -20,6 +20,7 @@ import FaPlus from 'react-icons/lib/fa/plus';
 import '../main/content.css';
 import api from '../../constance/api';
 import Pagination from '../share/component/pagination.jsx';
+import Loading from '../share/component/loading.jsx';
 
 const PAGESIZE = 10;
 
@@ -31,7 +32,7 @@ class MarketplaceDatacollection extends Component {
         this.state = {
             dataCollections: [],
             pages: {},
-            loading: false
+            loading: true
         };
         this.requestDataCollection();
     }
@@ -61,40 +62,35 @@ class MarketplaceDatacollection extends Component {
     render() {
         const { dataCollections, pages, loading } = this.state;
 
-        return (
-            <Container>
+        if (loading === true)
+            return ( <Loading /> )
+        else
+            return (
+                <Container>
 
-                <Row style={{ marginBottom: '40px', paddingTop: '40px' }}>
-                    <Col md={2}></Col>
-                    <Col md={8} xs={12} className=''>
-                        <h3 className='content-header'>Data Collections</h3>
-                        <hr className='content-hr' />
-                        {
-                            loading===true
-                                ? <Loading />
-                                : dataCollections.length===0
-                                ? <Link to='/profile/add-datacollection' className='link'>
-                                    <Button size='lg' className='btn-smooth btn-raised-success no-data'><FaPlus style={{marginTop: '5px'}} />  Data Collection</Button>
-                                </Link>
-                                : <MenuDataCollection dataCollections={dataCollections} match={this.props.match}/>
-                        }
-                        <Pagination services={pages} match={ this.props.match } linkPage='/marketplace/datacollection/page/' />
-                    </Col>
-                </Row>
+                    <Row style={{ marginBottom: '40px', paddingTop: '40px' }}>
+                        <Col md={2}></Col>
+                        <Col md={8} xs={12} className=''>
+                            <h3 className='content-header'>Data Collections</h3>
+                            <hr className='content-hr' />
+                            {
+                                loading===true
+                                    ? <Loading />
+                                    : dataCollections.length===0
+                                    ? <h3>No collection</h3>
+                                    : <MenuDataCollection dataCollections={dataCollections} match={this.props.match}/>
+                            }
+                            <Pagination services={pages} match={ this.props.match } linkPage='/marketplace/datacollection/page/' />
+                        </Col>
+                    </Row>
 
-            </Container>
-        );
+                </Container>
+            );
     }
 }
 
 export default connect(state => state)(MarketplaceDatacollection);
 
-
-const Loading = () => (
-    <div className='flex-middle'>
-        <ReactLoading type='bars' color='#ced4da' height={100} width={100} />
-    </div>
-)
 
 const getCssType = (value, index) => {
     return classnames( 'mymenu', {
