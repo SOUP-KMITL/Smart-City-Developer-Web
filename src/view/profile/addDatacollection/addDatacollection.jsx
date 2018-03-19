@@ -169,6 +169,9 @@ class AddDataCollection extends React.Component {
                                 <label htmlFor='example'>Example</label>
                                 <StyledText type='text' field='example' className='text-input login-input' />
 
+                                <label htmlFor='example'>Category</label>
+                                <StyledText type='text' field='category' className='text-input login-input' />
+
                                 <br />
                                 <div className='left-right'>
                                     <h3>Columns</h3>

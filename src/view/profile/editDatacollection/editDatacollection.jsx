@@ -14,6 +14,7 @@ import Dropzone from 'react-dropzone';
 import FaCloudUpload from 'react-icons/lib/fa/cloud-upload';
 
 import api from '../../../constance/api.js';
+import Loading from '../../share/component/loading.jsx';
 
 
 class EditDataCollection extends React.Component {
@@ -98,6 +99,7 @@ class EditDataCollection extends React.Component {
     }
 
     updateDatacollection = (value) => {
+        this.setState({ loading: true });
         const { collectionId } = this.state.dataCollection;
         value = this.resolveValue(value);
 
@@ -115,7 +117,10 @@ class EditDataCollection extends React.Component {
             })
             .catch(({ response }) => {
                 this.props.notify('UPDATE UNSUCCESS', 'error');
-            });
+            })
+            .finally(() => {
+                this.setState({ loading: false });
+            })
     }
 
     render() {
