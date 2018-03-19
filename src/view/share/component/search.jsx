@@ -1,10 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import {
-    FormGroup,
-    Input,
     InputGroup,
-    InputGroupAddon,
     ButtonGroup,
     Button,
     ButtonDropdown,
@@ -54,7 +51,7 @@ export default class MainSearchBar extends React.Component {
         const { dropdownButtonName, keyword, urlsearch } = this.state;
 
         if (keyword)
-            return <Redirect from='/' to={`/search/${urlsearch}/${keyword}/page/1`} />;
+            return <Redirect push from='/' to={`/search/${urlsearch}/${keyword}/page/1`} />;
         else
             return (
                 <Form onSubmit={submittedValues => this.submitSearch(submittedValues)}>

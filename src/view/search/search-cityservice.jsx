@@ -35,10 +35,12 @@ class SearchCityservice extends Component {
             loading: true
         };
         this.requestCityService(props.match);
+        console.log(props);
     }
 
     componentWillReceiveProps(props) {
         this.requestCityService(props.match);
+        console.log(props);
     }
 
     requestCityService(match) {
