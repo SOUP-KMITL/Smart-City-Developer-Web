@@ -198,3 +198,8 @@ a[disabled] {
   display: flex;
   justify-content: space-between;
 }
+
+
+.searchbar {
+  padding-top: 40px;
+}

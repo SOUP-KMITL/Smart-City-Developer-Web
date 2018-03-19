@@ -21,6 +21,8 @@ import '../main/content.css';
 import api from '../../constance/api';
 import Pagination from '../share/component/pagination.jsx';
 import Loading from '../share/component/loading.jsx';
+import MainSearchBar from '../share/component/search.jsx';
+
 
 const PAGESIZE = 10;
 
@@ -66,6 +68,14 @@ class SearchDatacollection extends Component {
         else
             return (
                 <Container>
+                    <div className='searchbar'>
+                        <Row>
+                            <Col md={2}></Col>
+                            <Col md={8} xs={12}>
+                                <MainSearchBar />
+                            </Col>
+                        </Row>
+                    </div>
 
                     <Row style={{ marginBottom: '40px', paddingTop: '40px' }}>
                         <Col md={2}></Col>
