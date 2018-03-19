@@ -40,6 +40,7 @@ class MyDataCollections extends React.Component {
     }
 
     requestDataCollection({userData, match}) {
+        this.setState({ loading: true });
         const page = +match.params.page - 1;
 
         axios.get(api.dataCollection + `?owner=${userData.userName}&size=${PAGESIZE}&page=${page}`)

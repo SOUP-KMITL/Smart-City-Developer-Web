@@ -40,6 +40,7 @@ class MyCityServices extends React.Component {
     }
 
     requestCityService({ userData, match }) {
+        this.setState({ loading: true });
         const page = +match.params.page - 1;
 
         axios.get(api.cityService + `?size=${PAGESIZE}&page=${page}`, {
