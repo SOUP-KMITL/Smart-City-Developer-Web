@@ -5,7 +5,7 @@ import { Provider }  from 'react-redux';
 import { routerMiddleware, ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 
-import registerServiceWorker from './registerServiceWorker';
+import registerServiceWorker, { unregister } from './registerServiceWorker';
 import allReducers from './state/reducers.js';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
@@ -22,4 +22,5 @@ ReactDOM.render(
     </ConnectedRouter>
   </Provider>
   , document.getElementById('root'));
-registerServiceWorker();
+//registerServiceWorker();
+unregister();

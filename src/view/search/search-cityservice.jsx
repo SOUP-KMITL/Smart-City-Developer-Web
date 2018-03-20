@@ -23,36 +23,39 @@ import Pagination from '../share/component/pagination.jsx';
 import Loading from '../share/component/loading.jsx';
 import MainSearchBar from '../share/component/search.jsx';
 
-
 const PAGESIZE = 10;
 
-class SearchDatacollection extends Component {
+class SearchCityservice extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            dataCollections: [],
+            cityServices: [],
             pages: {},
             loading: true
         };
+        this.requestCityService(props.match);
+        console.log(props);
     }
 
-    componentDidMount() {
-        this.requestDataCollection();
+    componentWillReceiveProps(props) {
+        this.requestCityService(props.match);
+        console.log(props);
     }
 
-    requestDataCollection() {
-        const page = +this.props.match.params.page - 1;
+    requestCityService(match) {
         this.setState({ loading: true });
+        const page = +match.params.page - 1;
+        const { keyword } = match.params;
 
-        axios.get(api.dataCollection + `?size=${PAGESIZE}&page=${page}`)
+        axios.get(api.cityService + `?size=${PAGESIZE}&page=${page}&keyword=${keyword}`)
             .then(({ data }) => {
-                this.setState({ dataCollections: data.content, pages: data });
+                this.setState({ cityServices: data.content, pages: data });
             })
             .catch((err) => {
-                console.log('CANNOT GET DATA COLLECTION');
-                this.setState({ dataCollections: [] })
+                console.log('CANNOT GET CITY SERVICE');
+                this.setState({ cityServices: [] })
             })
             .finally(() => {
                 this.setState({ loading: false });
@@ -61,7 +64,8 @@ class SearchDatacollection extends Component {
 
 
     render() {
-        const { dataCollections, pages, loading } = this.state;
+        const { cityServices, pages, loading } = this.state;
+        const { keyword } = this.props.match.params;
 
         if (loading === true)
             return ( <Loading /> )
@@ -80,16 +84,16 @@ class SearchDatacollection extends Component {
                     <Row style={{ marginBottom: '40px', paddingTop: '40px' }}>
                         <Col md={2}></Col>
                         <Col md={8} xs={12} className=''>
-                            <h3 className='content-header'>Data Collections</h3>
+                            <h3 className='content-header'>City Services</h3>
                             <hr className='content-hr' />
                             {
                                 loading===true
                                     ? <Loading />
-                                    : dataCollections.length===0
-                                    ? <h3>No collection</h3>
-                                    : <MenuDataCollection dataCollections={dataCollections} match={this.props.match}/>
+                                    : cityServices.length===0
+                                    ? <h3>No service</h3>
+                                    : <MenuCityService cityServices={cityServices} />
                             }
-                            <Pagination services={pages} match={ this.props.match } linkPage='/marketplace/datacollection/page/' />
+                            <Pagination services={pages} match={ this.props.match } linkPage={`/search/cityservice/${keyword}/page/`} />
                         </Col>
                     </Row>
 
@@ -98,7 +102,7 @@ class SearchDatacollection extends Component {
     }
 }
 
-export default connect(state => state)(SearchDatacollection);
+export default connect(state => state)(SearchCityservice);
 
 
 const getCssType = (value, index) => {
@@ -109,16 +113,16 @@ const getCssType = (value, index) => {
     });
 }
 
-const MenuDataCollection = ({ dataCollections }) => (
-    dataCollections!=[] && dataCollections.map((item, i) => {
+const MenuCityService = ({ cityServices }) => (
+    cityServices!=[] && cityServices.map((item, i) => {
         return (
             <Container className={getCssType(item.type)} key={i}>
                 <Row style={{ width: '880px' }}>
                     <Col md={4} className='mymenu-header'>
                         {
-                            item.thumbnail=='' || item.thumbnail==null
+                            item.thumbnail==null
                                 ? <Blockies
-                                    seed={ item.owner }
+                                    seed={item.owner}
                                     size={7}
                                     scale={10}
                                     color='#DC90DD'
@@ -128,7 +132,7 @@ const MenuDataCollection = ({ dataCollections }) => (
                                 : <img
                                     className='img-fluid'
                                     src={ item.thumbnail }
-                                    alt={ item.collectionName }
+                                    alt={item.serviceName}
                                 />
                         }
                         <div className='mymenu-header-footer'>
@@ -137,14 +141,13 @@ const MenuDataCollection = ({ dataCollections }) => (
                     </Col>
 
                     <Col md={10} className='mymenu-content'>
-                        <Link to={`/view/datacollection/${item.collectionName}`} className='black'>
-                            <strong>{ item.collectionName }</strong>
+                        <Link to={`/view/cityservice/${item.serviceId}`} className='black'>
+                            <strong>{ item.serviceName }</strong>
                         </Link>
-                        <p className='mymenu-description'>{item.description}</p>
+                        <p className='mymenu-description'>{ item.description }</p>
                     </Col>
                 </Row>
             </Container>
         );
     })
 )
-

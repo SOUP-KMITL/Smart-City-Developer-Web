@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { StyledText, Form } from 'react-form';
 import { Link } from 'react-router-dom';
+import ReactLoading from 'react-loading';
 import {
     Col,
     Container,
@@ -17,32 +18,47 @@ class Register extends React.Component {
 
     constructor( props ) {
         super( props );
-        this.state = {};
+        this.state = {
+            loading: false
+        };
     }
 
     requestRegister(value) {
-        axios.post(api.users, JSON.stringify(value), {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(({ data }) => {
+        if (value.repassword == value.password) {
+            this.setState({ loading: true });
+            axios.post(api.users, JSON.stringify(value), {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(({ data }) => {
                     this.props.notify('CREATE USER SUCCESS', 'success');
                     setTimeout(() => {
                         this.props.history.goBack();
                     }, 1000);
-            })
-            .catch(({ response }) => {
-                console.log(response.status);
-                if (response.status === 409)
-                    this.props.notify('This username is already taken', 'error');
-                else
-                    this.props.notify('CREATE USER UNSUCCESS', 'error');
+                })
+                .catch(({ response }) => {
+                    console.log(response.status);
+                    if (response.status === 409)
+                        this.props.notify('This username is already taken', 'error');
+                    else
+                        this.props.notify('CREATE USER UNSUCCESS', 'error');
 
-            });
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        this.setState({ loading: false });
+                    }, 1000);
+                })
+        }
+        else {
+            this.props.notify('Password is not match, Try again', 'error');
+        }
     }
 
     render() {
+        const { loading } = this.state;
+
         return (
             <div className='fullscreen'>
                 <div className='login-background' >
@@ -71,7 +87,17 @@ class Register extends React.Component {
                                         <StyledText type='password' field='repassword' id='repassword'  className='text-input login-input' />
 
                                         <div className='login-submit'>
-                                            <Button type='submit' size='lg' className='login-btn btn-smooth btn-raised-success' outline>Sign Up</Button>
+                                            <Button type='submit' size='lg' className='login-btn btn-smooth btn-raised-success' outline disabled={loading}>
+                                                {
+                                                    loading != true
+                                                    ? 'Sign Up'
+                                                    : <ReactLoading
+                                                        type='bars'
+                                                        height='30px'
+                                                        width='30px'
+                                                        className={(loading!==true? 'hidden': 'margin-auto ')} />
+                                                }
+                                            </Button>
                                             <span>Already have an account? <Link to='signin'>Sign In</Link> </span>
                                         </div>
                                     </form>

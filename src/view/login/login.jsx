@@ -60,7 +60,7 @@ class Login extends React.Component {
         const { userId } = this.props.userData;
 
         if (userId!==undefined)
-            return <Redirect to='/profile' />;
+            return <Redirect push from='signin' to='/profile' />;
         else
             return (
                 <div className='fullscreen'>

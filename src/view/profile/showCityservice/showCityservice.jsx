@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import ReactJson from 'react-json-view';
 import SwaggerUi from 'swagger-ui';
 import axios from 'axios';
+import Blockies from 'react-blockies';
 
 // Icons
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
@@ -26,15 +27,18 @@ import FaEllipsisV from 'react-icons/lib/fa/ellipsis-v';
 import  './showCityservice.css';
 import api from '../../../constance/api.js';
 import '../../product/cityservice-view.css';
+import Loading from '../../share/component/loading.jsx';
 
 
 class ShowCityService extends React.Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             cityService: {},
-            dropdownOpen: false
+            dropdownOpen: false,
+            thumbnail: null,
+            loading: true
         }
         this.dropdownToggle = this.dropdownToggle.bind(this);
         this.formatDate = this.formatDate.bind(this);
@@ -42,6 +46,18 @@ class ShowCityService extends React.Component {
 
     componentDidMount() {
         this.requestCityService(this.props.match.params);
+    }
+
+    requestUserThumbnail(serviceOwner) {
+        axios.get(api.users + serviceOwner + '/thumbnail')
+            .then(({ status }) => {
+                setTimeout(() => {
+                    this.setState({ thumbnail: status });
+                }, 1000);
+            })
+            .finally(() => {
+                this.setState({ loading: false });
+            })
     }
 
     requestCityService({ serviceId }) {
@@ -52,6 +68,12 @@ class ShowCityService extends React.Component {
                 this.setState({ cityService: data });
                 if (data.swagger!=undefined)
                     this.getSwagger();
+                if (data.thumbnail != undefined)
+                    setTimeout(() => {
+                        this.setState({ loading: false });
+                    }, 1000);
+                else
+                    this.requestUserThumbnail();
             })
             .catch(({ response }) => {
                 this.props.notify('CANNOT GET CITY SERVICE', 'error');
@@ -89,92 +111,135 @@ class ShowCityService extends React.Component {
     }
 
     formatDate(date) {
-        const value = new Date(date);
-        return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
+        if (date != null) {
+            const value = new Date(date * 1000);
+            return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
+        }
+        else
+            return '-';
     }
 
     render() {
-        const { cityService } = this.state;
+        const { cityService, thumbnail, loading } = this.state;
 
-        return (
-            <Container>
+        if (loading === true)
+            return ( <Loading /> )
+        else
+            return (
+                <Container>
 
-                <div className='img-product'>
-                    {
-                        cityService.thumbnail!==null &&
-                            <img
-                                src={ cityService.thumbnail }
-                                className='img-fluid'
-                                alt={ cityService.serviceName }
-                            />
-                    }
-                </div>
-                <div className='product-header' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h3>{ cityService.serviceName }</h3>
-                    <div className='flex-inline'>
-                        <Link to={`/profile/my-cityservices/edit/${cityService.serviceId}`} className='link black'>
-                            <FaEdit /> Edit
-                        </Link>
-                        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
-                            <DropdownToggle className='menu-more'>
-                                <FaEllipsisV />
-                            </DropdownToggle>
-                            <DropdownMenu>
-                                <DropdownItem onClick={() => this.deleteCityService(cityService.serviceId)}>Delete</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
+                    <div className='img-product'>
+                        {
+                            cityService.thumbnail
+                                && <img
+                                    src={cityService.thumbnail}
+                                    className='img-fluid'
+                                    style={{ maxWidth: 210, maxHeight: 210 }}
+                                    ref={ (t) => this.t = t }
+                                    alt={cityService.serviceName}
+                                />
+                        }
+                        {
+                            !cityService.thumbnail && thumbnail!=200
+                                && <Blockies
+                                    seed={cityService.owner}
+                                    size={7}
+                                    scale={30}
+                                    color='#DC90DD'
+                                    bgColor='#F0F0F0'
+                                    spotColor='#77C5D4'
+                                />
+                        }
+                        {
+                            !cityService.thumbnail && thumbnail==200
+                                && <img
+                                    src={api.users + cityService.owner + '/thumbnail'}
+                                    className='img-fluid'
+                                    style={{ maxWidth: 210, maxHeight: 210 }}
+                                    ref={ (t) => this.t = t }
+                                    alt={cityService.serviceName}
+                                />
+                        }
                     </div>
-                </div>
-                <div className='product-header-description'>
-                    <p><FaUser color='#56b8db' /> { cityService.owner }</p>
-                    <p><FaCalendarO color='#56b8db' />  { this.formatDate(cityService.createdAt) }</p>
-                </div>
-                <hr />
-
-                <p>{ cityService.description }</p>
-                <hr />
-
-                {
-                    cityService.appLink
-                        && <div>
-                            <h3>Application Link</h3>
-                            <a href={cityService.appLink} >{cityService.appLink}</a>
+                    <div className='product-header' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h3>{ cityService.serviceName }</h3>
+                        <div className='flex-inline'>
+                            <Link to={`/profile/my-cityservices/edit/${cityService.serviceId}`} className='link black'>
+                                <FaEdit /> Edit
+                            </Link>
+                            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
+                                <DropdownToggle className='menu-more'>
+                                    <FaEllipsisV />
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    <DropdownItem onClick={() => this.deleteCityService(cityService.serviceId)}>Delete</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
                         </div>
-                }
-                <br />
+                    </div>
+                    <div className='product-header-description'>
+                        <p><FaUser color='#56b8db' /> { cityService.owner }</p>
+                        <p><FaCalendarO color='#56b8db' />  { this.formatDate(cityService.createdAt) }</p>
+                    </div>
+                    <hr />
 
-                {
-                    cityService.videoLink
-                        && <div>
-                            <iframe
-                                width='560'
-                                height='315'
-                                src={'https://www.youtube.com/embed/' + cityService.videoLink}
-                                frameborder='0'
-                                allow='autoplay; encrypted-media'
-                                allowfullscreen></iframe>
-                        </div>
-                }
+                    <p>{ cityService.description }</p>
+                    <hr />
 
-                {
-                    cityService.swagger!=undefined
-                        && <div>
-                            <div id="swaggerContainer" className='swagger' />
-                            <hr />
-                        </div>
-                }
+                    <div>
+                        <h4>Demo link</h4>
+                        <br />
+                        {
+                            cityService.appLink
+                                ? <div>
+                                    <h4>Application Link</h4>
+                                    <a href={cityService.appLink} >{cityService.appLink}</a>
+                                </div>
+                                : <p>No data</p>
+                        }
+                    </div>
+                    <hr />
 
-                {
-                    cityService.sampleData!=undefined
-                        && <div>
-                            <h3>Sample API</h3>
-                            <br />
-                            <ReactJson src={cityService.sampleData} />
-                        </div>
-                }
+                    <div>
+                        <h4>Review</h4>
+                        <br />
+                        {
+                            cityService.videoLink
+                                ? <iframe
+                                    width='560'
+                                    height='315'
+                                    src={'https://www.youtube.com/embed/' + cityService.videoLink}
+                                    frameborder='0'
+                                    allow='autoplay; encrypted-media'
+                                    allowfullscreen></iframe>
+                                : <p>No data</p>
+                        }
+                    </div>
+                    <hr />
 
-            </Container>
-        );
+                    <div>
+                        <h4>Swagger</h4>
+                        <br />
+                        {
+                            cityService.swagger!=undefined
+                                ? <div id="swaggerContainer" className='swagger' />
+                                : <p>No data</p>
+                        }
+                    </div>
+                    <hr />
+
+                    <div>
+                        <h4>Sample API</h4>
+                        <br />
+                        {
+                            cityService.sampleData!=undefined
+                                ? <ReactJson src={cityService.sampleData} />
+                                : <p>No data</p>
+                        }
+                    </div>
+
+                </Container>
+            );
     }
 }
 

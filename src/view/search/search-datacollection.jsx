@@ -23,10 +23,9 @@ import Pagination from '../share/component/pagination.jsx';
 import Loading from '../share/component/loading.jsx';
 import MainSearchBar from '../share/component/search.jsx';
 
-
 const PAGESIZE = 10;
 
-class SearchDatacollection extends Component {
+class MarketplaceDatacollection extends Component {
 
     constructor(props) {
         super(props);
@@ -34,19 +33,21 @@ class SearchDatacollection extends Component {
         this.state = {
             dataCollections: [],
             pages: {},
-            loading: true
+            loading: true,
         };
+        this.requestDataCollection(props.match);
     }
 
-    componentDidMount() {
-        this.requestDataCollection();
+    componentWillReceiveProps(props) {
+        this.requestDataCollection(props.match);
     }
 
-    requestDataCollection() {
-        const page = +this.props.match.params.page - 1;
+    requestDataCollection(match) {
         this.setState({ loading: true });
+        const page = +match.params.page - 1;
+        const { keyword } = match.params;
 
-        axios.get(api.dataCollection + `?size=${PAGESIZE}&page=${page}`)
+        axios.get(api.dataCollection + `?size=${PAGESIZE}&page=${page}&keyword=${keyword}`)
             .then(({ data }) => {
                 this.setState({ dataCollections: data.content, pages: data });
             })
@@ -62,6 +63,7 @@ class SearchDatacollection extends Component {
 
     render() {
         const { dataCollections, pages, loading } = this.state;
+        const { keyword } = this.props.match.params;
 
         if (loading === true)
             return ( <Loading /> )
@@ -89,7 +91,7 @@ class SearchDatacollection extends Component {
                                     ? <h3>No collection</h3>
                                     : <MenuDataCollection dataCollections={dataCollections} match={this.props.match}/>
                             }
-                            <Pagination services={pages} match={ this.props.match } linkPage='/marketplace/datacollection/page/' />
+                            <Pagination services={pages} match={ this.props.match } linkPage={`/search/datacollection/${keyword}/page/`} />
                         </Col>
                     </Row>
 
@@ -98,7 +100,7 @@ class SearchDatacollection extends Component {
     }
 }
 
-export default connect(state => state)(SearchDatacollection);
+export default connect(state => state)(MarketplaceDatacollection);
 
 
 const getCssType = (value, index) => {

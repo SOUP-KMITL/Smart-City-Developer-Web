@@ -11,7 +11,7 @@ export default class Contact extends React.Component {
                     <h4>
                         If you have any questions, please don't hesitate to ask us on:
                         <br /> <br />
-                        <strong style={{ textDecoration: 'underline' }}>support@smartcity.kmti.io</strong>
+                        <strong style={{ textDecoration: 'underline' }}>support@smartcity.kmitl.io</strong>
                     </h4>
                 </div>
             </div>

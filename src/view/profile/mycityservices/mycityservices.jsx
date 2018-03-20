@@ -8,7 +8,6 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
-import ReactLoading from 'react-loading';
 import Blockies from 'react-blockies';
 import axios from 'axios';
 
@@ -18,6 +17,7 @@ import FaPlus from 'react-icons/lib/fa/plus';
 
 import api from '../../../constance/api.js';
 import Pagination from '../../share/component/pagination.jsx';
+import Loading from '../../share/component/loading.jsx';
 
 const PAGESIZE = 10;
 
@@ -26,7 +26,7 @@ class MyCityServices extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false,
+            loading: true,
             cityServices: [],
             pages: {}
         }
@@ -40,8 +40,8 @@ class MyCityServices extends React.Component {
     }
 
     requestCityService({ userData, match }) {
-        const page = +match.params.page - 1;
         this.setState({ loading: true });
+        const page = +match.params.page - 1;
 
         axios.get(api.cityService + `?size=${PAGESIZE}&page=${page}`, {
             headers: {
@@ -136,10 +136,4 @@ const MenuCityService = ({ cityServices }) => (
             </Container>
         );
     })
-)
-
-const Loading = () => (
-    <div className='flex-middle'>
-        <ReactLoading type='bars' color='#ced4da' height={100} width={100} />
-    </div>
 )

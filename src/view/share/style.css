@@ -79,6 +79,11 @@
   box-shadow: 0 3px 0 0 rgba(17, 118, 154, 0.8);
 }
 
+.btn-info {
+  border: none;
+  background:rgba(33, 149, 191, 0.8);
+}
+
 .btn-raised-info:hover {
   background:rgba(33, 149, 191, 1);
   box-shadow: 0 3px 0 0 rgba(17, 118, 154, 1);
@@ -192,4 +197,9 @@ a[disabled] {
 .left-right {
   display: flex;
   justify-content: space-between;
+}
+
+
+.searchbar {
+  padding-top: 40px;
 }

@@ -20,6 +20,9 @@ import FaPlus from 'react-icons/lib/fa/plus';
 import '../main/content.css';
 import api from '../../constance/api';
 import Pagination from '../share/component/pagination.jsx';
+import Loading from '../share/component/loading.jsx';
+import MainSearchBar from '../share/component/search.jsx';
+
 
 const PAGESIZE = 10;
 
@@ -31,7 +34,7 @@ class MarketplaceCityservice extends Component {
         this.state = {
             cityServices: [],
             pages: {},
-            loading: false
+            loading: true
         };
         this.requestCityService();
     }
@@ -61,40 +64,43 @@ class MarketplaceCityservice extends Component {
     render() {
         const { cityServices, pages, loading } = this.state;
 
-        return (
-            <Container>
+        if (loading === true)
+            return ( <Loading /> )
+        else
+            return (
+                <Container>
+                    <div className='searchbar'>
+                        <Row>
+                            <Col md={2}></Col>
+                            <Col md={8} xs={12}>
+                                <MainSearchBar />
+                            </Col>
+                        </Row>
+                    </div>
 
-                <Row style={{ marginBottom: '40px', paddingTop: '40px' }}>
-                    <Col md={2}></Col>
-                    <Col md={8} xs={12} className=''>
-                        <h3 className='content-header'>City Services</h3>
-                        <hr className='content-hr' />
-                        {
-                            loading===true
-                                ? <Loading />
-                                : cityServices.length===0
-                                ? <Link to='/profile/add-cityservice' className='link'>
-                                    <Button size='lg' className='btn-smooth btn-raised-success no-data'><FaPlus style={{marginTop: '5px'}} />  CityService</Button>
-                                </Link>
-                                : <MenuCityService cityServices={cityServices} />
-                        }
-                        <Pagination services={pages} match={ this.props.match } linkPage='/marketplace/cityservice/page/' />
-                    </Col>
-                </Row>
+                    <Row style={{ marginBottom: '40px', paddingTop: '40px' }}>
+                        <Col md={2}></Col>
+                        <Col md={8} xs={12} className=''>
+                            <h3 className='content-header'>City Services</h3>
+                            <hr className='content-hr' />
+                            {
+                                loading===true
+                                    ? <Loading />
+                                    : cityServices.length===0
+                                    ? <h3>No service</h3>
+                                    : <MenuCityService cityServices={cityServices} />
+                            }
+                            <Pagination services={pages} match={ this.props.match } linkPage='/marketplace/cityservice/page/' />
+                        </Col>
+                    </Row>
 
-            </Container>
-        );
+                </Container>
+            );
     }
 }
 
 export default connect(state => state)(MarketplaceCityservice);
 
-
-const Loading = () => (
-    <div className='flex-middle'>
-        <ReactLoading type='bars' color='#ced4da' height={100} width={100} />
-    </div>
-)
 
 const getCssType = (value, index) => {
     return classnames( 'mymenu', {

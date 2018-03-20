@@ -26,23 +26,24 @@ class AddCityService extends React.Component {
         this.state = {
             loading: false,
             submitResult: undefined,
-            thumbnail: null
         }
     }
 
-    onDrop = acceptedFiles => {
-        acceptedFiles.map(file => {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const base64Image = reader.result;
-                this.setState({ thumbnail: base64Image });
-            };
-            reader.onabort = () => console.log('file reading was aborted');
-            reader.onerror = () => console.log('file reading has failed');
-
-            reader.readAsDataURL(file);
-        });
-    }
+/*
+ *    onDrop = acceptedFiles => {
+ *        acceptedFiles.map(file => {
+ *            const reader = new FileReader();
+ *            reader.onload = () => {
+ *                const base64Image = reader.result;
+ *                this.setState({ thumbnail: base64Image });
+ *            };
+ *            reader.onabort = () => console.log('file reading was aborted');
+ *            reader.onerror = () => console.log('file reading has failed');
+ *
+ *            reader.readAsDataURL(file);
+ *        });
+ *    }
+ */
 
 
     requestUpload(value) {
@@ -77,7 +78,7 @@ class AddCityService extends React.Component {
 
 
     render() {
-        const { loading, submitResult, thumbnail } = this.state;
+        const { loading, submitResult } = this.state;
 
         return (
             <Card>

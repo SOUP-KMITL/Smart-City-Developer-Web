@@ -54,7 +54,7 @@ class MyNavbar extends Component {
                                 <Link to='/'><NavLink>Home</NavLink></Link>
                             </NavItem>
                             <NavItem className='menu'>
-                                <Link to='/tutorial'><NavLink>Tutorial</NavLink></Link>
+                                <a href='https://soup-kmitl.gitbooks.io/smart-city/content/' target='_blank'><NavLink>Tutorial</NavLink></a>
                             </NavItem>
                             <NavItem className='menu'>
                                 <UncontrolledDropdown nav inNavbar>
@@ -62,17 +62,17 @@ class MyNavbar extends Component {
                                         Marketplace
                                     </DropdownToggle>
                                     <DropdownMenu >
-                                        <DropdownItem>
-                                            <Link to='/marketplace/datacollection/page/1' className='black'>
+                                        <Link to='/marketplace/datacollection/page/1' className='black'>
+                                            <DropdownItem>
                                                 Data collections
-                                            </Link>
-                                        </DropdownItem>
+                                            </DropdownItem>
+                                        </Link>
                                         <DropdownItem divider />
-                                        <DropdownItem>
-                                            <Link to='/marketplace/cityservice/page/1' className='black'>
+                                        <Link to='/marketplace/cityservice/page/1' className='black'>
+                                            <DropdownItem>
                                                 City services
-                                            </Link>
-                                        </DropdownItem>
+                                            </DropdownItem>
+                                        </Link>
                                     </DropdownMenu>
                                 </UncontrolledDropdown>
                             </NavItem>
@@ -108,17 +108,17 @@ class MyNavbar extends Component {
                                                 </DropdownToggle>
                                             </div>
                                             <DropdownMenu >
-                                                <DropdownItem>
-                                                    <Link to='/profile' className='black'>
+                                                <Link to='/profile' className='black'>
+                                                    <DropdownItem>
                                                         My Profile
-                                                    </Link>
-                                                </DropdownItem>
+                                                    </DropdownItem>
+                                                </Link>
                                                 <DropdownItem divider />
-                                                <DropdownItem>
-                                                    <Link to='/signout' className='black'>
+                                                <Link to='/signout' className='black'>
+                                                    <DropdownItem>
                                                         Sign Out
-                                                    </Link>
-                                                </DropdownItem>
+                                                    </DropdownItem>
+                                                </Link>
                                             </DropdownMenu>
                                         </UncontrolledDropdown>
                                     </NavItem>

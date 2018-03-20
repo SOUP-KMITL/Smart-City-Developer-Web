@@ -9,6 +9,8 @@ import Profile from '../view/profile/profile.jsx';
 import Signout from '../view/signout/signout.jsx';
 import MarketplaceCityservice from '../view/marketplace/marketplace-cityservice.jsx';
 import MarketplaceDatacollection from '../view/marketplace/marketplace-datacollection.jsx';
+import SearchCityservice from '../view/search/search-cityservice.jsx';
+import SearchDatacollection from '../view/search/search-datacollection.jsx';
 
 const appRoute = [
   {path: '/', component: Main, exact: true},
@@ -19,6 +21,8 @@ const appRoute = [
   {path: '/profile/my-datacollection', component: Profile, requireLogin: false},
   {path: '/marketplace/datacollection/page/:page', component: MarketplaceDatacollection, requireLogin: false},
   {path: '/marketplace/cityservice/page/:page', component: MarketplaceCityservice, requireLogin: false},
+  {path: '/search/cityservice/:keyword/page/:page', component: SearchCityservice},
+  {path: '/search/datacollection/:keyword/page/:page', component: SearchDatacollection},
   {path: '/signin', component: Login, requirePublic: true},
   {path: '/signup', component: Register, requirePublic: true},
   {path: '/signout', component: Signout},
