@@ -55,14 +55,14 @@ class AddDataCollection extends React.Component {
         if (value.columns == undefined)
             value.columns = [];
         if (value.type === 'timeseries') {
-            delete value.endPoint;
+            value['endPoint'] = {'type': 'local'}
             value.columns.push({
                 "name": "ts",
                 "type": "timestamp",
                 "indexed": true
             });
         } else if (value.type === 'geotemporal') {
-            delete value.endPoint;
+            value['endPoint'] = {'type': 'local'}
             value.columns.push({
                 "name": "lat",
                 "type": "double",
@@ -73,7 +73,7 @@ class AddDataCollection extends React.Component {
                 "indexed": true
             });
         } else if (value.type === 'keyvalue') {
-            delete value.endPoint;
+            value['endPoint'] = {'type': 'local'}
             delete value.columns;
         } else if (value.type === 'remote') {
             delete value.columns;
@@ -119,7 +119,7 @@ class AddDataCollection extends React.Component {
         let value = this.resolveValue(val);
 
         if (value != null) {
-        alert( JSON.stringify(value));
+            console.log(value);
             axios.post(api.dataCollection, JSON.stringify(value), {
                 headers: {
                     'Authorization': this.props.userData.accessToken,
