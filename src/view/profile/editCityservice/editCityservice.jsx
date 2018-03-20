@@ -168,7 +168,7 @@ class EditCityService extends React.Component {
                 <CardBody>
                     <CardTitle>Update CityService: { cityService!=undefined && cityService.serviceName }</CardTitle>
                     <hr />
-                    <Form onSubmit={submittedValues => this.updateCityservice(submittedValues)}>
+                    <Form onSubmit={submittedValues => this.updateCityservice(submittedValues)} defaultValues={{ endpoint: 'local' } }>
                         { formApi => (
                             <form onSubmit={formApi.submitForm} className='form-editprofile'>
 
@@ -190,8 +190,8 @@ class EditCityService extends React.Component {
                                     }
                                 </Dropzone>
 
-                                <label htmlFor='endpoint'>Endpoint <small>*empty for local or URL for remote</small></label>
-                                <StyledText type='text' field='endpoint' className='text-input login-input' />
+                                <label htmlFor='endpoint'>Endpoint</label>
+                                <StyledSelect field='endpoint' options={endpoint} className='text-input-select' />
 
                                 <label htmlFor='sampleData'>Sample data</label>
                                 <StyledText type='text' field='sampleData' className='text-input login-input' />
@@ -251,6 +251,18 @@ class EditCityService extends React.Component {
 }
 
 export default connect(state => state)(EditCityService);
+
+
+const endpoint = [
+    {
+        label: 'Local',
+        value: 'local'
+    },
+    {
+        label: 'Remote',
+        value: 'remote'
+    }
+];
 
 
 const selectKind = [

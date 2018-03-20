@@ -231,7 +231,11 @@ class ShowDataCollection extends React.Component {
                                 <FaEllipsisV />
                             </DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem onClick={ () => this.deleteDatacollection(dataCollection.collectionId) }>Delete</DropdownItem>
+                                <DropdownItem
+                                    onClick={ () => this.deleteDatacollection(dataCollection.collectionId) }
+                                    className='pointer'>
+                                    Delete
+                                </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </div>

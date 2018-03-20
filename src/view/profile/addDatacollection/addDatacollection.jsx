@@ -295,7 +295,7 @@ const encryptionLevel = [
         label: 'High encryption',
         value: 2
     }
-]
+];
 
 const type = [
     {
@@ -310,7 +310,7 @@ const type = [
         label: 'Keyvalue',
         value: 'keyvalue'
     }
-]
+];
 
 const endpointType = [
     {
@@ -321,7 +321,7 @@ const endpointType = [
         label: 'Remote',
         value: 'remote'
     }
-]
+];
 
 const columnsType = [
     {
@@ -348,7 +348,7 @@ const columnsType = [
         label: 'Timestamp',
         value: 'timestamp'
     }
-]
+];
 
 const boolean = [
     {
@@ -359,30 +359,4 @@ const boolean = [
         label: 'False',
         value: false
     }
-]
-
-const test = {
-    "collectionName": "kjsdfo",
-    "endPoint": {
-        "type": "local",
-        "url": "http://url.com",
-        /*
-         *"headers": {
-         *    "content-type": "application/json",
-         *    "accept": "application/json"
-         *},
-         *"queryString": {
-         *    "param": "value"
-         *},
-         */
-    },
-    "columns": [
-        "name": "ts",
-        "type": "timeseries",
-        "indexed": true
-    ],
-    "type": "timeseries",
-    "encryptionLevel": 0,
-    "example": {},
-    "isOpen": true
-}
+];

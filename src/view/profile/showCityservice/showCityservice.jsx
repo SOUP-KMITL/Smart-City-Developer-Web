@@ -23,6 +23,7 @@ import FaUser from 'react-icons/lib/fa/user';
 import FaEdit from 'react-icons/lib/fa/edit';
 import FaTrashO from 'react-icons/lib/fa/trash-o';
 import FaEllipsisV from 'react-icons/lib/fa/ellipsis-v';
+import FaServer from 'react-icons/lib/fa/server';
 
 import  './showCityservice.css';
 import api from '../../../constance/api.js';
@@ -42,10 +43,13 @@ class ShowCityService extends React.Component {
         }
         this.dropdownToggle = this.dropdownToggle.bind(this);
         this.formatDate = this.formatDate.bind(this);
+        if (props.userData.accessToken != undefined)
+            this.requestCityService(props);
     }
 
-    componentDidMount() {
-        this.requestCityService(this.props.match.params);
+    componentWillReceiveProps(props) {
+        if (props.userData.accessToken != undefined)
+            this.requestCityService(props);
     }
 
     requestUserThumbnail(serviceOwner) {
@@ -60,8 +64,15 @@ class ShowCityService extends React.Component {
             })
     }
 
-    requestCityService({ serviceId }) {
-        axios.get(api.cityService + '/' + serviceId)
+    requestCityService({ match, userData }) {
+        const { serviceId } = match.params;
+        const { accessToken } = userData;
+
+        axios.get(api.cityService + '/' + serviceId, {
+            headers: {
+                'Authorization': accessToken
+            }
+        })
             .then(({ data }) => {
                 if (data.sampleData!=undefined)
                     data.sampleData = data.sampleData;
@@ -180,6 +191,9 @@ class ShowCityService extends React.Component {
                     <div className='product-header-description'>
                         <p><FaUser color='#56b8db' /> { cityService.owner }</p>
                         <p><FaCalendarO color='#56b8db' />  { this.formatDate(cityService.createdAt) }</p>
+                        <p>
+                            <FaServer color='#56b8db' /> { cityService.endpoint[0].toUpperCase() + cityService.endpoint.substr(1) }
+                        </p>
                     </div>
                     <hr />
 
@@ -191,17 +205,14 @@ class ShowCityService extends React.Component {
                         <br />
                         {
                             cityService.appLink
-                                ? <div>
-                                    <h4>Application Link</h4>
-                                    <a href={cityService.appLink} >{cityService.appLink}</a>
-                                </div>
+                                ? <a href={cityService.appLink} >{cityService.appLink}</a>
                                 : <p>No data</p>
                         }
                     </div>
                     <hr />
 
                     <div>
-                        <h4>Review</h4>
+                        <h4>Video Review</h4>
                         <br />
                         {
                             cityService.videoLink

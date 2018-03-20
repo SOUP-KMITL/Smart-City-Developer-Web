@@ -61,7 +61,7 @@ class MyNavbar extends Component {
                                     <DropdownToggle nav caret>
                                         Marketplace
                                     </DropdownToggle>
-                                    <DropdownMenu >
+                                    <DropdownMenu>
                                         <Link to='/marketplace/datacollection/page/1' className='black'>
                                             <DropdownItem>
                                                 Data collections
