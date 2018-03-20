@@ -32,17 +32,38 @@ class AddDataCollection extends React.Component {
     }
 
     resolveValue(value) {
-        // Assign manual key, value in headers
-        const { columns, endPoint } = value;
+        let { endPoint } = value;
+        value.encryptionLevel = 0; // Maybe temporary
 
+        if (value.columns != undefined) {
+            const colTmp = [];
+            // key: name, type, indexed must have equal length and more than 0
+            value.columns.name.length > 0
+                && value.columns.name.length==value.columns.type.length
+                && value.columns.type.length==value.columns.indexed.length
+                && value.columns.indexed.length==value.columns.name.length
+                && value.columns.name.map((name, i) => {
+                    colTmp.push({
+                        "name": value.columns.name[i],
+                        "type": value.columns.type[i],
+                        "indexed": value.columns.indexed[i]
+                    });
+                });
+            value.columns = colTmp;
+        }
+
+        if (value.columns == undefined)
+            value.columns = [];
         if (value.type === 'timeseries') {
-            value.columns = [{
+            delete value.endPoint;
+            value.columns.push({
                 "name": "ts",
                 "type": "timestamp",
                 "indexed": true
-            }];
+            });
         } else if (value.type === 'geotemporal') {
-            value.columns = [{
+            delete value.endPoint;
+            value.columns.push({
                 "name": "lat",
                 "type": "double",
                 "indexed": true
@@ -50,18 +71,12 @@ class AddDataCollection extends React.Component {
                 "name": "lng",
                 "type": "double",
                 "indexed": true
-            }];
-        }
-
-        if (columns != undefined) {
-            columns.name!=undefined && columns.type!=undefined && columns.indexed!=undefined &&
-                columns.name.map((name, i) => {
-                    columns.push({
-                        "name": columns.name[i],
-                        "type": columns.type[i],
-                        "indexed": columns.indexed[i]
-                    });
-                })
+            });
+        } else if (value.type === 'keyvalue') {
+            delete value.endPoint;
+            delete value.columns;
+        } else if (value.type === 'remote') {
+            delete value.columns;
         }
 
         if (endPoint != undefined && endPoint.headers != undefined) {
@@ -104,7 +119,7 @@ class AddDataCollection extends React.Component {
         let value = this.resolveValue(val);
 
         if (value != null) {
-
+        alert( JSON.stringify(value));
             axios.post(api.dataCollection, JSON.stringify(value), {
                 headers: {
                     'Authorization': this.props.userData.accessToken,
@@ -160,11 +175,10 @@ class AddDataCollection extends React.Component {
                                 <label htmlFor='collectionName'>Collection name</label>
                                 <StyledText type='text' field='collectionName' className='text-input login-input' />
 
-                                <label htmlFor='type'>Type</label>
-                                <StyledSelect field="type" options={type} className='text-input-select' />
-
-                                <label htmlFor='encryptionLevel'>Encryption level</label>
-                                <StyledSelect field="encryptionLevel" options={encryptionLevel} className='text-input-select' />
+                                {
+                                    //<label htmlFor='encryptionLevel'>Encryption level</label>
+                                        //<StyledSelect field="encryptionLevel" options={encryptionLevel} className='text-input-select' />
+                                }
 
                                 <label htmlFor='example'>Example</label>
                                 <StyledText type='text' field='example' className='text-input login-input' />
@@ -172,13 +186,20 @@ class AddDataCollection extends React.Component {
                                 <label htmlFor='example'>Category</label>
                                 <StyledText type='text' field='category' className='text-input login-input' />
 
+                                <label htmlFor='type'>Type</label>
+                                <StyledSelect field="type" options={type} className='text-input-select' />
+
                                 <br />
-                                <div className='left-right'>
-                                    <h3>Columns</h3>
-                                    <Button type='button' size='sm' outline color='info' onClick={this.addColumns}>
-                                        <FaPlus />
-                                    </Button>
-                                </div>
+
+                                {
+                                    (formApi.values.type=='timeseries' || formApi.values.type=='geotemporal') &&
+                                        <div className='left-right'>
+                                            <h3>Columns</h3>
+                                            <Button type='button' size='sm' outline color='info' onClick={this.addColumns}>
+                                                <FaPlus />
+                                            </Button>
+                                        </div>
+                                }
                                 <hr />
                                 {
                                     this.state.columns.map((item, i) => (
@@ -200,48 +221,54 @@ class AddDataCollection extends React.Component {
                                         </div>
                                     ))
                                 }
-
-                                <br />
-                                <h3>endPoint</h3>
-                                <hr />
-                                <label htmlFor="type">Type</label>
-                                <StyledSelect field="endPoint.type" options={endpointType} className='text-input-select' />
-
-                                <label htmlFor="url">URL</label>
-                                <StyledText type='text' field='endPoint.url' className='text-input login-input' />
-
-                                <label htmlFor="url">Headers</label>
-                                <Button size='sm' style={{ float: 'right' }} outline color='info' onClick={this.addHeaders}>
-                                    <FaPlus />
-                                </Button>
-                                {
-                                    this.state.headers.map((item, i) => (
-                                        <div className='input-row' key={i}>
-                                            <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <StyledText type='text' field={['endPoint.headers.keys',i]} className='text-input login-input' />
-                                            </Col>
-                                            <Col md={8} style={{ paddingRight: 0 }}>
-                                                <StyledText type='text' field={['endPoint.headers.values',i]} className='text-input login-input' />
-                                            </Col>
-                                        </div>
-                                    ))
-                                }
-
                                 <br />
 
-                                <label htmlFor="url">Parameters</label>
-                                <Button size='sm' style={{ float: 'right' }} outline color='info' onClick={this.addQueryString}><FaPlus /></Button>
                                 {
-                                    this.state.queryStrings.map((item, i) => (
-                                        <div className='input-row' key={i}>
-                                            <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <StyledText type='text' field={['endPoint.queryString.keys',i]} className='text-input login-input' />
-                                            </Col>
-                                            <Col md={8} style={{ paddingRight: 0 }}>
-                                                <StyledText type='text' field={['endPoint.queryString.values',i]} className='text-input login-input' />
-                                            </Col>
+                                    formApi.values.type === 'remote' &&
+                                        <div>
+                                            <h3>endPoint</h3>
+                                            <hr />
+                                            <label htmlFor="type">Type</label>
+                                            <StyledSelect field="endPoint.type" options={endpointType} className='text-input-select' />
+
+                                            <label htmlFor="url">URL</label>
+                                            <StyledText type='text' field='endPoint.url' className='text-input login-input' />
+
+                                            <label htmlFor="url">Headers</label>
+                                            <Button size='sm' style={{ float: 'right' }} outline color='info' onClick={this.addHeaders}>
+                                                <FaPlus />
+                                            </Button>
+                                            {
+                                                this.state.headers.map((item, i) => (
+                                                    <div className='input-row' key={i}>
+                                                        <Col md={4} style={{ paddingLeft: 0 }}>
+                                                            <StyledText type='text' field={['endPoint.headers.keys',i]} className='text-input login-input' />
+                                                        </Col>
+                                                        <Col md={8} style={{ paddingRight: 0 }}>
+                                                            <StyledText type='text' field={['endPoint.headers.values',i]} className='text-input login-input' />
+                                                        </Col>
+                                                    </div>
+                                                ))
+                                            }
+
+                                            <br />
+
+                                            <label htmlFor="url">Parameters</label>
+                                            <Button size='sm' style={{ float: 'right' }} outline color='info' onClick={this.addQueryString}><FaPlus /></Button>
+                                            {
+                                                this.state.queryStrings.map((item, i) => (
+                                                    <div className='input-row' key={i}>
+                                                        <Col md={4} style={{ paddingLeft: 0 }}>
+                                                            <StyledText type='text' field={['endPoint.queryString.keys',i]} className='text-input login-input' />
+                                                        </Col>
+                                                        <Col md={8} style={{ paddingRight: 0 }}>
+                                                            <StyledText type='text' field={['endPoint.queryString.values',i]} className='text-input login-input' />
+                                                        </Col>
+                                                    </div>
+                                                ))
+                                            }
+
                                         </div>
-                                    ))
                                 }
 
                                 <RadioGroup field="isOpen">
@@ -309,6 +336,10 @@ const type = [
     {
         label: 'Keyvalue',
         value: 'keyvalue'
+    },
+    {
+        label: 'Remote',
+        value: 'remote'
     }
 ];
 
