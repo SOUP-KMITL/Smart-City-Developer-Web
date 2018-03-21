@@ -36,9 +36,10 @@ class SearchDatacollection extends Component {
             pages: {},
             loading: true
         };
+        this.requestDataCollection();
     }
 
-    componentDidMount() {
+    componentWillReceiveProps() {
         this.requestDataCollection();
     }
 
