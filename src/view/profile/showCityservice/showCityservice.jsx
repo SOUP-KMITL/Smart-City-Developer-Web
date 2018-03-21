@@ -191,13 +191,21 @@ class ShowCityService extends React.Component {
                     <div className='product-header-description'>
                         <p><FaUser color='#56b8db' /> { cityService.owner }</p>
                         <p><FaCalendarO color='#56b8db' />  { this.formatDate(cityService.createdAt) }</p>
-                        <p>
-                            <FaServer color='#56b8db' /> { cityService.endpoint.length>0? cityService.endpoint[0].toUpperCase() + cityService.endpoint.substr(1): '-' }
-                        </p>
                     </div>
                     <hr />
 
                     <p>{ cityService.description }</p>
+                    <hr />
+
+                    <div>
+                        <h4>Endpoint</h4>
+                        <br />
+                        {
+                            cityService.endpoint
+                                ? <a href={cityService.endpoint} >{cityService.endpoint}</a>
+                                : <p>Local</p>
+                        }
+                    </div>
                     <hr />
 
                     <div>

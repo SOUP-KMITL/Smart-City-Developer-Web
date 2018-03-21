@@ -11,6 +11,7 @@ import { StyledText, Form, Radio, RadioGroup, StyledSelect, NestedForm, Select }
 import ReactLoading from 'react-loading';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
+import Loading from '../../share/component/loading.jsx';
 
 import FaCloudUpload from 'react-icons/lib/fa/cloud-upload';
 
@@ -19,10 +20,10 @@ import api from '../../../constance/api.js';
 
 class EditCityService extends React.Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
-            loading: false,
+            loading: true,
             submitResult: undefined,
             thumbnail: null,
             cityService: undefined,
@@ -31,20 +32,34 @@ class EditCityService extends React.Component {
         }
         this.swaggerTobase64 = this.swaggerTobase64.bind(this);
         this.codeTobase64 = this.codeTobase64.bind(this);
+        if (props.userData != undefined)
+            this.requestCityService(props);
     }
 
-    componentDidMount() {
-        this.requestCityService(this.props.match.params);
+    componentWillReceiveProps(props) {
+        if (props.userData != undefined)
+            this.requestCityService(props);
     }
 
-    requestCityService({ serviceId }) {
-        axios.get(api.cityService + '/' + serviceId)
-            .then(({ data }) => {
-                this.setState({ cityService: data });
+    requestCityService(props) {
+        const { serviceId } = props.match.params;
+
+        if (props.userData.accessToken)
+            axios.get(api.cityService + '/' + serviceId, {
+                headers: {
+                    'Authorization': props.userData.accessToken
+                }
             })
-            .catch(({ response }) => {
-                console.log(response);
-            });
+                .then(({ data }) => {
+                    this.setState({ cityService: data });
+                    console.log(data);
+                })
+                .catch(({ response }) => {
+                    console.log(response);
+                })
+                .finally(() => {
+                    this.setState({ loading: false });
+                });
     }
 
     codeTobase64 = e => {
@@ -94,9 +109,12 @@ class EditCityService extends React.Component {
 
     resolveData(value) {
         if (value.sampleData != undefined) {
-            value.sampleData = JSON.parse(value.sampleData);
-            //if (typeof value.sampleData === Object)
-            // Validate error of object invalid
+            try {
+                value.sampleData = JSON.parse(value.sampleData);
+            } catch(error) {
+                this.props.notify('SAMPLE DATA IS INVALID', 'error');
+                return null;
+            }
         }
 
         if (value.videoLink != undefined)
@@ -163,90 +181,102 @@ class EditCityService extends React.Component {
     render() {
         const { loading, submitResult, cityService, thumbnail } = this.state;
 
-        return (
-            <Card>
-                <CardBody>
-                    <CardTitle>Update CityService: { cityService!=undefined && cityService.serviceName }</CardTitle>
-                    <hr />
-                    <Form onSubmit={submittedValues => this.updateCityservice(submittedValues)} defaultValues={{ endpoint: 'local' } }>
-                        { formApi => (
-                            <form onSubmit={formApi.submitForm} className='form-editprofile'>
+        if (loading === true)
+            return ( <Loading /> );
+        else
+            return (
+                <Card>
+                    <CardBody>
+                        <CardTitle>Update CityService: { cityService!=undefined && cityService.serviceName }</CardTitle>
+                        <hr />
+                        <Form
+                            onSubmit={submittedValues => this.updateCityservice(submittedValues)}
+                            defaultValues={{
+                                ...cityService,
+                                //description: cityService.description,
+                                //endpoint: cityService.endPoint,
+                                videoLink: 'https://youtu.be/' + cityService.videoLink,
+                                //appLink: cityService.appLink,
+                                sampleData: JSON.stringify(cityService.sampleData),
+                            }}>
+                            { formApi => (
+                                <form onSubmit={formApi.submitForm} className='form-editprofile'>
 
-                                <label>Thumbnail</label>
-                                <Dropzone onDrop={this.onDrop.bind(this)} className='dropzone pointer' accept='image/*' >
-                                    {
-                                        thumbnail!=null
-                                            ? <div className='dropzone-thumbnail'>
-                                                <div className='dropzone-overlay'>
-                                                    <img src={thumbnail} className='dropzone-img' />
+                                    <label>Thumbnail</label>
+                                    <Dropzone onDrop={this.onDrop.bind(this)} className='dropzone pointer' accept='image/*' >
+                                        {
+                                            thumbnail!=null
+                                                ? <div className='dropzone-thumbnail'>
+                                                    <div className='dropzone-overlay'>
+                                                        <img src={thumbnail} className='dropzone-img' />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            : <div className='dropzone-description'>
-                                                <FaCloudUpload className='dropzone-icon' />
-                                                <p>Drop image</p>
-                                                <p>or</p>
-                                                <p>Click to upload</p>
+                                                : <div className='dropzone-description'>
+                                                    <FaCloudUpload className='dropzone-icon' />
+                                                    <p>Drop image</p>
+                                                    <p>or</p>
+                                                    <p>Click to upload</p>
+                                                </div>
+                                        }
+                                    </Dropzone>
+
+                                    <label htmlFor='endpoint'>Endpoint <small>Empty for local</small></label>
+                                    <StyledText type='text' field='endpoint' className='text-input login-input' />
+
+                                    <label htmlFor='sampleData'>Sample data</label>
+                                    <StyledText type='text' field='sampleData' className='text-input login-input' />
+
+                                    <label htmlFor='description'>Description</label>
+                                    <StyledText type='text' field='description' className='text-input login-input' />
+
+                                    <label htmlFor='appLink'>App link <small>URL to sample application link</small></label>
+                                    <StyledText type='text' field='appLink' className='text-input login-input' />
+
+                                    <label htmlFor='videoLink'>
+                                        { 'Video link '}
+                                        <small>Shorten link of youtube video Ex. https://youtu.be/rjzsUijnWTO</small>
+                                    </label>
+                                    <StyledText type='text' field='videoLink' className='text-input login-input' />
+
+                                    <label htmlFor='swagger'>Swagger</label>
+                                    <input type='file' accept='.yaml' onChange={this.swaggerTobase64} className='text-input login-input' />
+
+                                    <label htmlFor='code'>Source code</label>
+                                    <input type='file' onChange={this.codeTobase64} className='text-input login-input' />
+
+                                    {
+                                        this.state.code != undefined
+                                            && <div>
+                                                <label htmlFor='kind'>Kind</label>
+                                                <Select field="kind" options={selectKind} className='text-input login-input' />
                                             </div>
                                     }
-                                </Dropzone>
 
-                                <label htmlFor='endpoint'>Endpoint</label>
-                                <StyledSelect field='endpoint' options={endpoint} className='text-input-select' />
-
-                                <label htmlFor='sampleData'>Sample data</label>
-                                <StyledText type='text' field='sampleData' className='text-input login-input' />
-
-                                <label htmlFor='description'>Description</label>
-                                <StyledText type='text' field='description' className='text-input login-input' />
-
-                                <label htmlFor='appLink'>App link <small>URL to sample application link</small></label>
-                                <StyledText type='text' field='appLink' className='text-input login-input' />
-
-                                <label htmlFor='videoLink'>
-                                    { 'Video link '}
-                                    <small>Shorten link of youtube video Ex. https://youtu.be/rjzsUijnWTO</small>
-                                </label>
-                                <StyledText type='text' field='videoLink' className='text-input login-input' />
-
-                                <label htmlFor='swagger'>Swagger</label>
-                                <input type='file' accept='.yaml' onChange={this.swaggerTobase64} className='text-input login-input' />
-
-                                <label htmlFor='code'>Source code</label>
-                                <input type='file' onChange={this.codeTobase64} className='text-input login-input' />
-
-                                {
-                                    this.state.code != undefined
-                                        && <div>
-                                            <label htmlFor='kind'>Kind</label>
-                                            <Select field="kind" options={selectKind} className='text-input login-input' />
-                                        </div>
-                                }
-
-                                <br />
+                                    <br />
 
 
-                                <div className='login-submit'>
-                                    <Button
-                                        type='submit'
-                                        size='lg'
-                                        className='login-btn btn-smooth btn-raised-success pointer'
-                                        outline
-                                        disabled={loading}
-                                    >
-                                        <ReactLoading
-                                            type='bars'
-                                            height='30px'
-                                            width='30px'
-                                            className={(loading!==true? 'hidden': 'margin-auto ')} />
-                                        { loading!=true ? 'Update': '' }
-                                    </Button>
-                                </div>
-                            </form>
-                        )}
-                    </Form>
-                </CardBody>
-            </Card>
-        );
+                                    <div className='login-submit'>
+                                        <Button
+                                            type='submit'
+                                            size='lg'
+                                            className='login-btn btn-smooth btn-raised-success pointer'
+                                            outline
+                                            disabled={loading}
+                                        >
+                                            <ReactLoading
+                                                type='bars'
+                                                height='30px'
+                                                width='30px'
+                                                className={(loading!==true? 'hidden': 'margin-auto ')} />
+                                            { loading!=true ? 'Update': '' }
+                                        </Button>
+                                    </div>
+                                </form>
+                            )}
+                        </Form>
+                    </CardBody>
+                </Card>
+            );
     }
 }
 
