@@ -202,7 +202,7 @@ class ShowCityService extends React.Component {
                         <br />
                         {
                             cityService.endpoint
-                                ? <a href={cityService.endpoint} >{cityService.endpoint}</a>
+                                ? <a href='#'>{cityService.endpoint}</a>
                                 : <p>Local</p>
                         }
                     </div>
