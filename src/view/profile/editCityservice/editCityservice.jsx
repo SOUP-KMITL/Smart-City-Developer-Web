@@ -220,14 +220,14 @@ class EditCityService extends React.Component {
                                         }
                                     </Dropzone>
 
+                                    <label htmlFor='description'>Description</label>
+                                    <StyledText type='text' field='description' className='text-input login-input' />
+
                                     <label htmlFor='endpoint'>Endpoint <small>Empty for local</small></label>
                                     <StyledText type='text' field='endpoint' className='text-input login-input' />
 
                                     <label htmlFor='sampleData'>Sample data</label>
                                     <StyledText type='text' field='sampleData' className='text-input login-input' />
-
-                                    <label htmlFor='description'>Description</label>
-                                    <StyledText type='text' field='description' className='text-input login-input' />
 
                                     <label htmlFor='appLink'>App link <small>URL to sample application link</small></label>
                                     <StyledText type='text' field='appLink' className='text-input login-input' />
@@ -305,11 +305,43 @@ const selectKind = [
         value: 'nodejs:6'
     },
     {
+        label: 'nodejs:8',
+        value: 'nodejs:8'
+    },
+    {
         label: 'python',
         value: 'python'
     },
     {
+        label: 'python:2',
+        value: 'python:2'
+    },
+    {
         label: 'python:3',
         value: 'python:3'
-    }
+    },
+    {
+        label: 'swift',
+        value: 'swift'
+    },
+    {
+        label: 'swift:3',
+        value: 'swift:3'
+    },
+    {
+        label: 'swift:3.1.1',
+        value: 'swift:3.1.1'
+    },
+    {
+        label: 'swift:4.1',
+        value: 'swift:4.1'
+    },
+    {
+        label: 'java',
+        value: 'java'
+    },
+    {
+        label: 'php:7.1',
+        value: 'php:7.1'
+    },
 ];
