@@ -27,11 +27,10 @@ class EditCityService extends React.Component {
             submitResult: undefined,
             thumbnail: null,
             cityService: undefined,
-            swagger: undefined,
             code: undefined,
         }
-        this.swaggerTobase64 = this.swaggerTobase64.bind(this);
         this.codeTobase64 = this.codeTobase64.bind(this);
+        this.uploadSwagger = this.uploadSwagger.bind(this);
         if (props.userData != undefined)
             this.requestCityService(props);
     }
@@ -52,7 +51,6 @@ class EditCityService extends React.Component {
             })
                 .then(({ data }) => {
                     this.setState({ cityService: data });
-                    console.log(data);
                 })
                 .catch(({ response }) => {
                     console.log(response);
@@ -94,17 +92,23 @@ class EditCityService extends React.Component {
         this.uploadThumbnail(acceptedFiles[0]);
     }
 
-    swaggerTobase64 = e => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-            const base64File = reader.result;
-            this.setState({ swagger: base64File });
-        };
-        reader.onabort = () => console.log('file reading was aborted');
-        reader.onerror = () => console.log('file reading has failed');
+    uploadSwagger(e) {
+        const swagger = e.target.files[0];
+        const { serviceId } = this.props.match.params;
+        const formData = new FormData();
+        formData.append('file', swagger);
 
-        reader.readAsDataURL(file);
+        axios.put(api.cityService + '/' + serviceId + '/swagger', formData, {
+            headers: {
+                'Authorization': this.props.userData.accessToken
+            },
+        })
+            .then(({ data }) => {
+                this.props.notify('UPDATE SWAGGER SUCCESS', 'success');
+            })
+            .catch(({ response }) => {
+                this.props.notify('UPDATE SWAGGER UNSUCCESS', 'error');
+            });
     }
 
     resolveData(value) {
@@ -122,9 +126,6 @@ class EditCityService extends React.Component {
 
         if (this.state.code == undefined)
             value.kind = undefined;
-
-        if (this.state.swagger != undefined)
-            value.swagger = this.state.swagger;
 
         if (this.state.code != undefined && this.state.code != '')
             value.code = this.state.code;
@@ -239,7 +240,7 @@ class EditCityService extends React.Component {
                                     <StyledText type='text' field='videoLink' className='text-input login-input' />
 
                                     <label htmlFor='swagger'>Swagger</label>
-                                    <input type='file' accept='.yaml' onChange={this.swaggerTobase64} className='text-input login-input' />
+                                    <input type='file' accept='.yaml' onChange={e => this.uploadSwagger(e)} className='text-input login-input' />
 
                                     <label htmlFor='code'>Source code</label>
                                     <input type='file' onChange={this.codeTobase64} className='text-input login-input' />
