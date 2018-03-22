@@ -222,8 +222,7 @@ class ShowDataCollection extends React.Component {
                         <div
                             className='pointer black'
                             style={{ marginLeft: '10px' }}
-                            onClick={() => this.genTicket(dataCollection.collectionId)}
-                        >
+                            onClick={() => this.genTicket(dataCollection.collectionId)}>
                             <FaTickets /> Gen Ticket
                         </div>
                         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
@@ -276,8 +275,6 @@ class ShowDataCollection extends React.Component {
 }
 
 export default connect(state => state)(ShowDataCollection);
-
-const noImageAvialable = 'https://avatars1.githubusercontent.com/u/17084428?s=460&v=4';
 
 
 const ModalComponent = ({ isOpen, toggle, ticket, copy, setwordCopy }) => (

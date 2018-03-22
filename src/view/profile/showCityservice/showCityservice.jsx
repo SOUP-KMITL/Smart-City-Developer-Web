@@ -10,12 +10,17 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ReactJson from 'react-json-view';
 import SwaggerUi from 'swagger-ui';
 import axios from 'axios';
 import Blockies from 'react-blockies';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 // Icons
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
@@ -24,6 +29,8 @@ import FaEdit from 'react-icons/lib/fa/edit';
 import FaTrashO from 'react-icons/lib/fa/trash-o';
 import FaEllipsisV from 'react-icons/lib/fa/ellipsis-v';
 import FaServer from 'react-icons/lib/fa/server';
+import FaTickets from 'react-icons/lib/fa/ticket';
+import FaCopy from 'react-icons/lib/fa/copy';
 
 import  './showCityservice.css';
 import api from '../../../constance/api.js';
@@ -43,6 +50,7 @@ class ShowCityService extends React.Component {
         }
         this.dropdownToggle = this.dropdownToggle.bind(this);
         this.formatDate = this.formatDate.bind(this);
+        this.genTicket = this.genTicket.bind(this);
         if (props.userData.accessToken != undefined)
             this.requestCityService(props);
     }
@@ -105,6 +113,29 @@ class ShowCityService extends React.Component {
             })
             .catch(({ response }) => {
                 this.props.notify('DELETE UNSUCCESS', 'error');
+            });
+    }
+
+    genTicket(serviceId) {
+        const { accessToken } = this.props.userData;
+        const body = {
+            serviceId: serviceId,
+            expire: 0
+        }
+        axios.post(api.getTicket, JSON.stringify(body), {
+            headers: {
+                'Authorization': accessToken,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(({ data }) => {
+                this.setState({ ticket: data });
+            })
+            .catch(({ response }) => {
+                this.props.notify('CANNOT GENERATE TICKET', 'error');
+            })
+            .finally(() => {
+                this.setState({ modalOpen: true });
             });
     }
 
@@ -178,6 +209,12 @@ class ShowCityService extends React.Component {
                             <Link to={`/profile/my-cityservices/edit/${cityService.serviceId}`} className='link black'>
                                 <FaEdit /> Edit
                             </Link>
+                            <div
+                                className='pointer black'
+                                style={{ marginLeft: '10px' }}
+                                onClick={() => this.genTicket(cityService.serviceId)}>
+                                <FaTickets /> Gen Ticket
+                            </div>
                             <Dropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
                                 <DropdownToggle className='menu-more'>
                                     <FaEllipsisV />
@@ -264,3 +301,28 @@ class ShowCityService extends React.Component {
 
 
 export default connect(state => state)(ShowCityService);
+
+
+const ModalComponent = ({ isOpen, toggle, ticket, copy, setwordCopy }) => (
+    <Modal size='lg' isOpen={isOpen} fade={true} toggle={toggle}>
+        <ModalHeader toggle={this.toggle}>Generate Ticket Success</ModalHeader>
+        <ModalBody>
+            {
+                ticket!=''
+                    ? `Your ticket is`
+                    : 'Get ticket fail!'
+            }
+            <br />
+            <input type='text' value={ticket} disabled className='text-input login-input' />
+        </ModalBody>
+        <ModalFooter className='link'>
+            <CopyToClipboard text={ticket}
+                onCopy={() => setwordCopy()}>
+                <Button className='btn-smooth btn-raised-info'> <FaCopy /> { copy }</Button>
+            </CopyToClipboard>
+            <div className='btn-invisible' onClick={toggle}>
+                Close
+            </div>
+        </ModalFooter>
+    </Modal>
+)
