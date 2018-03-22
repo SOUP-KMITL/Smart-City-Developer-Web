@@ -66,7 +66,12 @@ class MyDataCollections extends React.Component {
                 {
                     dataCollections.length!==0 &&
                         <Link to='/profile/add-datacollection' className='link'>
-                            <Button size='sm' className='btn-smooth btn-raised-success content-header-btn no-data'><FaPlus style={{marginTop: '3px'}} />  DataCollection</Button>
+                            <Button
+                                size='sm'
+                                className='btn-smooth btn-raised-success content-header-btn no-data'>
+                                <FaPlus style={{marginTop: '3px',marginRight: '5px'}} />
+                                Data Collection
+                            </Button>
                         </Link>
                 }
                 <hr className='content-hr' />

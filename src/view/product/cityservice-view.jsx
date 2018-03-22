@@ -153,14 +153,11 @@ class ViewCityservice extends React.Component {
                             <hr />
 
                             <div>
-                                <h4>Demo link</h4>
+                                <h4>Application link</h4>
                                 <br />
                                 {
                                     cityService.appLink
-                                        ? <div>
-                                            <h4>Application Link</h4>
-                                            <a href={cityService.appLink} >{cityService.appLink}</a>
-                                        </div>
+                                        ? <a href={cityService.appLink} >{cityService.appLink}</a>
                                         : <p>No data</p>
                                 }
                             </div>
