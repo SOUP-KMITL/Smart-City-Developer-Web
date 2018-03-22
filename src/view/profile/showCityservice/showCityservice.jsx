@@ -146,9 +146,10 @@ class ShowCityService extends React.Component {
     }
 
     getSwagger() {
+        // Require initial swagger html dom at first render
         SwaggerUi({
             dom_id: '#swaggerContainer',
-            url: this.state.cityService.swagger,
+            url: this.state.cityService.swagger
         });
     }
 
@@ -165,7 +166,12 @@ class ShowCityService extends React.Component {
         const { cityService, thumbnail, loading } = this.state;
 
         if (loading === true)
-            return ( <Loading /> )
+            return (
+                <div>
+                    <Loading />
+                    <div id="swaggerContainer" className='hidden' />
+                </div>
+            )
         else
             return (
                 <Container>
@@ -276,10 +282,13 @@ class ShowCityService extends React.Component {
                     <div>
                         <h4>Swagger</h4>
                         <br />
+                        <test id="swaggerContainer" className='swagger' />
                         {
-                            cityService.swagger!=undefined
-                                ? <div id="swaggerContainer" className='swagger' />
-                                : <p>No data</p>
+                            /*
+                             *cityService.swagger!=undefined
+                             *    ? <div id="swaggerContainer" className='swagger' />
+                             *    : <p>No data</p>
+                             */
                         }
                     </div>
                     <hr />
