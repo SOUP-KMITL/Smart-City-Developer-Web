@@ -46,11 +46,15 @@ class ShowCityService extends React.Component {
             cityService: {},
             dropdownOpen: false,
             thumbnail: null,
-            loading: true
+            loading: true,
+            modalOpen: false,
+            copy: 'Copy',
         }
         this.dropdownToggle = this.dropdownToggle.bind(this);
         this.formatDate = this.formatDate.bind(this);
         this.genTicket = this.genTicket.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.setWordCopy = this.setWordCopy.bind(this);
         if (props.userData.accessToken != undefined)
             this.requestCityService(props);
     }
@@ -153,6 +157,15 @@ class ShowCityService extends React.Component {
         });
     }
 
+    closeModal() {
+        this.setState({ modalOpen: false });
+    }
+
+    setWordCopy() {
+        // Set word copy to copied
+        this.setState({ copy: 'Copied!' });
+    }
+
     formatDate(date) {
         if (date != null) {
             const value = new Date(date * 1000);
@@ -163,7 +176,7 @@ class ShowCityService extends React.Component {
     }
 
     render() {
-        const { cityService, thumbnail, loading } = this.state;
+        const { cityService, thumbnail, loading, modalOpen, ticket, copy } = this.state;
 
         if (loading === true)
             return (
@@ -175,6 +188,14 @@ class ShowCityService extends React.Component {
         else
             return (
                 <Container>
+
+                    <ModalComponent
+                        isOpen={modalOpen}
+                        toggle={this.closeModal}
+                        ticket={ticket}
+                        copy={copy}
+                        setwordCopy={this.setWordCopy}
+                    />
 
                     <div className='img-product'>
                         {
