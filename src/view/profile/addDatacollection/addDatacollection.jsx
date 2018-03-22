@@ -77,6 +77,7 @@ class AddDataCollection extends React.Component {
             delete value.columns;
         } else if (value.type === 'remote') {
             delete value.columns;
+            value.endPoint.type = 'remote';
         }
 
         if (endPoint != undefined && endPoint.headers != undefined) {
@@ -200,9 +201,9 @@ class AddDataCollection extends React.Component {
                                             </Button>
                                         </div>
                                 }
-                                <hr />
                                 {
-                                    this.state.columns.map((item, i) => (
+                                    (formApi.values.type=='geotemporal' || formApi.values.type=='timeseries')
+                                        && this.state.columns.map((item, i) => (
                                         <div class="input-row" key={i}>
                                             <Col md={4} style={{ paddingLeft: 0 }}>
                                                 <label htmlFor="columns.name">Name</label>
@@ -221,15 +222,12 @@ class AddDataCollection extends React.Component {
                                         </div>
                                     ))
                                 }
-                                <br />
 
                                 {
                                     formApi.values.type === 'remote' &&
                                         <div>
                                             <h3>endPoint</h3>
                                             <hr />
-                                            <label htmlFor="type">Type</label>
-                                            <StyledSelect field="endPoint.type" options={endpointType} className='text-input-select' />
 
                                             <label htmlFor="url">URL</label>
                                             <StyledText type='text' field='endPoint.url' className='text-input login-input' />
