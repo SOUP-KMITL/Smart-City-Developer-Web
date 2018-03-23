@@ -156,6 +156,7 @@ class ViewDatacollection extends React.Component {
                                         : <p><FaToggleOff color='#56b8db'/> Private</p>
                                 }
                             </div>
+                            <small>collectionId: <i>{ dataCollection.collectionId }</i></small>
                             <hr />
 
 

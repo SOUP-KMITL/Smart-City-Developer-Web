@@ -176,6 +176,9 @@ class AddDataCollection extends React.Component {
                                 <label htmlFor='collectionName'>Collection name</label>
                                 <StyledText type='text' field='collectionName' className='text-input login-input' />
 
+                                <label htmlFor='example'>Description</label>
+                                <StyledText type='text' field='description' className='text-input login-input' />
+
                                 {
                                     //<label htmlFor='encryptionLevel'>Encryption level</label>
                                         //<StyledSelect field="encryptionLevel" options={encryptionLevel} className='text-input-select' />
@@ -184,8 +187,8 @@ class AddDataCollection extends React.Component {
                                 <label htmlFor='example'>Example</label>
                                 <StyledText type='text' field='example' className='text-input login-input' />
 
-                                <label htmlFor='example'>Category</label>
-                                <StyledText type='text' field='category' className='text-input login-input' />
+                                <label htmlFor='category'>Category</label>
+                                <StyledSelect field="category" options={category} className='text-input-select' />
 
                                 <label htmlFor='type'>Type</label>
                                 <StyledSelect field="type" options={type} className='text-input-select' />
@@ -387,5 +390,32 @@ const boolean = [
     {
         label: 'False',
         value: false
+    }
+];
+
+const category = [
+    {
+        label: 'Smart environment',
+        value: 'smart environment'
+    },
+    {
+        label: 'Smart utility',
+        value: 'smart utility'
+    },
+    {
+        label: 'Smart economy',
+        value: 'smart economy'
+    },
+    {
+        label: 'Smart living',
+        value: 'smart living'
+    },
+    {
+        label: 'Smart mobility',
+        value: 'smart mobility'
+    },
+    {
+        label: 'Other',
+        value: 'other'
     }
 ];
