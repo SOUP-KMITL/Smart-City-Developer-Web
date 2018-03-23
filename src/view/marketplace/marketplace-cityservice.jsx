@@ -36,20 +36,21 @@ class MarketplaceCityservice extends Component {
             pages: {},
             loading: true
         };
-        this.requestCityService();
+        this.requestCityService(props);
     }
 
-    componentWillReceiveProps() {
-        this.requestCityService();
+    componentWillReceiveProps(props) {
+        this.requestCityService(props);
     }
 
-    requestCityService() {
-        const page = +this.props.match.params.page - 1;
+    requestCityService(props) {
+        const page = +props.match.params.page - 1;
         this.setState({ loading: true });
 
         axios.get(api.cityService + `?size=${PAGESIZE}&page=${page}`)
             .then(({ data }) => {
                 this.setState({ cityServices: data.content, pages: data });
+                console.log(data);
             })
             .catch((err) => {
                 console.log('CANNOT GET CITY SERVICE');

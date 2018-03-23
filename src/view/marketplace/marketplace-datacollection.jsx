@@ -36,15 +36,15 @@ class SearchDatacollection extends Component {
             pages: {},
             loading: true
         };
-        this.requestDataCollection();
+        this.requestDataCollection(props);
     }
 
-    componentWillReceiveProps() {
-        this.requestDataCollection();
+    componentWillReceiveProps(props) {
+        this.requestDataCollection(props);
     }
 
-    requestDataCollection() {
-        const page = +this.props.match.params.page - 1;
+    requestDataCollection(props) {
+        const page = +props.match.params.page - 1;
         this.setState({ loading: true });
 
         axios.get(api.dataCollection + `?size=${PAGESIZE}&page=${page}`)

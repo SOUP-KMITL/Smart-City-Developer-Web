@@ -59,6 +59,56 @@ class MyNavbar extends Component {
                             <NavItem className='menu'>
                                 <UncontrolledDropdown nav inNavbar>
                                     <DropdownToggle nav caret>
+                                        Tutorials
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        <a href='https://soup-kmitl.gitbooks.io/smart-city/content/data-service-api.html' className='black' target="_blank"> <DropdownItem>
+                                                Data Exchange
+                                            </DropdownItem>
+                                        </a>
+                                        <DropdownItem divider />
+                                        <a href='https://soup-kmitl.gitbooks.io/smart-city/content/city-service-platform.html' className='black' target="_blank">
+                                            <DropdownItem>
+                                                Service Platform
+                                            </DropdownItem>
+                                        </a>
+                                        <DropdownItem divider />
+                                        <a href='https://soup-kmitl.gitbooks.io/smart-city/content/connector.html' className='black' target="_blank">
+                                            <DropdownItem>
+                                                Connector
+                                            </DropdownItem>
+                                        </a>
+                                    </DropdownMenu>
+                                </UncontrolledDropdown>
+                            </NavItem>
+                            <NavItem className='menu'>
+                                <UncontrolledDropdown nav inNavbar>
+                                    <DropdownToggle nav caret>
+                                        APIs
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        <a href='https://api.smartcity.kmitl.io/api/v1/doc/data-exchange' className='black' target="_blank"> <DropdownItem>
+                                                Data Exchange
+                                            </DropdownItem>
+                                        </a>
+                                        <DropdownItem divider />
+                                        <a href='https://api.smartcity.kmitl.io/api/v1/doc/city-service-platform' className='black' target="_blank">
+                                            <DropdownItem>
+                                                Service Platform
+                                            </DropdownItem>
+                                        </a>
+                                        <DropdownItem divider />
+                                        <a href='https://api.smartcity.kmitl.io/api/v1/doc/smartcity-data-api/' className='black' target="_blank">
+                                            <DropdownItem>
+                                                Connector
+                                            </DropdownItem>
+                                        </a>
+                                    </DropdownMenu>
+                                </UncontrolledDropdown>
+                            </NavItem>
+                            <NavItem className='menu'>
+                                <UncontrolledDropdown nav inNavbar>
+                                    <DropdownToggle nav caret>
                                         Marketplace
                                     </DropdownToggle>
                                     <DropdownMenu>
