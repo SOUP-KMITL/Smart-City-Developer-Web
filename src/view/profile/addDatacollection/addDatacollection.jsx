@@ -10,6 +10,7 @@ import {
 import { StyledText, Form, Radio, RadioGroup, StyledSelect, NestedForm } from 'react-form';
 import ReactLoading from 'react-loading';
 import FaPlus from 'react-icons/lib/fa/plus';
+import FaMinus from 'react-icons/lib/fa/minus';
 import axios from 'axios';
 
 import api from '../../../constance/api.js';
@@ -29,6 +30,7 @@ class AddDataCollection extends React.Component {
         this.addHeaders = this.addHeaders.bind(this);
         this.addQueryString = this.addQueryString.bind(this);
         this.addColumns = this.addColumns.bind(this);
+        this.deleteColumns = this.deleteColumns.bind(this);
     }
 
     resolveValue(value) {
@@ -120,7 +122,6 @@ class AddDataCollection extends React.Component {
         let value = this.resolveValue(val);
 
         if (value != null) {
-            console.log(value);
             axios.post(api.dataCollection, JSON.stringify(value), {
                 headers: {
                     'Authorization': this.props.userData.accessToken,
@@ -149,15 +150,30 @@ class AddDataCollection extends React.Component {
     }
 
     addHeaders() {
-        this.setState({ headers: this.state.headers.concat(['']) })
+        this.setState({ headers: this.state.headers.concat(['']) });
     }
 
     addColumns() {
-        this.setState({ columns: this.state.columns.concat(['']) })
+        this.setState({ columns: this.state.columns.concat(['']) });
+    }
+
+    deleteColumns(value) {
+        // Pop array length
+        const array = this.state.columns;
+        array.splice(array.length-1, 1);
+        this.setState({ columns: array });
+
+        if (value.columns != undefined) {
+            // Pop value in columns array
+            const { indexed, name, type } = value.columns;
+            indexed.splice(indexed.length-1, 1);
+            name.splice(name.length-1, 1);
+            type.splice(type.length-1, 1);
+        }
     }
 
     addQueryString() {
-        this.setState({ queryStrings: this.state.queryStrings.concat(['']) })
+        this.setState({ queryStrings: this.state.queryStrings.concat(['']) });
     }
 
 
@@ -181,7 +197,7 @@ class AddDataCollection extends React.Component {
 
                                 {
                                     //<label htmlFor='encryptionLevel'>Encryption level</label>
-                                        //<StyledSelect field="encryptionLevel" options={encryptionLevel} className='text-input-select' />
+                                    //<StyledSelect field="encryptionLevel" options={encryptionLevel} className='text-input-select' />
                                 }
 
                                 <label htmlFor='example'>Example</label>
@@ -199,31 +215,45 @@ class AddDataCollection extends React.Component {
                                     (formApi.values.type=='timeseries' || formApi.values.type=='geotemporal') &&
                                         <div className='left-right'>
                                             <h3>Columns</h3>
-                                            <Button type='button' size='sm' outline color='info' onClick={this.addColumns}>
-                                                <FaPlus />
-                                            </Button>
+                                            <div>
+                                                <Button type='button' size='sm' outline color='info' onClick={this.addColumns}>
+                                                    <FaPlus />
+                                                </Button>
+                                                {
+                                                    this.state.columns.length>0 &&
+                                                        <Button
+                                                            type='button'
+                                                            size='sm'
+                                                            outline
+                                                            color='info'
+                                                            onClick={ () => this.deleteColumns(formApi.values) }
+                                                            style={{ marginLeft: '5px' }}>
+                                                            <FaMinus />
+                                                        </Button>
+                                                }
+                                            </div>
                                         </div>
                                 }
                                 {
                                     (formApi.values.type=='geotemporal' || formApi.values.type=='timeseries')
                                         && this.state.columns.map((item, i) => (
-                                        <div class="input-row" key={i}>
-                                            <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <label htmlFor="columns.name">Name</label>
-                                                <StyledText type='text' field={['columns.name', i]} className='text-input login-input' />
-                                            </Col>
+                                            <div class="input-row" key={i}>
+                                                <Col md={4} style={{ paddingLeft: 0 }}>
+                                                    <label htmlFor="columns.name">Name</label>
+                                                    <StyledText type='text' field={['columns.name', i]} className='text-input login-input' />
+                                                </Col>
 
-                                            <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <label htmlFor='columns.type'>Type</label>
-                                                <StyledSelect field={['columns.type', i]} options={columnsType} className='text-input-select' />
-                                            </Col>
+                                                <Col md={4} style={{ paddingLeft: 0 }}>
+                                                    <label htmlFor='columns.type'>Type</label>
+                                                    <StyledSelect field={['columns.type', i]} options={columnsType} className='text-input-select' />
+                                                </Col>
 
-                                            <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <label htmlFor='columns.indexed'>Indexed</label>
-                                                <StyledSelect field={['columns.indexed', i]} options={boolean} className='text-input-select' />
-                                            </Col>
-                                        </div>
-                                    ))
+                                                <Col md={4} style={{ paddingLeft: 0 }}>
+                                                    <label htmlFor='columns.indexed'>Indexed</label>
+                                                    <StyledSelect field={['columns.indexed', i]} options={boolean} className='text-input-select' />
+                                                </Col>
+                                            </div>
+                                        ))
                                 }
 
                                 {
