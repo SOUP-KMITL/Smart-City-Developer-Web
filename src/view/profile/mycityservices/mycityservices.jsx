@@ -69,7 +69,12 @@ class MyCityServices extends React.Component {
                 {
                     cityServices.length!==0 &&
                         <Link to='/profile/add-cityservice' className='link'>
-                            <Button size='sm' className='btn-smooth btn-raised-success content-header-btn no-data'><FaPlus style={{marginTop: '3px'}} />  CitService</Button>
+                            <Button
+                                size='sm'
+                                className='btn-smooth btn-raised-success content-header-btn no-data'>
+                                <FaPlus style={{marginTop: '3px', marginRight: '5px'}} />
+                                City Service
+                            </Button>
                         </Link>
                 }
                 <hr className='content-hr' />

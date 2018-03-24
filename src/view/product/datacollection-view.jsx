@@ -212,13 +212,14 @@ class ViewDatacollection extends React.Component {
                             </div>
                             <div className='product-header-description'>
                                 <p><FaUser color='#56b8db' /> { dataCollection.owner }</p>
-                                <p><FaObjectGroup color='#56b8db' />  { dataCollection.type.toUpperCase() }</p>
+                                <p><FaObjectGroup color='#56b8db' />  { dataCollection.type!=undefined? dataCollection.type.toUpperCase(): '-' }</p>
                                 {
                                     dataCollection.open
                                         ? <p><FaToggleOn color='#56b8db' /> Public</p>
                                         : <p><FaToggleOff color='#56b8db'/> Private</p>
                                 }
                             </div>
+                            <small>collectionId: <i>{ dataCollection.collectionId }</i></small>
                             <hr />
 
 

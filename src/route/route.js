@@ -17,7 +17,7 @@ const appRoute = [
   {path: '/view/cityservice/:serviceId', component: ViewCityservice},
   {path: '/view/datacollection/:collectionName', component: ViewDatacollection},
   {path: '/contact-us', component: Contact},
-  {path: '/profile', component: Profile, requireLogin: false},
+  {path: '/profile', component: Profile, requireLogin: true},
   {path: '/profile/my-datacollection', component: Profile, requireLogin: false},
   {path: '/marketplace/datacollection/page/:page', component: MarketplaceDatacollection, requireLogin: false},
   {path: '/marketplace/cityservice/page/:page', component: MarketplaceCityservice, requireLogin: false},

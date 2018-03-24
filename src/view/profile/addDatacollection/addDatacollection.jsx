@@ -10,6 +10,7 @@ import {
 import { StyledText, Form, Radio, RadioGroup, StyledSelect, NestedForm } from 'react-form';
 import ReactLoading from 'react-loading';
 import FaPlus from 'react-icons/lib/fa/plus';
+import FaMinus from 'react-icons/lib/fa/minus';
 import axios from 'axios';
 
 import api from '../../../constance/api.js';
@@ -29,20 +30,42 @@ class AddDataCollection extends React.Component {
         this.addHeaders = this.addHeaders.bind(this);
         this.addQueryString = this.addQueryString.bind(this);
         this.addColumns = this.addColumns.bind(this);
+        this.deleteColumns = this.deleteColumns.bind(this);
     }
 
     resolveValue(value) {
-        // Assign manual key, value in headers
-        const { columns, endPoint } = value;
+        let { endPoint } = value;
+        value.encryptionLevel = 0; // Maybe temporary
 
+        if (value.columns != undefined) {
+            const colTmp = [];
+            // key: name, type, indexed must have equal length and more than 0
+            value.columns.name.length > 0
+                && value.columns.name.length==value.columns.type.length
+                && value.columns.type.length==value.columns.indexed.length
+                && value.columns.indexed.length==value.columns.name.length
+                && value.columns.name.map((name, i) => {
+                    colTmp.push({
+                        "name": value.columns.name[i],
+                        "type": value.columns.type[i],
+                        "indexed": value.columns.indexed[i]
+                    });
+                });
+            value.columns = colTmp;
+        }
+
+        if (value.columns == undefined)
+            value.columns = [];
         if (value.type === 'timeseries') {
-            value.columns = [{
+            value['endPoint'] = {'type': 'local'}
+            value.columns.push({
                 "name": "ts",
                 "type": "timestamp",
                 "indexed": true
-            }];
+            });
         } else if (value.type === 'geotemporal') {
-            value.columns = [{
+            value['endPoint'] = {'type': 'local'}
+            value.columns.push({
                 "name": "lat",
                 "type": "double",
                 "indexed": true
@@ -50,18 +73,13 @@ class AddDataCollection extends React.Component {
                 "name": "lng",
                 "type": "double",
                 "indexed": true
-            }];
-        }
-
-        if (columns != undefined) {
-            columns.name!=undefined && columns.type!=undefined && columns.indexed!=undefined &&
-                columns.name.map((name, i) => {
-                    columns.push({
-                        "name": columns.name[i],
-                        "type": columns.type[i],
-                        "indexed": columns.indexed[i]
-                    });
-                })
+            });
+        } else if (value.type === 'keyvalue') {
+            value['endPoint'] = {'type': 'local'}
+            delete value.columns;
+        } else if (value.type === 'remote') {
+            delete value.columns;
+            value.endPoint.type = 'remote';
         }
 
         if (endPoint != undefined && endPoint.headers != undefined) {
@@ -104,7 +122,6 @@ class AddDataCollection extends React.Component {
         let value = this.resolveValue(val);
 
         if (value != null) {
-
             axios.post(api.dataCollection, JSON.stringify(value), {
                 headers: {
                     'Authorization': this.props.userData.accessToken,
@@ -133,15 +150,30 @@ class AddDataCollection extends React.Component {
     }
 
     addHeaders() {
-        this.setState({ headers: this.state.headers.concat(['']) })
+        this.setState({ headers: this.state.headers.concat(['']) });
     }
 
     addColumns() {
-        this.setState({ columns: this.state.columns.concat(['']) })
+        this.setState({ columns: this.state.columns.concat(['']) });
+    }
+
+    deleteColumns(value) {
+        // Pop array length
+        const array = this.state.columns;
+        array.splice(array.length-1, 1);
+        this.setState({ columns: array });
+
+        if (value.columns != undefined) {
+            // Pop value in columns array
+            const { indexed, name, type } = value.columns;
+            indexed.splice(indexed.length-1, 1);
+            name.splice(name.length-1, 1);
+            type.splice(type.length-1, 1);
+        }
     }
 
     addQueryString() {
-        this.setState({ queryStrings: this.state.queryStrings.concat(['']) })
+        this.setState({ queryStrings: this.state.queryStrings.concat(['']) });
     }
 
 
@@ -160,88 +192,114 @@ class AddDataCollection extends React.Component {
                                 <label htmlFor='collectionName'>Collection name</label>
                                 <StyledText type='text' field='collectionName' className='text-input login-input' />
 
-                                <label htmlFor='type'>Type</label>
-                                <StyledSelect field="type" options={type} className='text-input-select' />
+                                <label htmlFor='example'>Description</label>
+                                <StyledText type='text' field='description' className='text-input login-input' />
 
-                                <label htmlFor='encryptionLevel'>Encryption level</label>
-                                <StyledSelect field="encryptionLevel" options={encryptionLevel} className='text-input-select' />
+                                {
+                                    //<label htmlFor='encryptionLevel'>Encryption level</label>
+                                    //<StyledSelect field="encryptionLevel" options={encryptionLevel} className='text-input-select' />
+                                }
 
                                 <label htmlFor='example'>Example</label>
                                 <StyledText type='text' field='example' className='text-input login-input' />
 
-                                <label htmlFor='example'>Category</label>
-                                <StyledText type='text' field='category' className='text-input login-input' />
+                                <label htmlFor='category'>Category</label>
+                                <StyledSelect field="category" options={category} className='text-input-select' />
+
+                                <label htmlFor='type'>Type</label>
+                                <StyledSelect field="type" options={type} className='text-input-select' />
 
                                 <br />
-                                <div className='left-right'>
-                                    <h3>Columns</h3>
-                                    <Button type='button' size='sm' outline color='info' onClick={this.addColumns}>
-                                        <FaPlus />
-                                    </Button>
-                                </div>
-                                <hr />
+
                                 {
-                                    this.state.columns.map((item, i) => (
-                                        <div class="input-row" key={i}>
-                                            <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <label htmlFor="columns.name">Name</label>
-                                                <StyledText type='text' field={['columns.name', i]} className='text-input login-input' />
-                                            </Col>
-
-                                            <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <label htmlFor='columns.type'>Type</label>
-                                                <StyledSelect field={['columns.type', i]} options={columnsType} className='text-input-select' />
-                                            </Col>
-
-                                            <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <label htmlFor='columns.indexed'>Indexed</label>
-                                                <StyledSelect field={['columns.indexed', i]} options={boolean} className='text-input-select' />
-                                            </Col>
+                                    (formApi.values.type=='timeseries' || formApi.values.type=='geotemporal') &&
+                                        <div className='left-right'>
+                                            <h3>Columns</h3>
+                                            <div>
+                                                <Button type='button' size='sm' outline color='info' onClick={this.addColumns}>
+                                                    <FaPlus />
+                                                </Button>
+                                                {
+                                                    this.state.columns.length>0 &&
+                                                        <Button
+                                                            type='button'
+                                                            size='sm'
+                                                            outline
+                                                            color='info'
+                                                            onClick={ () => this.deleteColumns(formApi.values) }
+                                                            style={{ marginLeft: '5px' }}>
+                                                            <FaMinus />
+                                                        </Button>
+                                                }
+                                            </div>
                                         </div>
-                                    ))
+                                }
+                                {
+                                    (formApi.values.type=='geotemporal' || formApi.values.type=='timeseries')
+                                        && this.state.columns.map((item, i) => (
+                                            <div class="input-row" key={i}>
+                                                <Col md={4} style={{ paddingLeft: 0 }}>
+                                                    <label htmlFor="columns.name">Name</label>
+                                                    <StyledText type='text' field={['columns.name', i]} className='text-input login-input' />
+                                                </Col>
+
+                                                <Col md={4} style={{ paddingLeft: 0 }}>
+                                                    <label htmlFor='columns.type'>Type</label>
+                                                    <StyledSelect field={['columns.type', i]} options={columnsType} className='text-input-select' />
+                                                </Col>
+
+                                                <Col md={4} style={{ paddingLeft: 0 }}>
+                                                    <label htmlFor='columns.indexed'>Indexed</label>
+                                                    <StyledSelect field={['columns.indexed', i]} options={boolean} className='text-input-select' />
+                                                </Col>
+                                            </div>
+                                        ))
                                 }
 
-                                <br />
-                                <h3>endPoint</h3>
-                                <hr />
-                                <label htmlFor="type">Type</label>
-                                <StyledSelect field="endPoint.type" options={endpointType} className='text-input-select' />
-
-                                <label htmlFor="url">URL</label>
-                                <StyledText type='text' field='endPoint.url' className='text-input login-input' />
-
-                                <label htmlFor="url">Headers</label>
-                                <Button size='sm' style={{ float: 'right' }} outline color='info' onClick={this.addHeaders}>
-                                    <FaPlus />
-                                </Button>
                                 {
-                                    this.state.headers.map((item, i) => (
-                                        <div className='input-row' key={i}>
-                                            <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <StyledText type='text' field={['endPoint.headers.keys',i]} className='text-input login-input' />
-                                            </Col>
-                                            <Col md={8} style={{ paddingRight: 0 }}>
-                                                <StyledText type='text' field={['endPoint.headers.values',i]} className='text-input login-input' />
-                                            </Col>
-                                        </div>
-                                    ))
-                                }
+                                    formApi.values.type === 'remote' &&
+                                        <div>
+                                            <h3>endPoint</h3>
+                                            <hr />
 
-                                <br />
+                                            <label htmlFor="url">URL</label>
+                                            <StyledText type='text' field='endPoint.url' className='text-input login-input' />
 
-                                <label htmlFor="url">Parameters</label>
-                                <Button size='sm' style={{ float: 'right' }} outline color='info' onClick={this.addQueryString}><FaPlus /></Button>
-                                {
-                                    this.state.queryStrings.map((item, i) => (
-                                        <div className='input-row' key={i}>
-                                            <Col md={4} style={{ paddingLeft: 0 }}>
-                                                <StyledText type='text' field={['endPoint.queryString.keys',i]} className='text-input login-input' />
-                                            </Col>
-                                            <Col md={8} style={{ paddingRight: 0 }}>
-                                                <StyledText type='text' field={['endPoint.queryString.values',i]} className='text-input login-input' />
-                                            </Col>
+                                            <label htmlFor="url">Headers</label>
+                                            <Button size='sm' style={{ float: 'right' }} outline color='info' onClick={this.addHeaders}>
+                                                <FaPlus />
+                                            </Button>
+                                            {
+                                                this.state.headers.map((item, i) => (
+                                                    <div className='input-row' key={i}>
+                                                        <Col md={4} style={{ paddingLeft: 0 }}>
+                                                            <StyledText type='text' field={['endPoint.headers.keys',i]} className='text-input login-input' />
+                                                        </Col>
+                                                        <Col md={8} style={{ paddingRight: 0 }}>
+                                                            <StyledText type='text' field={['endPoint.headers.values',i]} className='text-input login-input' />
+                                                        </Col>
+                                                    </div>
+                                                ))
+                                            }
+
+                                            <br />
+
+                                            <label htmlFor="url">Parameters</label>
+                                            <Button size='sm' style={{ float: 'right' }} outline color='info' onClick={this.addQueryString}><FaPlus /></Button>
+                                            {
+                                                this.state.queryStrings.map((item, i) => (
+                                                    <div className='input-row' key={i}>
+                                                        <Col md={4} style={{ paddingLeft: 0 }}>
+                                                            <StyledText type='text' field={['endPoint.queryString.keys',i]} className='text-input login-input' />
+                                                        </Col>
+                                                        <Col md={8} style={{ paddingRight: 0 }}>
+                                                            <StyledText type='text' field={['endPoint.queryString.values',i]} className='text-input login-input' />
+                                                        </Col>
+                                                    </div>
+                                                ))
+                                            }
+
                                         </div>
-                                    ))
                                 }
 
                                 <RadioGroup field="isOpen">
@@ -295,7 +353,7 @@ const encryptionLevel = [
         label: 'High encryption',
         value: 2
     }
-]
+];
 
 const type = [
     {
@@ -309,8 +367,12 @@ const type = [
     {
         label: 'Keyvalue',
         value: 'keyvalue'
+    },
+    {
+        label: 'Remote',
+        value: 'remote'
     }
-]
+];
 
 const endpointType = [
     {
@@ -321,7 +383,7 @@ const endpointType = [
         label: 'Remote',
         value: 'remote'
     }
-]
+];
 
 const columnsType = [
     {
@@ -348,7 +410,7 @@ const columnsType = [
         label: 'Timestamp',
         value: 'timestamp'
     }
-]
+];
 
 const boolean = [
     {
@@ -359,30 +421,31 @@ const boolean = [
         label: 'False',
         value: false
     }
-]
+];
 
-const test = {
-    "collectionName": "kjsdfo",
-    "endPoint": {
-        "type": "local",
-        "url": "http://url.com",
-        /*
-         *"headers": {
-         *    "content-type": "application/json",
-         *    "accept": "application/json"
-         *},
-         *"queryString": {
-         *    "param": "value"
-         *},
-         */
+const category = [
+    {
+        label: 'Smart environment',
+        value: 'smart environment'
     },
-    "columns": [
-        "name": "ts",
-        "type": "timeseries",
-        "indexed": true
-    ],
-    "type": "timeseries",
-    "encryptionLevel": 0,
-    "example": {},
-    "isOpen": true
-}
+    {
+        label: 'Smart utility',
+        value: 'smart utility'
+    },
+    {
+        label: 'Smart economy',
+        value: 'smart economy'
+    },
+    {
+        label: 'Smart living',
+        value: 'smart living'
+    },
+    {
+        label: 'Smart mobility',
+        value: 'smart mobility'
+    },
+    {
+        label: 'Other',
+        value: 'other'
+    }
+];

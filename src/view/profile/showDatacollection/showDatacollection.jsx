@@ -222,8 +222,7 @@ class ShowDataCollection extends React.Component {
                         <div
                             className='pointer black'
                             style={{ marginLeft: '10px' }}
-                            onClick={() => this.genTicket(dataCollection.collectionId)}
-                        >
+                            onClick={() => this.genTicket(dataCollection.collectionId)}>
                             <FaTickets /> Gen Ticket
                         </div>
                         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
@@ -231,20 +230,25 @@ class ShowDataCollection extends React.Component {
                                 <FaEllipsisV />
                             </DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem onClick={ () => this.deleteDatacollection(dataCollection.collectionId) }>Delete</DropdownItem>
+                                <DropdownItem
+                                    onClick={ () => this.deleteDatacollection(dataCollection.collectionId) }
+                                    className='pointer'>
+                                    Delete
+                                </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </div>
                 </div>
                 <div className='product-header-description'>
                     <p><FaUser color='#56b8db' /> { dataCollection.owner }</p>
-                    <p><FaObjectGroup color='#56b8db' />  { dataCollection.type.toUpperCase() }</p>
+                    <p><FaObjectGroup color='#56b8db' />  { dataCollection.type!=undefined? dataCollection.type.toUpperCase(): '-' }</p>
                     {
                         dataCollection.open
                             ? <p><FaToggleOn color='#56b8db' /> Public</p>
                             : <p><FaToggleOff color='#56b8db'/> Private</p>
                     }
                 </div>
+                <small>collectionId: <i>{ dataCollection.collectionId }</i></small>
                 <hr />
 
                 <p>{ dataCollection.description }</p>
@@ -272,8 +276,6 @@ class ShowDataCollection extends React.Component {
 }
 
 export default connect(state => state)(ShowDataCollection);
-
-const noImageAvialable = 'https://avatars1.githubusercontent.com/u/17084428?s=460&v=4';
 
 
 const ModalComponent = ({ isOpen, toggle, ticket, copy, setwordCopy }) => (

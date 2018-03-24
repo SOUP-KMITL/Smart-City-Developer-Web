@@ -27,7 +27,8 @@ class EditDataCollection extends React.Component {
             dataCollection: undefined,
             thumbnail: undefined,
         }
-        this.requestDatacollection(props);
+        if (props.userData != undefined)
+            this.requestDatacollection(props);
     }
 
     componentWillReceiveProps(props) {

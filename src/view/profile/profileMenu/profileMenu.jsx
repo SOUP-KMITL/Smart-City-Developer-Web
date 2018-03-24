@@ -103,7 +103,12 @@ class ProfileMenu extends React.Component {
                 this.props.notify('UPDATE PROFILE THUMBNAIL SUCCESS', 'success');
                 // For reload profile image without refresh page
                 const tmpUserData  = Object.assign({}, this.props.userData);
-                tmpUserData.thumbnail = thumbnail + '?t=' + new Date();
+                if (thumbnail) {
+                    tmpUserData.thumbnail = thumbnail + '?t=' + new Date();
+                } else {
+                    tmpUserData.thumbnail = `${api.users}${userName}/thumbnail`;
+                    Storage.saveUserData(tmpUserData);
+                }
                 this.props.updateUserData(tmpUserData);
             })
             .catch(({ response }) => {

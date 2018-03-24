@@ -89,6 +89,28 @@ class AddCityService extends React.Component {
                         { formApi => (
                             <form onSubmit={formApi.submitForm} className='form-editprofile'>
 
+                                {
+                                    /*
+                                     *<label>Thumbnail</label>
+                                     *<Dropzone onDrop={this.onDrop.bind(this)} className='dropzone pointer' accept='image/*' >
+                                     *    {
+                                     *        thumbnail!=null
+                                     *            ? <div className='dropzone-thumbnail'>
+                                     *                <div className='dropzone-overlay'>
+                                     *                    <img src={thumbnail} className='dropzone-img' />
+                                     *                </div>
+                                     *            </div>
+                                     *            : <div className='dropzone-description'>
+                                     *                <FaCloudUpload className='dropzone-icon' />
+                                     *                <p>Drop image</p>
+                                     *                <p>or</p>
+                                     *                <p>Click to upload</p>
+                                     *            </div>
+                                     *    }
+                                     *</Dropzone>
+                                     */
+                                }
+
                                 <label htmlFor='serviceName'>Service name</label>
                                 <StyledText type='text' field='serviceName' className='text-input login-input' />
 
