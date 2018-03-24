@@ -37,6 +37,16 @@ class AddDataCollection extends React.Component {
         let { endPoint } = value;
         value.encryptionLevel = 0; // Maybe temporary
 
+        delete value.requireColumnsName;
+        delete value.requireColumnsType;
+        delete value.requireColumnsIndexed;
+        delete value.requireColumnsGeoName1;
+        delete value.requireColumnsGeoType1;
+        delete value.requireColumnsGeoIndexed1;
+        delete value.requireColumnsGeoName2;
+        delete value.requireColumnsGeoType2;
+        delete value.requireColumnsGeoIndexed2;
+
         if (value.columns != undefined) {
             const colTmp = [];
             // key: name, type, indexed must have equal length and more than 0
@@ -120,6 +130,7 @@ class AddDataCollection extends React.Component {
     requestUpload(val) {
         this.setState({ loading: true });
         let value = this.resolveValue(val);
+        console.log(value);
 
         if (value != null) {
             axios.post(api.dataCollection, JSON.stringify(value), {
@@ -185,7 +196,19 @@ class AddDataCollection extends React.Component {
                 <CardBody>
                     <CardTitle>Create DataCollection</CardTitle>
                     <hr />
-                    <Form onSubmit={submittedValues => this.requestUpload(submittedValues)}>
+                    <Form
+                        onSubmit={submittedValues => this.requestUpload(submittedValues)}
+                        defaultValues={{
+                            requireColumnsName: 'ts',
+                            requireColumnsType: 'timestamp',
+                            requireColumnsIndexed: true,
+                            requireColumnsGeoName1: 'lat',
+                            requireColumnsGeoType1: 'double',
+                            requireColumnsGeoIndexed1: true,
+                            requireColumnsGeoName2: 'lng',
+                            requireColumnsGeoType2: 'double',
+                            requireColumnsGeoIndexed2: true
+                        }}>
                         { formApi => (
                             <form onSubmit={formApi.submitForm} className='form-editprofile'>
 
@@ -232,6 +255,65 @@ class AddDataCollection extends React.Component {
                                                         </Button>
                                                 }
                                             </div>
+                                        </div>
+                                }
+                                {
+                                    // Show defaultl columns value
+                                    formApi.values.type=='timeseries' &&
+                                        <div class="input-row">
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <label htmlFor="columns.name">Name</label>
+                                                <StyledText type='text' field='requireColumnsName' className='text-input login-input' disabled />
+                                            </Col>
+
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <label htmlFor='columns.type'>Type</label>
+                                                <StyledSelect field='requireColumnsType' options={columnsType} className='text-input-select' disabled />
+                                            </Col>
+
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <label htmlFor='columns.indexed'>Indexed</label>
+                                                <StyledSelect field='requireColumnsIndexed' options={boolean} className='text-input-select' disabled />
+                                            </Col>
+                                        </div>
+                                }
+                                {
+                                    // Show defaultl columns value of geotemporal
+                                    formApi.values.type=='geotemporal' &&
+                                        <div class="input-row">
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <label htmlFor="columns.name">Name</label>
+                                                <StyledText type='text' field='requireColumnsGeoName1' className='text-input login-input' disabled />
+                                            </Col>
+
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <label htmlFor='columns.type'>Type</label>
+                                                <StyledSelect field='requireColumnsGeoType1' options={columnsType} className='text-input-select' disabled />
+                                            </Col>
+
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <label htmlFor='columns.indexed'>Indexed</label>
+                                                <StyledSelect field='requireColumnsGeoIndexed1' options={boolean} className='text-input-select' disabled />
+                                            </Col>
+                                        </div>
+                                }
+                                {
+                                    formApi.values.type=='geotemporal' &&
+                                        <div class="input-row">
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <label htmlFor="columns.name">Name</label>
+                                                <StyledText type='text' field='requireColumnsGeoName2' className='text-input login-input' disabled />
+                                            </Col>
+
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <label htmlFor='columns.type'>Type</label>
+                                                <StyledSelect field='requireColumnsGeoType2' options={columnsType} className='text-input-select' disabled />
+                                            </Col>
+
+                                            <Col md={4} style={{ paddingLeft: 0 }}>
+                                                <label htmlFor='columns.indexed'>Indexed</label>
+                                                <StyledSelect field='requireColumnsGeoIndexed2' options={boolean} className='text-input-select' disabled />
+                                            </Col>
                                         </div>
                                 }
                                 {

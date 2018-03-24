@@ -256,6 +256,7 @@ class ShowCityService extends React.Component {
                         <p><FaUser color='#56b8db' /> { cityService.owner }</p>
                         <p><FaCalendarO color='#56b8db' />  { this.formatDate(cityService.createdAt) }</p>
                     </div>
+                    <small>serviceId: <i>{ cityService.serviceId }</i></small>
                     <hr />
 
                     <p>{ cityService.description }</p>

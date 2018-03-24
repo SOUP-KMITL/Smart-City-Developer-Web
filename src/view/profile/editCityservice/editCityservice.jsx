@@ -194,10 +194,7 @@ class EditCityService extends React.Component {
                             onSubmit={submittedValues => this.updateCityservice(submittedValues)}
                             defaultValues={{
                                 ...cityService,
-                                //description: cityService.description,
-                                //endpoint: cityService.endPoint,
                                 videoLink: 'https://youtu.be/' + cityService.videoLink,
-                                //appLink: cityService.appLink,
                                 sampleData: JSON.stringify(cityService.sampleData),
                             }}>
                             { formApi => (
