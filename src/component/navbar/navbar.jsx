@@ -107,6 +107,9 @@ class MyNavbar extends Component {
                                 </UncontrolledDropdown>
                             </NavItem>
                             <NavItem className='menu'>
+                                <Link to='/resources'><NavLink>Resources</NavLink></Link>
+                            </NavItem>
+                            <NavItem className='menu'>
                                 <UncontrolledDropdown nav inNavbar>
                                     <DropdownToggle nav caret>
                                         Marketplace

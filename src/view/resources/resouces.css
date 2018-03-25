@@ -1,0 +1,11 @@
+.resources {
+}
+
+.resources > ul {
+  padding: 0px;
+}
+
+.resources > ul > li {
+  list-style: none;
+  padding: 10px;
+}
