@@ -45,7 +45,7 @@ class App extends Component {
     return (
       <div>
         <MyNavbar />
-        <div className='body'>
+        <div className='body fullscreen'>
           <Switch>
             {
               appRoute.map((route, i) => {

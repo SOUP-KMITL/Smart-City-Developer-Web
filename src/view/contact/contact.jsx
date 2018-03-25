@@ -6,7 +6,7 @@ export default class Contact extends React.Component {
 
     render() {
         return (
-            <div className='fullscreen contact'>
+            <div className='contact'>
                 <div className='bg-contact'>
                     <h4>
                         If you have any questions, please don't hesitate to ask us on:
