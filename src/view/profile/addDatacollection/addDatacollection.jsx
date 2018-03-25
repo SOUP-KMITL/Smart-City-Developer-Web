@@ -71,18 +71,18 @@ class AddDataCollection extends React.Component {
             value.columns.push({
                 "name": "ts",
                 "type": "timestamp",
-                "indexed": true
+                "indexed": false
             });
         } else if (value.type === 'geotemporal') {
             value['endPoint'] = {'type': 'local'}
             value.columns.push({
                 "name": "lat",
                 "type": "double",
-                "indexed": true
+                "indexed": false
             }, {
                 "name": "lng",
                 "type": "double",
-                "indexed": true
+                "indexed": false
             });
         } else if (value.type === 'keyvalue') {
             value['endPoint'] = {'type': 'local'}
@@ -201,13 +201,13 @@ class AddDataCollection extends React.Component {
                         defaultValues={{
                             requireColumnsName: 'ts',
                             requireColumnsType: 'timestamp',
-                            requireColumnsIndexed: true,
+                            requireColumnsIndexed: false,
                             requireColumnsGeoName1: 'lat',
                             requireColumnsGeoType1: 'double',
-                            requireColumnsGeoIndexed1: true,
+                            requireColumnsGeoIndexed1: false,
                             requireColumnsGeoName2: 'lng',
                             requireColumnsGeoType2: 'double',
-                            requireColumnsGeoIndexed2: true
+                            requireColumnsGeoIndexed2: false
                         }}>
                         { formApi => (
                             <form onSubmit={formApi.submitForm} className='form-editprofile'>

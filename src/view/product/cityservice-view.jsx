@@ -5,7 +5,11 @@ import {
     Col,
     Row,
     Button,
-    ButtonGroup
+    ButtonGroup,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import SwaggerUi from 'swagger-ui';
@@ -13,10 +17,13 @@ import 'swagger-ui/dist/swagger-ui.css';
 import ReactJson from 'react-json-view';
 import axios from 'axios';
 import Blockies from 'react-blockies';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 // Icons
 import FaCalendarO from 'react-icons/lib/fa/calendar-o';
 import FaUser from 'react-icons/lib/fa/user';
+import FaTickets from 'react-icons/lib/fa/ticket';
+import FaCopy from 'react-icons/lib/fa/copy';
 
 import ProfileMenu from '../profile/profileMenu/profileMenu.jsx';
 import MainRightPanel from '../share/component/right-panel.jsx';
@@ -33,8 +40,13 @@ class ViewCityservice extends React.Component {
             cityService: {},
             loading: true,
             thumbnail: null,
+            copy: 'Copy',
+            modalOpen: false,
         }
         this.formatDate = this.formatDate.bind(this);
+        this.setWordCopy = this.setWordCopy.bind(this);
+        this.genTicket = this.genTicket.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     componentDidMount() {
@@ -71,6 +83,38 @@ class ViewCityservice extends React.Component {
             });
     }
 
+    genTicket(serviceId) {
+        const { accessToken } = this.props.userData;
+        const body = {
+            serviceId: serviceId,
+            expire: 0
+        }
+        axios.post(api.getTicket, JSON.stringify(body), {
+            headers: {
+                'Authorization': accessToken,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(({ data }) => {
+                this.setState({ ticket: data });
+            })
+            .catch(({ response }) => {
+                this.props.notify('CANNOT GENERATE TICKET', 'error');
+            })
+            .finally(() => {
+                this.setState({ modalOpen: true });
+            });
+    }
+
+    closeModal() {
+        this.setState({ modalOpen: false });
+    }
+
+    setWordCopy() {
+        // Set word copy to copied
+        this.setState({ copy: 'Copied!' });
+    }
+
     formatDate(date) {
         if (date != null) {
             const value = new Date(date * 1000);
@@ -82,13 +126,22 @@ class ViewCityservice extends React.Component {
 
 
     render() {
-        const { cityService, loading, thumbnail } = this.state;
+        const { cityService, loading, thumbnail, ticket, copy, modalOpen } = this.state;
 
         if (loading == true)
             return ( <Loading /> )
         else
             return (
                 <Container className='fullscreen' style={{ paddingTop: 50 }}>
+
+                    <ModalComponent
+                        isOpen={modalOpen}
+                        toggle={this.closeModal}
+                        ticket={ticket}
+                        copy={copy}
+                        setwordCopy={this.setWordCopy}
+                    />
+
                     <Row>
 
                         <Col md={3} xs={12} sm={12}>
@@ -142,6 +195,14 @@ class ViewCityservice extends React.Component {
                             </div>
                             <div className='product-header' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <h3>{ cityService.serviceName }</h3>
+                                <div class="flex-inline">
+                                    <div
+                                        className='pointer black'
+                                        style={{ marginLeft: '10px' }}
+                                        onClick={() => this.genTicket(cityService.serviceId)}>
+                                        <FaTickets /> Gen Ticket
+                                    </div>
+                                </div>
                             </div>
                             <div className='product-header-description'>
                                 <p><FaUser color='#56b8db' /> { cityService.owner }</p>
@@ -211,3 +272,28 @@ class ViewCityservice extends React.Component {
 }
 
 export default connect(state => state)(ViewCityservice);
+
+
+const ModalComponent = ({ isOpen, toggle, ticket, copy, setwordCopy }) => (
+    <Modal size='lg' isOpen={isOpen} fade={true} toggle={toggle}>
+        <ModalHeader toggle={this.toggle}>Generate Ticket Success</ModalHeader>
+        <ModalBody>
+            {
+                ticket!=''
+                    ? `Your ticket is`
+                    : 'Get ticket fail!'
+            }
+            <br />
+            <input type='text' value={ticket} disabled className='text-input login-input' />
+        </ModalBody>
+        <ModalFooter className='link'>
+            <CopyToClipboard text={ticket}
+                onCopy={() => setwordCopy()}>
+                <Button className='btn-smooth btn-raised-info'> <FaCopy /> { copy }</Button>
+            </CopyToClipboard>
+            <div className='btn-invisible' onClick={toggle}>
+                Close
+            </div>
+        </ModalFooter>
+    </Modal>
+)
