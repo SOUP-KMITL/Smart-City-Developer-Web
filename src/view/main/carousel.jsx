@@ -84,15 +84,9 @@ class MainCarousel extends React.Component {
                 <div className=' overlay'>
                     <h2>Smart City</h2>
                     <h5>Open data exchange platform for supporting smart city service  <br />development and innovation.</h5>
-                    {
-                        this.props.userData.userName==null
-                            ? <Link to='/signup'>
-                                <Button color='warning' className='btn-white' outline size='lg'>Sign Up</Button>
-                            </Link>
-                            : <Link to='/marketplace/cityservice/page/1'>
-                                <Button color='info' className='btn-white' outline size='lg'>Explore</Button>
-                            </Link>
-                    }
+                    <a href='https://soup-kmitl.gitbooks.io/smart-city/content/' target='_blank'>
+                        <Button color='success' className='btn-white' outline size='lg'>Get started</Button>
+                    </a>
                 </div>
 
 
