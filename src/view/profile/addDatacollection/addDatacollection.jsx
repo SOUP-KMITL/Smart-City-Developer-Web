@@ -37,6 +37,7 @@ class AddDataCollection extends React.Component {
         let { endPoint } = value;
         value.encryptionLevel = 0; // Maybe temporary
 
+        // Delete value of showcase data
         delete value.requireColumnsName;
         delete value.requireColumnsType;
         delete value.requireColumnsIndexed;
@@ -71,18 +72,18 @@ class AddDataCollection extends React.Component {
             value.columns.push({
                 "name": "ts",
                 "type": "timestamp",
-                "indexed": false
+                "indexed": true
             });
         } else if (value.type === 'geotemporal') {
             value['endPoint'] = {'type': 'local'}
             value.columns.push({
                 "name": "lat",
                 "type": "double",
-                "indexed": false
+                "indexed": true
             }, {
                 "name": "lng",
                 "type": "double",
-                "indexed": false
+                "indexed": true
             });
         } else if (value.type === 'keyvalue') {
             value['endPoint'] = {'type': 'local'}
@@ -130,7 +131,7 @@ class AddDataCollection extends React.Component {
     requestUpload(val) {
         this.setState({ loading: true });
         let value = this.resolveValue(val);
-        console.log(value);
+        //console.log(value);
 
         if (value != null) {
             axios.post(api.dataCollection, JSON.stringify(value), {
@@ -201,13 +202,14 @@ class AddDataCollection extends React.Component {
                         defaultValues={{
                             requireColumnsName: 'ts',
                             requireColumnsType: 'timestamp',
-                            requireColumnsIndexed: false,
+                            requireColumnsIndexed: true,
                             requireColumnsGeoName1: 'lat',
                             requireColumnsGeoType1: 'double',
-                            requireColumnsGeoIndexed1: false,
+                            requireColumnsGeoIndexed1: true,
                             requireColumnsGeoName2: 'lng',
                             requireColumnsGeoType2: 'double',
-                            requireColumnsGeoIndexed2: false
+                            requireColumnsGeoIndexed2: true,
+                            columns: { indexed: [ false ] } // Append columns set default indexed to false
                         }}>
                         { formApi => (
                             <form onSubmit={formApi.submitForm} className='form-editprofile'>
@@ -337,7 +339,6 @@ class AddDataCollection extends React.Component {
                                             </div>
                                         ))
                                 }
-
                                 {
                                     formApi.values.type === 'remote' &&
                                         <div>
