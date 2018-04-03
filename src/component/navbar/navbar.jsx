@@ -54,9 +54,6 @@ class MyNavbar extends Component {
                                 <Link to='/'><NavLink>Home</NavLink></Link>
                             </NavItem>
                             <NavItem className='menu'>
-                                <a href='https://soup-kmitl.gitbooks.io/smart-city/content/' target='_blank'><NavLink>Tutorial</NavLink></a>
-                            </NavItem>
-                            <NavItem className='menu'>
                                 <UncontrolledDropdown nav inNavbar>
                                     <DropdownToggle nav caret>
                                         Tutorials

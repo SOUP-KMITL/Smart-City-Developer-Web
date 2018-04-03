@@ -48,6 +48,7 @@ class AddDataCollection extends React.Component {
         delete value.requireColumnsGeoType2;
         delete value.requireColumnsGeoIndexed2;
 
+        value.columns.indexed.length = this.state.columns.length;
         if (value.columns != undefined) {
             const colTmp = [];
             // key: name, type, indexed must have equal length and more than 0
@@ -131,7 +132,7 @@ class AddDataCollection extends React.Component {
     requestUpload(val) {
         this.setState({ loading: true });
         let value = this.resolveValue(val);
-        //console.log(value);
+        console.log(value);
 
         if (value != null) {
             axios.post(api.dataCollection, JSON.stringify(value), {
@@ -199,18 +200,7 @@ class AddDataCollection extends React.Component {
                     <hr />
                     <Form
                         onSubmit={submittedValues => this.requestUpload(submittedValues)}
-                        defaultValues={{
-                            requireColumnsName: 'ts',
-                            requireColumnsType: 'timestamp',
-                            requireColumnsIndexed: true,
-                            requireColumnsGeoName1: 'lat',
-                            requireColumnsGeoType1: 'double',
-                            requireColumnsGeoIndexed1: true,
-                            requireColumnsGeoName2: 'lng',
-                            requireColumnsGeoType2: 'double',
-                            requireColumnsGeoIndexed2: true,
-                            columns: { indexed: [ false ] } // Append columns set default indexed to false
-                        }}>
+                        defaultValues={defaultValues}>
                         { formApi => (
                             <form onSubmit={formApi.submitForm} className='form-editprofile'>
 
@@ -532,3 +522,67 @@ const category = [
         value: 'other'
     }
 ];
+
+const defaultValues = {
+    requireColumnsName: 'ts',
+    requireColumnsType: 'timestamp',
+    requireColumnsIndexed: true,
+    requireColumnsGeoName1: 'lat',
+    requireColumnsGeoType1: 'double',
+    requireColumnsGeoIndexed1: true,
+    requireColumnsGeoName2: 'lng',
+    requireColumnsGeoType2: 'double',
+    requireColumnsGeoIndexed2: true,
+    columns: { indexed: [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+    ]} // Append columns set default indexed to false
+}
